@@ -1,0 +1,24 @@
+{
+  "name": "olga-kpstn-ru",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@fontsource/onest": "^5.2.11",
+    "framer-motion": "^12.33.0",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sass": "^1.87.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "eslint": "^9",
+    "eslint-config-next": "^16.1.6"
+  }
+}

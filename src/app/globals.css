@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-size: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(0, 240, 255, 0.25);
+  color: #fff;
+}
+
+.rotating-words-wrapper {
+  display: inline;
+}
+
+.rotating-words-sizer {
+  display: inline-flex;
+  overflow: hidden;
+  position: relative;
+  vertical-align: baseline;
+  align-items: baseline;
+}
+
+.rotating-words-measure {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.rotating-words-word {
+  white-space: nowrap;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
