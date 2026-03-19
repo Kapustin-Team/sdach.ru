@@ -46,7 +46,7 @@ export default function Button({
   className = '',
   ...props
 }: ButtonProps & Omit<ComponentPropsWithoutRef<'a'> & ComponentPropsWithoutRef<'button'>, keyof ButtonProps>) {
-  const cls = `${base} ${variants[variant]} ${className}`
+  const cls = `${base} ${variants[variant]} ${variant === 'secondary' ? '!p-0' : ''} ${className}`
 
   const secondaryInner = variant === 'secondary'
 

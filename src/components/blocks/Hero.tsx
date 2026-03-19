@@ -2,7 +2,7 @@ import Button from '@/components/atoms/Button'
 
 export default function Hero() {
   return (
-    <section className="flex flex-col pt-[50px]">
+    <section className="flex flex-col">
       <div className="flex justify-between items-end gap-2.5 px-[120px] pt-[50px] pb-[34px] max-md:flex-col max-md:items-start max-md:px-6 max-md:pt-6 max-md:pb-5">
         <h1 className="font-display font-normal text-[96px] leading-[1em] tracking-[-0.03em] text-dark whitespace-pre-line m-0 max-md:text-5xl">
           {'Современные\nдома под ключ'}
