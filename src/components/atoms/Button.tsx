@@ -12,7 +12,7 @@ interface ButtonProps {
 }
 
 const base =
-  'group relative inline-flex items-center justify-center px-4 py-3.5 font-display font-normal text-lg cursor-pointer transition-all duration-400 no-underline rounded-none'
+  'group relative inline-flex items-center justify-center px-4 py-[11px] font-display font-normal text-lg cursor-pointer transition-all duration-400 no-underline rounded-none'
 
 const variants: Record<Variant, string> = {
   primary: 'bg-[#372B2B] text-white',
@@ -57,7 +57,7 @@ export default function Button({
       <Corner pos="bl" />
       <Corner pos="br" />
       {secondaryInner ? (
-        <span className="block px-4 py-3.5 bg-dark/10 relative z-1">{children}</span>
+        <span className="block px-4 py-[11px] bg-dark/10 relative z-1">{children}</span>
       ) : (
         <span className="relative z-1">{children}</span>
       )}

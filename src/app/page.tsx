@@ -34,7 +34,7 @@ export default async function HomePage() {
   // If Strapi returns dynamic zone blocks, use Manager
   if (content && Array.isArray(content) && content.length > 0) {
     return (
-      <main className="min-h-screen font-sans bg-white text-dark-full">
+      <main className="min-h-screen font-sans bg-bg text-dark-full">
         <Header />
         <Manager content={content} />
         <Footer />
@@ -44,7 +44,7 @@ export default async function HomePage() {
 
   // Fallback: render static blocks when Strapi is unavailable
   return (
-    <main className="min-h-screen font-sans bg-white text-dark-full">
+    <main className="min-h-screen font-sans bg-bg text-dark-full">
       <Header />
       <Hero />
       <About />
