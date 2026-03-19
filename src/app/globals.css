@@ -1,47 +1,30 @@
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+@import "tailwindcss";
+@source "../../src";
+
+@theme {
+  --color-bg: #FFFFFF;
+  --color-dark: #222222;
+  --color-dark-full: #0A0A0A;
+
+  --font-sans: 'Onest', system-ui, sans-serif;
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-label: 'Roboto Flex', 'Roboto', sans-serif;
+  --font-stat: 'Gothic №60', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-size: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
+@layer base {
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-::selection {
-  background: rgba(0, 240, 255, 0.25);
-  color: #fff;
-}
-
-.rotating-words-wrapper {
-  display: inline;
-}
-
-.rotating-words-sizer {
-  display: inline-flex;
-  overflow: hidden;
-  position: relative;
-  vertical-align: baseline;
-  align-items: baseline;
-}
-
-.rotating-words-measure {
-  visibility: hidden;
-  white-space: nowrap;
-}
-
-.rotating-words-word {
-  white-space: nowrap;
-  position: absolute;
-  left: 0;
-  top: 0;
+  ::selection {
+    background: rgba(0, 240, 255, 0.25);
+    color: #fff;
+  }
 }
