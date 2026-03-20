@@ -1,3 +1,4 @@
+import '@fontsource/onest/300.css'
 import '@fontsource/onest/400.css'
 import '@fontsource/onest/500.css'
 import '@fontsource/onest/600.css'

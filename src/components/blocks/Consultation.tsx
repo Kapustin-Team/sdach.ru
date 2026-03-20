@@ -38,11 +38,11 @@ export default function Consultation() {
       </div>
 
       {/* Title */}
-      <div className="absolute left-[118px] top-[129px] w-[1062px] flex flex-col gap-[34px] max-md:relative max-md:left-0 max-md:top-0 max-md:w-full max-md:p-6">
-        <h2 className="font-display font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-3xl">
+      <div className="absolute left-[118px] top-[129px] w-[743px] flex flex-col gap-[34px] max-md:relative max-md:left-0 max-md:top-0 max-md:w-full max-md:p-6">
+        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-[36px] max-md:text-dark">
           {'Получите бесплатную\nконсультацию\nпо вашему участку'}
         </h2>
-        <p className="font-display font-normal text-lg leading-[1.1] text-white max-md:text-base">
+        <p className="font-sans font-normal text-lg leading-[1.1] text-white max-md:text-[18px] max-md:text-dark">
           Оставьте контакты — инженер перезвонит, предложит 2–3 подходящих проекта
           и сориентирует по срокам и стоимости строительства.
         </p>
@@ -51,7 +51,7 @@ export default function Consultation() {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="absolute right-[120px] top-[320px] w-[463px] bg-white p-[30px] flex flex-col gap-[34px] max-md:relative max-md:right-0 max-md:top-0 max-md:w-full max-md:p-6"
+        className="absolute right-[120px] top-[320px] w-[463px] bg-white p-[30px] flex flex-col gap-[34px] max-md:relative max-md:right-0 max-md:top-0 max-md:w-full max-md:p-6 max-md:bg-bg"
       >
         <div className="flex flex-col gap-0">
           <input
@@ -60,7 +60,7 @@ export default function Consultation() {
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             required
-            className="w-full py-4 border-b border-dark/30 bg-transparent font-display text-base text-dark placeholder:text-dark/30 outline-none"
+            className="w-full py-4 border-b border-dark/30 bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none"
           />
           <input
             type="tel"
@@ -68,7 +68,7 @@ export default function Consultation() {
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             required
-            className="w-full py-4 border-b border-dark/30 bg-transparent font-display text-base text-dark placeholder:text-dark/30 outline-none"
+            className="w-full py-4 border-b border-dark/30 bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none"
           />
 
           <div className="flex items-center gap-6 pt-4">
@@ -80,7 +80,7 @@ export default function Consultation() {
                 onChange={() => setForm({ ...form, hasPlot: true })}
                 className="accent-dark"
               />
-              <span className="font-display text-base text-dark">Участок есть</span>
+              <span className="font-sans text-base text-dark">Участок есть</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -90,7 +90,7 @@ export default function Consultation() {
                 onChange={() => setForm({ ...form, hasPlot: false })}
                 className="accent-dark"
               />
-              <span className="font-display text-base text-dark">Только планирую</span>
+              <span className="font-sans text-base text-dark">Только планирую</span>
             </label>
           </div>
         </div>
@@ -104,7 +104,8 @@ export default function Consultation() {
             <p className="text-sm text-red-500 text-center">Ошибка, попробуйте позже</p>
           )}
           <p className="text-xs text-dark/40 text-center">
-            Отправляя данные, вы соглашаетесь с политикой конфиденциальности
+            Отправляя данные, вы соглашаетесь с{' '}
+            <a href="/privacy" className="text-dark underline">политикой конфиденциальности</a>
           </p>
         </div>
       </form>

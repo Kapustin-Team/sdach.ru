@@ -41,10 +41,10 @@ export default function ProjectView({
       <div className="px-[120px] pt-10 max-md:px-6">
         {/* Title + Price */}
         <div className="flex justify-between items-end gap-10 mb-8 max-md:flex-col max-md:items-start max-md:gap-4">
-          <h1 className="font-display font-normal text-[96px] leading-[1em] tracking-[-0.03em] text-dark max-md:text-5xl">
+          <h1 className="font-sans font-normal text-[96px] leading-[1em] tracking-[-0.03em] text-dark max-md:text-5xl">
             {title}
           </h1>
-          <span className="font-display font-medium text-3xl text-dark shrink-0 max-md:text-xl">
+          <span className="font-sans font-medium text-3xl text-dark shrink-0 max-md:text-xl">
             {price}
           </span>
         </div>
@@ -54,7 +54,7 @@ export default function ProjectView({
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="font-display font-medium text-sm leading-[1.14] uppercase px-3 pt-2 pb-1.5 bg-dark/10 text-dark"
+              className="font-sans font-medium text-sm leading-[1.14] uppercase px-3 pt-2 pb-1.5 bg-dark/10 text-dark"
             >
               {tag}
             </span>
@@ -63,7 +63,7 @@ export default function ProjectView({
 
         {/* Description */}
         {description && (
-          <p className="font-display font-normal text-xl leading-[1.3] text-dark max-w-[716px] mb-10 max-md:text-base">
+          <p className="font-sans font-normal text-xl leading-[1.3] text-dark max-w-[716px] mb-10 max-md:text-base">
             {description}
           </p>
         )}
@@ -76,8 +76,8 @@ export default function ProjectView({
                 key={i}
                 className="flex justify-between py-4 border-b border-black/10 last:border-b-0 max-md:flex-col max-md:gap-1"
               >
-                <span className="font-display text-lg text-dark/50">{spec.label}</span>
-                <span className="font-display text-lg text-dark">{spec.value}</span>
+                <span className="font-sans text-lg text-dark/50">{spec.label}</span>
+                <span className="font-sans text-lg text-dark">{spec.value}</span>
               </div>
             ))}
           </div>

@@ -3,11 +3,9 @@ import Header from '@/components/blocks/Header'
 import Footer from '@/components/blocks/Footer'
 import Manager from '@/components/dynamic/Manager'
 import ProjectView from '@/components/molecules/ProjectView'
-import projectQuery from '@/query/project'
-import { getContent, getContentGraph } from '@/utils/requests'
+import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
-import { revalidateTime } from '@/utils/config'
 
 export const dynamicParams = true
 
@@ -15,12 +13,24 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+const populateAll = [
+  'populate[image]=*',
+  'populate[gallery]=*',
+  'populate[specs]=*',
+  'populate[content][populate]=*',
+  'populate[seo][populate][metaImage]=*',
+].join('&')
+
+async function getProject(slug: string) {
+  const data = await getContent('projects', {
+    params: `filters[slug][$eq]=${slug}&${populateAll}`,
+  })
+  return Array.isArray(data) ? data[0]?.attributes : data?.attributes
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params
-  const data = await getContent('projects', {
-    params: `populate[image]=*&populate[seo][populate][metaImage]=*&filters[slug][$eq]=${slug}`,
-  })
-  const project = data?.[0]?.attributes
+  const project = await getProject(slug)
 
   return generateSEO(
     {
@@ -34,13 +44,12 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params
-  const req = await getContentGraph(projectQuery(slug))
+  const project = await getProject(slug)
 
-  const project = req?.projects?.data?.[0]?.attributes
   if (!project) redirect('/')
 
   return (
-    <main className="min-h-screen font-sans bg-bg text-dark-full">
+    <main className="min-h-screen flex flex-col font-sans bg-bg text-dark-full">
       <Header />
       <ProjectView
         title={project.title}

@@ -12,7 +12,7 @@ interface ButtonProps {
 }
 
 const base =
-  'group relative inline-flex items-center justify-center px-4 py-[11px] font-display font-normal text-lg cursor-pointer transition-all duration-400 no-underline rounded-none'
+  'group relative inline-flex items-center justify-center px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-all duration-400 no-underline rounded-none'
 
 const variants: Record<Variant, string> = {
   primary: 'bg-[#372B2B] text-white',
@@ -21,18 +21,24 @@ const variants: Record<Variant, string> = {
 }
 
 function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
-  const posClass: Record<string, string> = {
+  const base: Record<string, string> = {
     tl: '-top-1 -left-1',
     tr: '-top-1 -right-1 -scale-x-100',
     bl: '-bottom-1 -left-1 -scale-y-100',
     br: '-bottom-1 -right-1 scale-[-1]',
+  }
+  const hover: Record<string, string> = {
+    tl: 'group-hover:-top-[6px] group-hover:-left-[6px]',
+    tr: 'group-hover:-top-[6px] group-hover:-right-[6px]',
+    bl: 'group-hover:-bottom-[6px] group-hover:-left-[6px]',
+    br: 'group-hover:-bottom-[6px] group-hover:-right-[6px]',
   }
   return (
     <img
       src="/icons/button-el.svg"
       alt=""
       aria-hidden="true"
-      className={`absolute pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-[9px] h-[6px] ${posClass[pos]}`}
+      className={`absolute pointer-events-none transition-all duration-300 w-[9px] h-[6px] ${base[pos]} ${hover[pos]}`}
       width={9}
       height={6}
     />
@@ -57,7 +63,7 @@ export default function Button({
       <Corner pos="bl" />
       <Corner pos="br" />
       {secondaryInner ? (
-        <span className="block px-4 py-[11px] bg-dark/10 relative z-1">{children}</span>
+        <span className="block w-full px-4 py-[11px] bg-dark/10 relative z-1">{children}</span>
       ) : (
         <span className="relative z-1">{children}</span>
       )}
