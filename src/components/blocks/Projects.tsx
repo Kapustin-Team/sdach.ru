@@ -6,28 +6,20 @@ import { strapiImage } from '@/utils/strapi-image'
 
 interface StrapiProject {
   id: number
-  attributes: {
-    title: string
-    slug: string
-    price: string
-    tags: string[]
-    image: {
-      data: {
-        attributes: {
-          url: string
-        }
-      }
-    }
-  }
+  title: string
+  slug: string
+  price: string
+  tags: string[]
+  image?: { url?: string }
 }
 
 function mapProject(p: StrapiProject): ProjectCardProps {
   return {
-    title: p.attributes.title,
-    slug: p.attributes.slug,
-    price: p.attributes.price,
-    tags: p.attributes.tags || [],
-    image: strapiImage(p.attributes.image?.data?.attributes?.url) || '/hero-1-4df8d5.png',
+    title: p.title,
+    slug: p.slug,
+    price: p.price,
+    tags: p.tags || [],
+    image: strapiImage(p.image?.url) || '/hero-1-4df8d5.png',
   }
 }
 

@@ -1,4 +1,4 @@
-import { API_URL, API_PREFIX, API_KEY } from './config'
+import { API_URL, API_PREFIX, API_KEY, revalidateTime } from './config'
 
 interface RequestSettings {
   params?: string
@@ -18,12 +18,13 @@ export async function getContent(path: string, settings?: RequestSettings) {
         headers: {
           Authorization: `Bearer ${API_KEY}`,
         },
-        next: revalidateParams || {},
+        next: revalidateParams || { revalidate: revalidateTime },
       }
     )
 
+    if (!request.ok) return null
     const res = await request.json()
-    return res.data ? res.data : res
+    return res.data !== undefined ? res.data : res
   } catch {
     return null
   }

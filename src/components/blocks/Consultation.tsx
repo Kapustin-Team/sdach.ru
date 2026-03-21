@@ -3,7 +3,15 @@
 import { useState } from 'react'
 import Button from '@/components/atoms/Button'
 
-export default function Consultation() {
+interface ConsultationProps {
+  title?: string
+  subtitle?: string
+}
+
+export default function Consultation({
+  title = 'Получите бесплатную\nконсультацию\nпо вашему участку',
+  subtitle = 'Оставьте контакты — инженер перезвонит, предложит 2–3 подходящих проекта и сориентирует по срокам и стоимости строительства.',
+}: ConsultationProps) {
   const [form, setForm] = useState({ name: '', phone: '', hasPlot: true })
   const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle')
 
@@ -39,12 +47,11 @@ export default function Consultation() {
 
       {/* Title */}
       <div className="absolute left-[118px] top-[129px] w-[743px] flex flex-col gap-[34px] max-md:relative max-md:left-0 max-md:top-0 max-md:w-full max-md:p-6">
-        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-[36px] max-md:text-dark">
-          {'Получите бесплатную\nконсультацию\nпо вашему участку'}
+        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-[36px] max-md:text-dark whitespace-pre-line">
+          {title}
         </h2>
         <p className="font-sans font-normal text-lg leading-[1.1] text-white max-md:text-[18px] max-md:text-dark">
-          Оставьте контакты — инженер перезвонит, предложит 2–3 подходящих проекта
-          и сориентирует по срокам и стоимости строительства.
+          {subtitle}
         </p>
       </div>
 

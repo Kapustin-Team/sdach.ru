@@ -3,7 +3,8 @@ import Footer from '@/components/blocks/Footer'
 import Manager from '@/components/dynamic/Manager'
 import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
-import { revalidateTime } from '@/utils/config'
+
+export const revalidate = 60
 
 // Fallback static blocks for when Strapi is unavailable
 import Hero from '@/components/blocks/Hero'
@@ -15,21 +16,17 @@ import Consultation from '@/components/blocks/Consultation'
 
 export async function generateMetadata() {
   const data = await getContent('karkaso-home', {
-    params: 'populate[seo][populate][metaImage]=*',
+    params: 'populate=*',
   })
-  const content = data?.attributes
-  return generateSEO(content?.seo, null)
+  return generateSEO(data?.seo, null)
 }
 
 export default async function HomePage() {
   const data = await getContent('karkaso-home', {
-    params: [
-      'populate[content][populate]=*',
-      'populate[content][on][blocks.projects][populate][projects][populate][image][fields][0]=url',
-    ].join('&'),
+    params: 'populate[content][populate]=*',
   })
 
-  const content = data?.attributes?.content
+  const content = data?.content
 
   // If Strapi returns dynamic zone blocks, use Manager
   if (content && Array.isArray(content) && content.length > 0) {

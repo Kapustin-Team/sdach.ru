@@ -4,11 +4,7 @@ interface SeoData {
   metaTitle?: string
   metaDescription?: string
   metaImage?: {
-    data?: {
-      attributes?: {
-        url?: string
-      }
-    }
+    url?: string
   }
 }
 
@@ -18,7 +14,7 @@ export function generateSEO(seo?: SeoData | null, path?: string | null) {
     seo?.metaDescription ||
     'Строим современные энергоэффективные дома. От проекта до сдачи под ключ.'
 
-  const imageUrl = seo?.metaImage?.data?.attributes?.url
+  const imageUrl = seo?.metaImage?.url
   const image = imageUrl
     ? imageUrl.startsWith('http')
       ? imageUrl

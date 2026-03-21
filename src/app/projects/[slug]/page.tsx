@@ -8,24 +8,18 @@ import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
 
 export const dynamicParams = true
+export const revalidate = 60
 
 interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-const populateAll = [
-  'populate[image]=*',
-  'populate[gallery]=*',
-  'populate[specs]=*',
-  'populate[content][populate]=*',
-  'populate[seo][populate][metaImage]=*',
-].join('&')
-
 async function getProject(slug: string) {
   const data = await getContent('projects', {
-    params: `filters[slug][$eq]=${slug}&${populateAll}`,
+    params: `filters[slug][$eq]=${slug}&populate=*`,
   })
-  return Array.isArray(data) ? data[0]?.attributes : data?.attributes
+  const item = Array.isArray(data) ? data[0] : data
+  return item || null
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -56,7 +50,7 @@ export default async function ProjectPage({ params }: PageProps) {
         price={project.price}
         tags={project.tags || []}
         description={project.description}
-        image={strapiImage(project.image?.data?.attributes?.url) || '/hero-1-4df8d5.png'}
+        image={strapiImage(project.image?.url) || '/hero-1-4df8d5.png'}
         gallery={project.gallery}
         specs={project.specs}
       />

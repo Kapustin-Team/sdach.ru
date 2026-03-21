@@ -12,7 +12,7 @@ interface ProjectViewProps {
   tags: string[]
   description?: string
   image: string
-  gallery?: { data: { attributes: { url: string } }[] }
+  gallery?: { url: string }[]
   specs?: Spec[]
 }
 
@@ -25,7 +25,7 @@ export default function ProjectView({
   gallery,
   specs,
 }: ProjectViewProps) {
-  const images = gallery?.data?.map((img) => strapiImage(img.attributes.url)) || []
+  const images = gallery?.map((img) => strapiImage(img.url)) || []
 
   return (
     <section className="pt-28 pb-10">
