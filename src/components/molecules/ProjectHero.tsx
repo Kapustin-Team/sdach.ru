@@ -70,7 +70,7 @@ export default function ProjectHero({
             {price}
           </span>
         </div>
-        <div className="flex items-center gap-4 max-md:flex-col max-md:w-full max-md:[&_a]:w-full">
+        <div className="flex items-center gap-[20px] max-md:flex-col max-md:w-full max-md:[&_a]:w-full">
           <Button href="#contact">Запросить смету</Button>
           <Button href="#contact" variant="secondary">Записаться на просмотр объекта</Button>
         </div>

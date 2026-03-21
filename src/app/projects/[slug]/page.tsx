@@ -6,7 +6,7 @@ import ProjectHero from '@/components/molecules/ProjectHero'
 import Projects from '@/components/blocks/Projects'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
-import Button from '@/components/atoms/Button'
+import ProjectGalleryFilter from '@/components/molecules/ProjectGalleryFilter'
 import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
@@ -59,10 +59,10 @@ export default async function ProjectPage({ params }: PageProps) {
       />
 
       {/* Планировки / Фасады */}
-      <div className="flex items-center gap-4 px-[120px] pt-[34px] max-md:px-6 [&_a]:flex-1 [&_a]:text-center">
-        <Button href="#contact">Планировки</Button>
-        <Button href="#contact" variant="secondary">Фасады</Button>
-      </div>
+      <ProjectGalleryFilter
+        layouts={project.layouts?.map((img: { url: string }) => strapiImage(img.url))}
+        facades={project.facades?.map((img: { url: string }) => strapiImage(img.url))}
+      />
 
       {project.content && <Manager content={project.content} />}
 

@@ -74,7 +74,7 @@ export default async function Projects({ projects: passedProjects }: ProjectsPro
       <div className="px-[120px] max-md:px-6">
         <Title label="Проекты домов" heading="Выбери где жить" />
       </div>
-      <div className="flex flex-col gap-5 mt-10 max-md:gap-[30px]">
+      <div className="flex flex-col gap-5 mt-10 max-md:mt-[28px] max-md:gap-[30px]">
         {items.map((project) => (
           <ProjectCard key={project.slug} {...project} />
         ))}

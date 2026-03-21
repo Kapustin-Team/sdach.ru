@@ -35,7 +35,7 @@ export default function Hero({
       </div>
 
       {/* Mobile buttons */}
-      <div className="hidden max-md:flex flex-col gap-[14px] px-6 mt-[54px] [&_a]:w-full [&_button]:w-full">
+      <div className="hidden max-md:flex flex-col gap-[20px] px-6 mt-[54px] [&_a]:w-full [&_button]:w-full">
         <Button href="#contact">Подобрать проект</Button>
         <Button href="#contact" variant="secondary">Рассчитать по эскизу</Button>
       </div>

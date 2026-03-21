@@ -10,13 +10,13 @@ export default function IndicatorRow({ value, label, desc }: IndicatorRowProps) 
       <div className="flex items-center w-[220px] shrink-0 font-sans font-normal text-[84px] leading-[1] tracking-[-0.02em] text-dark max-md:w-auto max-md:text-[84px]">
         {value}
       </div>
-      <div className="flex items-stretch flex-1 min-w-0 max-md:flex-col max-md:gap-2">
+      <div className="flex items-stretch flex-1 min-w-0 max-md:flex-col max-md:gap-4">
         <div className="flex items-center w-[412px] shrink-0 font-sans font-normal text-xl leading-[1.3] text-dark max-md:w-auto max-md:text-[17px]">
-          <span className="max-w-[200px]">{label}</span>
+          <span className="max-w-[200px] max-md:max-w-none">{label}</span>
         </div>
         {desc && (
           <div className="flex items-center flex-1 font-sans font-normal text-xl leading-[1.3] text-dark opacity-50 max-md:text-base">
-            <span className="max-w-[318px]">{desc}</span>
+            <span className="max-w-[318px] max-md:max-w-none">{desc}</span>
           </div>
         )}
       </div>

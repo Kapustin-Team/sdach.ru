@@ -78,7 +78,7 @@ export default function Consultation({
             className="w-full py-4 border-b border-dark/30 bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none"
           />
 
-          <div className="flex items-center gap-6 pt-4">
+          <div className="flex items-center gap-6 pt-4 max-md:justify-center">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
@@ -103,7 +103,7 @@ export default function Consultation({
         </div>
 
         <div className="flex flex-col gap-3">
-          <Button>Получить консультацию</Button>
+          <Button>Посмотреть проект</Button>
           {status === 'ok' && (
             <p className="text-sm text-green-600 text-center">Заявка отправлена!</p>
           )}

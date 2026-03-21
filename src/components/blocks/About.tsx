@@ -10,7 +10,7 @@ export default function About({
   description = 'Собственная строительная бригада, инженерный контроль и проверенные материалы позволяют держать сроки и качество.',
 }: AboutProps) {
   return (
-    <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
+    <section id="about" className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
       <Title
         label="О компании"
         heading={title}

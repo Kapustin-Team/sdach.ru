@@ -16,7 +16,7 @@ export default function Title({ label, heading, subtitle }: TitleProps) {
         </div>
       )}
       {heading && (
-        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-dark m-0 max-w-[1088px] max-md:text-4xl">
+        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-dark m-0 max-w-[1088px] max-md:text-[36px]">
           {heading}
         </h2>
       )}
