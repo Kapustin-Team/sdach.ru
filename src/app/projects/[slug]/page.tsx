@@ -2,7 +2,11 @@ import { redirect } from 'next/navigation'
 import Header from '@/components/blocks/Header'
 import Footer from '@/components/blocks/Footer'
 import Manager from '@/components/dynamic/Manager'
-import ProjectView from '@/components/molecules/ProjectView'
+import ProjectHero from '@/components/molecules/ProjectHero'
+import Projects from '@/components/blocks/Projects'
+import Advantages from '@/components/blocks/Advantages'
+import Consultation from '@/components/blocks/Consultation'
+import Button from '@/components/atoms/Button'
 import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
@@ -45,16 +49,26 @@ export default async function ProjectPage({ params }: PageProps) {
   return (
     <main className="min-h-screen flex flex-col font-sans bg-bg text-dark-full">
       <Header />
-      <ProjectView
+      <ProjectHero
         title={project.title}
-        price={project.price}
-        tags={project.tags || []}
         description={project.description}
+        price={project.price}
         image={strapiImage(project.image?.url) || '/hero-1-4df8d5.png'}
         gallery={project.gallery}
         specs={project.specs}
       />
+
+      {/* Планировки / Фасады */}
+      <div className="flex items-center gap-4 px-[120px] pt-[34px] max-md:px-6 [&_a]:flex-1 [&_a]:text-center">
+        <Button href="#contact">Планировки</Button>
+        <Button href="#contact" variant="secondary">Фасады</Button>
+      </div>
+
       {project.content && <Manager content={project.content} />}
+
+      <Projects />
+      <Advantages />
+      <Consultation />
       <Footer />
     </main>
   )

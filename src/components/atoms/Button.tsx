@@ -63,7 +63,7 @@ export default function Button({
       <Corner pos="bl" />
       <Corner pos="br" />
       {secondaryInner ? (
-        <span className="block w-full px-4 py-[11px] bg-dark/10 relative z-1">{children}</span>
+        <span className="block w-full px-4 py-[11px] bg-dark/10 relative z-1 text-center">{children}</span>
       ) : (
         <span className="relative z-1">{children}</span>
       )}

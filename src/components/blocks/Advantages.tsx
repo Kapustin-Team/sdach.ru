@@ -42,13 +42,13 @@ export default function Advantages({ items }: AdvantagesProps) {
       <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white mb-[50px] max-md:text-[28px] max-md:mb-8">
         Строим дома для счастливой жизни
       </h2>
-      <div className="flex gap-[34px] max-md:flex-col">
+      <div className="flex gap-[34px] max-md:flex-col max-md:gap-[34px]">
         {data.map((item, i) => (
           <div
             key={i}
-            className="flex-1 flex gap-6 items-stretch h-[260px] border-l border-dashed border-white/20 max-md:h-auto max-md:border-l-0 max-md:border-t-0 max-md:pt-6"
+            className="flex-1 flex gap-6 items-stretch h-[260px] border-l border-dashed border-white/20 max-md:h-auto max-md:border-l-0 max-md:border-t-0"
           >
-            <div className="flex flex-col flex-1 pl-6 max-md:pl-0 max-md:gap-6">
+            <div className="flex flex-col flex-1 pl-6 max-md:pl-0 max-md:gap-5">
               {item.iconSrc && (
                 <img src={item.iconSrc} alt="" aria-hidden="true" className="w-auto h-[37px] self-start mb-auto" />
               )}
