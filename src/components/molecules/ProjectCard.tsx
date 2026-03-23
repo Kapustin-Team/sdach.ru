@@ -39,7 +39,7 @@ export default function ProjectCard({ title, tags, price, image, slug }: Project
           </div>
         </div>
 
-        <div className="flex gap-4 max-md:flex-col max-md:gap-[20px] max-md:w-full max-md:[&_a]:w-full max-md:[&_button]:w-full">
+        <div className="flex gap-[20px] max-md:flex-col max-md:w-full max-md:[&_a]:w-full max-md:[&_button]:w-full">
           <Button href={`/projects/${slug}`}>Посмотреть проект</Button>
           <Button href="#contact" variant="secondary">Оставить заявку</Button>
         </div>

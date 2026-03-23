@@ -17,7 +17,12 @@ const defaultItems: StatItem[] = [
 ]
 
 export default function Indicators({ items }: IndicatorsProps) {
-  const data = items && items.length > 0 ? items : defaultItems
+  const data = items && items.length > 0
+    ? items.map((item, i) => ({
+        ...item,
+        desc: item.desc || defaultItems[i]?.desc,
+      }))
+    : defaultItems
 
   return (
     <section className="flex flex-col px-[120px] max-md:px-6">
