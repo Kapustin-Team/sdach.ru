@@ -61,7 +61,9 @@ export default async function ProjectPage({ params }: PageProps) {
       {/* Планировки / Фасады */}
       <ProjectGalleryFilter
         layouts={project.layouts?.map((img: { url: string }) => strapiImage(img.url))}
+        layoutsMobile={project.layouts_mobile?.map((img: { url: string }) => strapiImage(img.url))}
         facades={project.facades?.map((img: { url: string }) => strapiImage(img.url))}
+        facadesMobile={project.facades_mobile?.map((img: { url: string }) => strapiImage(img.url))}
       />
 
       {project.content && <Manager content={project.content} />}

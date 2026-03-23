@@ -6,7 +6,9 @@ type Tab = 'layouts' | 'facades'
 
 interface ProjectGalleryFilterProps {
   layouts?: string[]
+  layoutsMobile?: string[]
   facades?: string[]
+  facadesMobile?: string[]
 }
 
 function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
@@ -28,10 +30,11 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
   )
 }
 
-export default function ProjectGalleryFilter({ layouts, facades }: ProjectGalleryFilterProps) {
+export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile }: ProjectGalleryFilterProps) {
   const [active, setActive] = useState<Tab>('layouts')
 
-  const images = active === 'layouts' ? layouts : facades
+  const desktopImages = active === 'layouts' ? layouts : facades
+  const mobileImages = active === 'layouts' ? layoutsMobile : facadesMobile
   const hasLayouts = layouts && layouts.length > 0
   const hasFacades = facades && facades.length > 0
 
@@ -71,15 +74,42 @@ export default function ProjectGalleryFilter({ layouts, facades }: ProjectGaller
         </button>
       </div>
 
-      {/* Images */}
-      {images && images.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 mt-6 max-md:grid-cols-1">
-          {images.map((src, i) => (
-            <div key={`${active}-${i}`} className="w-full h-[400px] overflow-hidden max-md:h-[250px]">
+      {/* Desktop images */}
+      {desktopImages && desktopImages.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 mt-[34px] max-md:hidden">
+          {desktopImages.map((src, i) => (
+            <div key={`${active}-${i}`} className="w-full">
               <img
                 src={src}
                 alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-auto"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Mobile images */}
+      {mobileImages && mobileImages.length > 0 ? (
+        <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
+          {mobileImages.map((src, i) => (
+            <div key={`${active}-mobile-${i}`} className="w-full">
+              <img
+                src={src}
+                alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
+                className="w-full h-auto"
+              />
+            </div>
+          ))}
+        </div>
+      ) : desktopImages && desktopImages.length > 0 && (
+        <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
+          {desktopImages.map((src, i) => (
+            <div key={`${active}-fallback-${i}`} className="w-full">
+              <img
+                src={src}
+                alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
+                className="w-full h-auto"
               />
             </div>
           ))}

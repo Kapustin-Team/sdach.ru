@@ -30,11 +30,12 @@ export default async function HomePage() {
 
   // If Strapi returns dynamic zone blocks, use Manager
   if (content && Array.isArray(content) && content.length > 0) {
+    const hasFooter = content.some((b: { __component: string }) => b.__component === 'blocks.footer')
     return (
       <main className="min-h-screen flex flex-col font-sans bg-bg text-dark-full">
         <Header />
         <Manager content={content} />
-        <Footer />
+        {!hasFooter && <Footer />}
       </main>
     )
   }
