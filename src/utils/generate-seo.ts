@@ -26,13 +26,23 @@ export function generateSEO(seo?: SeoData | null, path?: string | null) {
   return {
     title,
     description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title,
       description,
       url,
       siteName: 'Karkaso',
       type: 'website',
+      locale: 'ru_RU',
       ...(image && { images: [{ url: image }] }),
+    },
+    twitter: {
+      card: 'summary_large_image' as const,
+      title,
+      description,
+      ...(image && { images: [image] }),
     },
   }
 }

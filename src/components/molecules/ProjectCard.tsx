@@ -10,8 +10,8 @@ export interface ProjectCardProps {
 
 export default function ProjectCard({ title, tags, price, image, slug }: ProjectCardProps) {
   return (
-    <div className="flex items-stretch gap-10 px-[120px] pt-5 max-md:flex-col max-md:px-6 max-md:gap-6">
-      <a href={`/projects/${slug}`} className="w-[570px] h-[340px] shrink-0 overflow-hidden max-md:w-full max-md:h-[340px] cursor-pointer block">
+    <div className="flex items-stretch gap-10 px-[120px] pt-5 max-md:flex-col max-md:px-0 max-md:gap-6">
+      <a href={`/projects/${slug}`} className="w-[570px] h-[340px] shrink-0 overflow-hidden max-md:w-full max-md:h-[340px] max-md:px-2 cursor-pointer block">
         <img
           src={image}
           alt={title}
@@ -19,7 +19,7 @@ export default function ProjectCard({ title, tags, price, image, slug }: Project
         />
       </a>
 
-      <div className="flex flex-col justify-between gap-[22px] py-5 flex-1 min-w-0 max-md:py-0">
+      <div className="flex flex-col justify-between gap-[22px] py-5 flex-1 min-w-0 max-md:py-0 max-md:px-6">
         <div className="flex flex-col gap-5">
           <a href={`/projects/${slug}`} className="no-underline cursor-pointer">
             <h3 className="font-sans font-normal text-4xl leading-[1.1] text-dark">

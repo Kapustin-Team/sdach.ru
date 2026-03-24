@@ -5,20 +5,50 @@ import '@fontsource/onest/600.css'
 import './globals.css'
 
 export const metadata = {
-  title: 'olga.kpstn.ru',
-  description: 'Фронтенд-проект для Ольги на Next.js.',
+  title: {
+    default: 'Karkaso — современные дома под ключ',
+    template: '%s | Karkaso',
+  },
+  description: 'Строим современные энергоэффективные дома. От проекта до сдачи под ключ. Фиксированная смета, гарантия на конструкцию до 10 лет.',
+  metadataBase: new URL('https://karkaso.ru'),
   openGraph: {
-    title: 'olga.kpstn.ru',
-    description: 'Фронтенд-проект для Ольги на Next.js.',
+    title: 'Karkaso — современные дома под ключ',
+    description: 'Строим современные энергоэффективные дома. От проекта до сдачи под ключ.',
     type: 'website',
-    url: 'https://olga.kpstn.ru',
-    siteName: 'olga.kpstn.ru',
+    url: 'https://karkaso.ru',
+    siteName: 'Karkaso',
+    locale: 'ru_RU',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  alternates: {
+    canonical: 'https://karkaso.ru',
   },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Karkaso',
+              url: 'https://karkaso.ru',
+              telephone: '+74950230673',
+              email: 'office@karkaso.ru',
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'RU',
+              },
+            }),
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   )
