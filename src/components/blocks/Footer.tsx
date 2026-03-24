@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6 w-full">
             <a
               href="mailto:office@karkaso.ru"
-              className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-dark hover:opacity-70 transition-opacity max-md:text-3xl"
+              className="w-fit font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-dark hover:opacity-70 transition-opacity max-md:text-3xl"
             >
               office@karkaso.ru
             </a>

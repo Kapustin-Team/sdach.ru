@@ -1,4 +1,5 @@
 import Button from '@/components/atoms/Button'
+import Lightbox from '@/components/molecules/Lightbox'
 import { strapiImage } from '@/utils/strapi-image'
 
 interface Spec {
@@ -33,6 +34,7 @@ export default function ProjectHero({
   const galleryImages = gallery && gallery.length > 0
     ? gallery.map((img) => strapiImage(img.url))
     : placeholderGallery
+  const allImages = [image, ...galleryImages]
 
   return (
     <section className="pt-[40px]">
@@ -76,29 +78,15 @@ export default function ProjectHero({
         </div>
       </div>
 
-      {/* Photo Grid */}
+      {/* Photo Grid — 2 (16:9) + 3 (16:9) */}
       <div className="flex flex-col gap-2 px-2 max-md:px-2">
-        {/* Main image — 100% width */}
-        <div className="w-full h-[578px] overflow-hidden max-md:h-[280px]">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* 4 gallery images — 25% each */}
-        <div className="flex gap-2 max-md:flex-col">
-          {galleryImages.slice(0, 4).map((src, i) => (
-            <div key={i} className="w-1/4 h-[350px] overflow-hidden max-md:w-full max-md:h-[200px]">
-              <img
-                src={src}
-                alt={`${title} — фото ${i + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        <Lightbox
+          images={allImages.map((src, i) => ({
+            src,
+            alt: i === 0 ? title : `${title} — фото ${i}`,
+          }))}
+          layout="project-hero"
+        />
       </div>
 
       {/* Specs Grid */}

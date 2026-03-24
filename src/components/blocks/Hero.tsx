@@ -54,13 +54,13 @@ export default function Hero({
         </div>
       ) : (
         <div className="flex gap-4 overflow-hidden max-md:flex-col max-md:gap-2 max-md:px-2 max-md:mt-[34px]">
-          <div className="shrink-0 w-[570px] h-[380px] overflow-hidden max-md:!w-full max-md:!h-auto">
+          <div className="shrink-0 w-[520px] h-[380px] overflow-hidden max-md:!w-full max-md:!h-auto">
             <img src="/hero-1-4df8d5.png" alt="Современный дом" className="block w-full h-full object-cover max-md:h-auto" />
           </div>
           <div className="shrink-0 w-[570px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto">
             <img src="/hero-2-29c330.png" alt="Интерьер дома" className="block w-full h-full object-cover max-md:h-auto" />
           </div>
-          <div className="shrink-0 w-[570px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto">
+          <div className="shrink-0 w-[620px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto">
             <img src="/hero-3-6cfe9d.png" alt="Проект дома" className="block w-full h-full object-cover max-md:h-auto" />
           </div>
         </div>

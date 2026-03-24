@@ -68,7 +68,7 @@ export default async function ProjectPage({ params }: PageProps) {
 
       {project.content && <Manager content={project.content} />}
 
-      <Projects />
+      <Projects excludeSlug={slug} />
       <Advantages />
       <Consultation />
       <Footer />

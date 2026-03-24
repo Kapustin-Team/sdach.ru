@@ -23,51 +23,27 @@ function mapProject(p: StrapiProject): ProjectCardProps {
   }
 }
 
-const fallbackProjects: ProjectCardProps[] = [
-  {
-    title: 'Пальмира',
-    slug: 'palmira',
-    price: 'от 7 400 000 ₽',
-    tags: ['керамогранит', '120м²', '1 этаж', 'отдельный гараж', '1 санузел', '3 спальни', 'открытая терасса'],
-    image: '/hero-1-4df8d5.png',
-  },
-  {
-    title: 'Сорренто',
-    slug: 'sorrento',
-    price: 'от 5 600 000 ₽',
-    tags: ['каркасный дом', '90м²', '1 этаж', 'отдельный гараж', '1 санузел', '2 спальни', 'частично крытая терасса'],
-    image: '/hero-2-29c330.png',
-  },
-  {
-    title: 'Лаго',
-    slug: 'lago',
-    price: 'от 9 200 000 ₽',
-    tags: ['газобетонные блоки', '180 м²', '2 этажа', 'отдельный гараж', '2 санузла', '4 спальни', 'крытая терасса'],
-    image: '/hero-3-6cfe9d.png',
-  },
-]
-
 interface ProjectsProps {
-  projects?: StrapiProject[]
+  excludeSlug?: string
+  [key: string]: unknown
 }
 
-export default async function Projects({ projects: passedProjects }: ProjectsProps = {}) {
-  let items: ProjectCardProps[]
+export default async function Projects({ excludeSlug }: ProjectsProps = {}) {
+  let items: ProjectCardProps[] = []
 
-  if (passedProjects && passedProjects.length > 0) {
-    items = passedProjects.map(mapProject)
-  } else {
-    try {
-      const data = await getContent('projects', {
-        params: 'populate=image&sort=createdAt:desc',
-      })
-      items = Array.isArray(data) && data.length > 0
-        ? data.map(mapProject)
-        : fallbackProjects
-    } catch {
-      items = fallbackProjects
+  try {
+    const excludeFilter = excludeSlug ? `&filters[slug][$ne]=${excludeSlug}` : ''
+    const data = await getContent('projects', {
+      params: `populate=image&sort=createdAt:desc${excludeFilter}`,
+    })
+    if (Array.isArray(data) && data.length > 0) {
+      items = data.map(mapProject)
     }
+  } catch {
+    // Strapi unavailable — show nothing
   }
+
+  if (items.length === 0) return null
 
   return (
     <section id="projects" className="py-[50px]">

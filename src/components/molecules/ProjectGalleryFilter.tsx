@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type Tab = 'layouts' | 'facades'
 
@@ -32,6 +32,22 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
 
 export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile }: ProjectGalleryFilterProps) {
   const [active, setActive] = useState<Tab>('layouts')
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+
+  const closeLightbox = useCallback(() => setLightboxSrc(null), [])
+
+  useEffect(() => {
+    if (!lightboxSrc) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handler)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handler)
+    }
+  }, [lightboxSrc, closeLightbox])
 
   const desktopImages = active === 'layouts' ? layouts : facades
   const mobileImages = active === 'layouts' ? layoutsMobile : facadesMobile
@@ -78,7 +94,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
       {desktopImages && desktopImages.length > 0 && (
         <div className="grid grid-cols-2 gap-2 mt-[34px] max-md:hidden">
           {desktopImages.map((src, i) => (
-            <div key={`${active}-${i}`} className="w-full">
+            <div key={`${active}-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
               <img
                 src={src}
                 alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
@@ -93,7 +109,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
       {mobileImages && mobileImages.length > 0 ? (
         <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
           {mobileImages.map((src, i) => (
-            <div key={`${active}-mobile-${i}`} className="w-full">
+            <div key={`${active}-mobile-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
               <img
                 src={src}
                 alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
@@ -105,7 +121,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
       ) : desktopImages && desktopImages.length > 0 && (
         <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
           {desktopImages.map((src, i) => (
-            <div key={`${active}-fallback-${i}`} className="w-full">
+            <div key={`${active}-fallback-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
               <img
                 src={src}
                 alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
@@ -113,6 +129,31 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
               />
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Lightbox overlay */}
+      {lightboxSrc && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+          onClick={closeLightbox}
+        >
+          <button
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center text-white/80 hover:text-white text-3xl leading-none bg-transparent border-none cursor-pointer z-10"
+            onClick={(e) => {
+              e.stopPropagation()
+              closeLightbox()
+            }}
+            aria-label="Закрыть"
+          >
+            &#215;
+          </button>
+          <img
+            src={lightboxSrc}
+            alt=""
+            className="max-w-[90vw] max-h-[90vh] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
     </div>

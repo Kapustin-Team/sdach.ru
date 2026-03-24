@@ -1,7 +1,42 @@
 'use client'
 
 import { useState } from 'react'
+import { z } from 'zod'
+import sendMessage from '@/utils/telegram'
 import Button from '@/components/atoms/Button'
+
+const schema = z.object({
+  name: z.string()
+    .min(1, 'Обязательное поле')
+    .min(2, 'Введите минимум 2 символа')
+    .regex(/^[a-zA-Zа-яА-ЯёЁ\s]+$/, {
+      message: 'Введите корректное имя (только буквы)',
+    }),
+  phone: z.string()
+    .min(1, 'Обязательное поле')
+    .regex(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, {
+      message: 'Введите корректный номер телефона',
+    }),
+})
+
+type FormErrors = Partial<Record<'name' | 'phone', string>>
+
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 11)
+  const d = digits.startsWith('8') ? '7' + digits.slice(1) : digits.startsWith('7') ? digits : '7' + digits
+
+  let result = '+7'
+  if (d.length > 1) result += ' (' + d.slice(1, 4)
+  if (d.length >= 4) result += ')'
+  if (d.length > 4) result += ' ' + d.slice(4, 7)
+  if (d.length > 7) result += '-' + d.slice(7, 9)
+  if (d.length > 9) result += '-' + d.slice(9, 11)
+  return result
+}
+
+function escapeMarkdown(str: string) {
+  return str.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&')
+}
 
 interface ConsultationProps {
   title?: string
@@ -13,24 +48,44 @@ export default function Consultation({
   subtitle = 'Оставьте контакты — инженер перезвонит, предложит 2–3 подходящих проекта и сориентирует по срокам и стоимости строительства.',
 }: ConsultationProps) {
   const [form, setForm] = useState({ name: '', phone: '', hasPlot: true })
-  const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle')
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [status, setStatus] = useState<'idle' | 'loading' | 'ok' | 'err'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          contact: form.phone,
-          task: form.hasPlot ? 'Участок есть' : 'Только планирую',
-        }),
-      })
-      setStatus(res.ok ? 'ok' : 'err')
-    } catch {
-      setStatus('err')
+    setErrors({})
+
+    const result = schema.safeParse({ name: form.name, phone: form.phone })
+    if (!result.success) {
+      const fieldErrors: FormErrors = {}
+      for (const issue of result.error.issues) {
+        const field = issue.path[0] as keyof FormErrors
+        if (!fieldErrors[field]) fieldErrors[field] = issue.message
+      }
+      setErrors(fieldErrors)
+      return
     }
+
+    setStatus('loading')
+
+    const text = [
+      '📩 *Новая заявка с сайта*',
+      '',
+      `👤 *Имя:* ${escapeMarkdown(form.name)}`,
+      `📱 *Телефон:* ${escapeMarkdown(form.phone)}`,
+      `📝 *Участок:* ${form.hasPlot ? 'Есть' : 'Только планирую'}`,
+      '',
+      `🕐 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })}`,
+    ].join('\n')
+
+    const ok = await sendMessage(text)
+    setStatus(ok ? 'ok' : 'err')
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhone(e.target.value)
+    setForm({ ...form, phone: formatted })
+    if (errors.phone) setErrors({ ...errors, phone: undefined })
   }
 
   return (
@@ -65,18 +120,21 @@ export default function Consultation({
             type="text"
             placeholder="Имя"
             value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            required
-            className="w-full py-4 border-b border-dark/30 bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none"
+            onChange={(e) => {
+              setForm({ ...form, name: e.target.value })
+              if (errors.name) setErrors({ ...errors, name: undefined })
+            }}
+            className={`w-full py-4 border-b bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none ${errors.name ? 'border-red-500' : 'border-dark/30'}`}
           />
+          {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
           <input
             type="tel"
             placeholder="Телефон"
             value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            required
-            className="w-full py-4 border-b border-dark/30 bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none"
+            onChange={handlePhoneChange}
+            className={`w-full py-4 border-b bg-transparent font-sans text-base text-dark placeholder:text-dark/30 outline-none ${errors.phone ? 'border-red-500' : 'border-dark/30'}`}
           />
+          {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone}</p>}
 
           <div className="flex items-center gap-6 pt-4 max-md:justify-center">
             <label className="flex items-center gap-2 cursor-pointer">
@@ -103,7 +161,9 @@ export default function Consultation({
         </div>
 
         <div className="flex flex-col gap-3">
-          <Button>Посмотреть проект</Button>
+          <Button disabled={status === 'loading'}>
+            {status === 'loading' ? 'Отправка...' : 'Посмотреть проект'}
+          </Button>
           {status === 'ok' && (
             <p className="text-sm text-green-600 text-center">Заявка отправлена!</p>
           )}
