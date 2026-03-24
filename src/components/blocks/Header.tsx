@@ -37,13 +37,13 @@ export default function Header() {
         {/* Desktop nav */}
         <nav className="flex gap-6 items-center max-md:hidden">
           <a
-            href="#projects"
+            href="/#projects"
             className="font-sans text-lg font-normal leading-[1.1] text-dark no-underline transition-colors duration-200 hover:opacity-70"
           >
             Проекты домов
           </a>
           <a
-            href="#about"
+            href="/#about"
             className="font-sans text-lg font-normal leading-[1.1] text-dark no-underline transition-colors duration-200 hover:opacity-70"
           >
             О компании
@@ -56,7 +56,7 @@ export default function Header() {
             +7 (495) 023-06-73
           </a>
           <div className="-my-3.5">
-            <Button href="#contact" variant="secondary">
+            <Button href="/#contact" variant="secondary">
               Рассчитать по эскизу
             </Button>
           </div>
@@ -104,14 +104,14 @@ export default function Header() {
             {/* Menu links */}
             <nav className="flex flex-col gap-6 mt-[60px]">
               <a
-                href="#projects"
+                href="/#projects"
                 className="font-sans text-[28px] font-normal leading-[1.1] text-dark no-underline"
                 onClick={() => setMenuOpen(false)}
               >
                 Проекты домов
               </a>
               <a
-                href="#about"
+                href="/#about"
                 className="font-sans text-[28px] font-normal leading-[1.1] text-dark no-underline"
                 onClick={() => setMenuOpen(false)}
               >
