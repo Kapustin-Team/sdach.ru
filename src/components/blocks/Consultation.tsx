@@ -68,14 +68,15 @@ export default function Consultation({
 
     setStatus('loading')
 
+    const date = new Date().toLocaleDateString('ru-RU', { timeZone: 'Europe/Moscow' })
     const text = [
-      '📩 *Новая заявка с сайта*',
+      '*Новая заявка с сайта*',
       '',
-      `👤 *Имя:* ${escapeMarkdown(form.name)}`,
-      `📱 *Телефон:* ${escapeMarkdown(form.phone)}`,
-      `📝 *Участок:* ${form.hasPlot ? 'Есть' : 'Только планирую'}`,
+      `*Имя:* ${escapeMarkdown(form.name)}`,
+      `*Телефон:* ${form.phone}`,
+      `*Участок:* ${form.hasPlot ? 'Есть' : 'Только планирую'}`,
       '',
-      `🕐 ${new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' })}`,
+      date,
     ].join('\n')
 
     const ok = await sendMessage(text)
