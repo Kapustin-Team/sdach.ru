@@ -1,0 +1,17 @@
+<svg viewBox="0 0 1200 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+  <text x="600" y="115"
+        dominant-baseline="auto" text-anchor="middle"
+        font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="400"
+        font-size="150"
+        letter-spacing="0.04em"
+        textLength="1200"
+        lengthAdjust="spacing"
+        fill="url(#paint0_linear)">СТУДИЯ ДАЧ</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="600" y1="-20" x2="600" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E1D5D5"/>
+      <stop offset="0.7" stop-color="#C3B7B7" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+</svg>

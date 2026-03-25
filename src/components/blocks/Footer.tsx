@@ -54,7 +54,7 @@ export default function Footer() {
 
       {/* Logo pinned to bottom */}
       <div className="w-full mt-[70px] max-md:mt-[30px]">
-        <img src="/icons/karkaso.svg" alt="karkaso" className="w-full h-auto" />
+        <img src="/icons/logo-footer.svg" alt="студия дач" className="w-full h-auto" />
       </div>
     </footer>
   )

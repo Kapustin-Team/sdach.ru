@@ -30,7 +30,7 @@ export default function Header() {
       <header className="relative z-50 flex items-center justify-between px-[120px] py-[34px] leading-none bg-white max-md:px-6 max-md:h-[77px]">
         <a href="/" className="flex items-center no-underline" aria-label="На главную">
           <span className="font-sans font-bold text-xl leading-[1.04] uppercase text-dark">
-            karkaso
+            студия дач
           </span>
         </a>
 
