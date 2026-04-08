@@ -1,7 +1,7 @@
 'use client'
 
-import { type ReactNode, type ComponentPropsWithoutRef } from 'react'
-import { motion } from 'framer-motion'
+import { type ReactNode } from 'react'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 
 type Variant = 'primary' | 'white' | 'secondary'
 
@@ -10,6 +10,9 @@ interface ButtonProps {
   variant?: Variant
   href?: string
   className?: string
+  disabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
+  onClick?: React.MouseEventHandler<HTMLAnchorElement & HTMLButtonElement>
 }
 
 const base =
@@ -46,16 +49,20 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
   )
 }
 
+const hoverAnim = { scale: 1.02 } as const
+const tapAnim = { scale: 0.97 } as const
+const transition = { duration: 0.18, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }
+
 export default function Button({
   children,
   variant = 'primary',
   href,
   className = '',
-  ...props
-}: ButtonProps & Omit<ComponentPropsWithoutRef<'a'> & ComponentPropsWithoutRef<'button'>, keyof ButtonProps>) {
+  disabled,
+  type = 'button',
+  onClick,
+}: ButtonProps) {
   const cls = `${base} ${variants[variant]} ${variant === 'secondary' ? '!p-0' : ''} ${className}`
-
-  const secondaryInner = variant === 'secondary'
 
   const inner = (
     <>
@@ -63,7 +70,7 @@ export default function Button({
       <Corner pos="tr" />
       <Corner pos="bl" />
       <Corner pos="br" />
-      {secondaryInner ? (
+      {variant === 'secondary' ? (
         <span className="block w-full px-4 py-[11px] bg-dark/10 relative z-1 text-center">{children}</span>
       ) : (
         <span className="relative z-1">{children}</span>
@@ -71,24 +78,30 @@ export default function Button({
     </>
   )
 
-  const tap = { scale: 0.97 }
-  const hover = { scale: 1.02 }
-  const transition = { duration: 0.18, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }
-
   if (href) {
     return (
-      <motion.a href={href} className={cls} whileHover={hover} whileTap={tap} transition={transition} {...props}>
+      <motion.a
+        href={href}
+        className={cls}
+        onClick={onClick as HTMLMotionProps<'a'>['onClick']}
+        whileHover={hoverAnim}
+        whileTap={tapAnim}
+        transition={transition}
+      >
         {inner}
       </motion.a>
     )
   }
+
   return (
     <motion.button
+      type={type}
       className={cls}
-      whileHover={hover}
-      whileTap={tap}
+      disabled={disabled}
+      onClick={onClick as HTMLMotionProps<'button'>['onClick']}
+      whileHover={disabled ? undefined : hoverAnim}
+      whileTap={disabled ? undefined : tapAnim}
       transition={transition}
-      {...(props as ComponentPropsWithoutRef<'button'>)}
     >
       {inner}
     </motion.button>
