@@ -1,4 +1,4 @@
-import Title from '@/components/atoms/Title'
+import AnimatedTitle from '@/components/atoms/AnimatedTitle'
 import ProjectCard from '@/components/molecules/ProjectCard'
 import type { ProjectCardProps } from '@/components/molecules/ProjectCard'
 import { getContent } from '@/utils/requests'
@@ -48,7 +48,7 @@ export default async function Projects({ excludeSlug }: ProjectsProps = {}) {
   return (
     <section id="projects" className="py-[50px]">
       <div className="px-[120px] max-md:px-6">
-        <Title label="Проекты домов" heading="Выбери где жить" />
+        <AnimatedTitle label="Проекты домов" heading="Выбери где жить" />
       </div>
       <div className="flex flex-col gap-5 mt-10 max-md:mt-[28px] max-md:gap-[30px]">
         {items.map((project) => (

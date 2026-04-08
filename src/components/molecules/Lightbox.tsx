@@ -1,11 +1,14 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface LightboxProps {
   images: { src: string; alt: string }[]
   layout?: 'project-hero'
 }
+
+const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
 
 export default function Lightbox({ images, layout }: LightboxProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -26,17 +29,22 @@ export default function Lightbox({ images, layout }: LightboxProps) {
   }, [activeIndex, close])
 
   const renderThumbnail = (img: { src: string; alt: string }, i: number, className: string) => (
-    <div
+    <motion.div
       key={i}
       className={`cursor-pointer overflow-hidden ${className}`}
       onClick={() => setActiveIndex(i)}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.65, delay: i * 0.08, ease }}
+      whileHover={{ scale: 1.03, transition: { duration: 0.5, ease } }}
     >
       <img
         src={img.src}
         alt={img.alt}
         className="w-full h-full object-cover"
       />
-    </div>
+    </motion.div>
   )
 
   const renderImages = () => {
@@ -45,13 +53,11 @@ export default function Lightbox({ images, layout }: LightboxProps) {
       const row2 = images.slice(2, 5)
       return (
         <>
-          {/* Row 1: 2 photos 16:9 */}
           <div className="flex gap-2 max-md:flex-col">
             {row1.map((img, i) =>
               renderThumbnail(img, i, 'w-1/2 aspect-video max-md:w-full')
             )}
           </div>
-          {/* Row 2: 3 photos 16:9 */}
           <div className="flex gap-2 max-md:flex-col">
             {row2.map((img, i) =>
               renderThumbnail(img, i + 2, 'w-1/3 aspect-video max-md:w-full')

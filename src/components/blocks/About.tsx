@@ -1,4 +1,4 @@
-import Title from '@/components/atoms/Title'
+import AnimatedTitle from '@/components/atoms/AnimatedTitle'
 
 interface AboutProps {
   title?: string
@@ -11,7 +11,7 @@ export default function About({
 }: AboutProps) {
   return (
     <section id="about" className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
-      <Title
+      <AnimatedTitle
         label="О компании"
         heading={title}
         subtitle={description}

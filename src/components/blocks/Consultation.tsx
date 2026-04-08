@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { z } from 'zod'
 import sendMessage from '@/utils/telegram'
 import Button from '@/components/atoms/Button'
+import AnimatedSection from '@/components/atoms/AnimatedSection'
 
 const schema = z.object({
   name: z.string()
@@ -103,18 +105,35 @@ export default function Consultation({
 
       {/* Title */}
       <div className="absolute left-[118px] top-[129px] w-[743px] flex flex-col gap-[34px] max-md:relative max-md:left-0 max-md:top-0 max-md:w-full max-md:p-6">
-        <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-[36px] max-md:text-dark whitespace-pre-line">
+        <motion.h2
+          className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white max-md:text-[36px] max-md:text-dark whitespace-pre-line"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+        >
           {title}
-        </h2>
-        <p className="font-sans font-normal text-lg leading-[1.1] text-white max-md:text-[18px] max-md:text-dark">
+        </motion.h2>
+        <motion.p
+          className="font-sans font-normal text-lg leading-[1.1] text-white max-md:text-[18px] max-md:text-dark"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+        >
           {subtitle}
-        </p>
+        </motion.p>
       </div>
 
       {/* Form */}
+      <AnimatedSection
+        direction="left"
+        delay={0.2}
+        className="absolute right-[120px] top-[320px] w-[463px] max-md:relative max-md:right-0 max-md:top-0 max-md:w-full"
+      >
       <form
         onSubmit={handleSubmit}
-        className="absolute right-[120px] top-[320px] w-[463px] bg-white p-[30px] flex flex-col gap-[34px] max-md:relative max-md:right-0 max-md:top-0 max-md:w-full max-md:p-6 max-md:bg-bg"
+        className="bg-white p-[30px] flex flex-col gap-[34px] max-md:p-6 max-md:bg-bg"
       >
         <div className="flex flex-col gap-0">
           <input
@@ -177,6 +196,7 @@ export default function Consultation({
           </p>
         </div>
       </form>
+      </AnimatedSection>
     </section>
   )
 }

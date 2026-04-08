@@ -1,4 +1,5 @@
 import IndicatorRow from '@/components/molecules/IndicatorRow'
+import AnimatedSection from '@/components/atoms/AnimatedSection'
 
 interface StatItem {
   value: string
@@ -27,7 +28,9 @@ export default function Indicators({ items }: IndicatorsProps) {
   return (
     <section className="flex flex-col px-[120px] max-md:px-6">
       {data.map((item, i) => (
-        <IndicatorRow key={i} value={item.value} label={item.label} desc={item.desc} />
+        <AnimatedSection key={i} delay={i * 0.1}>
+          <IndicatorRow value={item.value} label={item.label} desc={item.desc} />
+        </AnimatedSection>
       ))}
     </section>
   )

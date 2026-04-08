@@ -1,4 +1,8 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { strapiImage } from '@/utils/strapi-image'
+import { StaggerContainer, StaggerItem } from '@/components/atoms/StaggerContainer'
 
 interface AdvantageItem {
   icon?: { url?: string }
@@ -41,12 +45,18 @@ export default function Advantages({ items }: AdvantagesProps) {
 
   return (
     <section className="bg-[#372B2B] px-[120px] py-[90px] max-md:px-6 max-md:py-10">
-      <h2 className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white mb-[50px] max-md:text-[36px] max-md:pt-[10px] max-md:pb-[50px] max-md:mb-0">
+      <motion.h2
+        className="font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] text-white mb-[50px] max-md:text-[36px] max-md:pt-[10px] max-md:pb-[50px] max-md:mb-0"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+      >
         Строим дома для счастливой жизни
-      </h2>
-      <div className="flex gap-[34px] max-md:flex-col max-md:gap-[34px]">
+      </motion.h2>
+      <StaggerContainer className="flex gap-[34px] max-md:flex-col max-md:gap-[34px]">
         {data.map((item, i) => (
-          <div
+          <StaggerItem
             key={i}
             className="flex-1 flex gap-6 items-stretch h-[260px] border-l border-dashed border-white/20 max-md:h-auto max-md:border-l-0 max-md:border-t-0"
           >
@@ -61,9 +71,9 @@ export default function Advantages({ items }: AdvantagesProps) {
                 {item.desc}
               </p>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   )
 }

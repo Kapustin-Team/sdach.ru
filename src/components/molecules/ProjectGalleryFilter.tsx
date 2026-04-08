@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 type Tab = 'layouts' | 'facades'
 
@@ -10,6 +11,8 @@ interface ProjectGalleryFilterProps {
   facades?: string[]
   facadesMobile?: string[]
 }
+
+const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
 
 function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
   const positions: Record<string, string> = {
@@ -27,6 +30,29 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
       width={9}
       height={6}
     />
+  )
+}
+
+function ImageGrid({ images, label }: { images: string[]; label: string }) {
+  return (
+    <>
+      {images.map((src, i) => (
+        <motion.div
+          key={`${src}-${i}`}
+          className="w-full cursor-pointer overflow-hidden"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: i * 0.1, ease }}
+          whileHover={{ scale: 1.02, transition: { duration: 0.5, ease } }}
+        >
+          <img
+            src={src}
+            alt={`${label} ${i + 1}`}
+            className="w-full h-auto"
+          />
+        </motion.div>
+      ))}
+    </>
   )
 }
 
@@ -56,79 +82,88 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
 
   if (!hasLayouts && !hasFacades) return null
 
+  const label = active === 'layouts' ? 'Планировка' : 'Фасад'
+
   return (
-    <div className="px-[120px] pt-[34px] max-md:px-6">
-      {/* Buttons */}
+    <motion.div
+      className="px-[120px] pt-[34px] max-md:px-6"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease }}
+    >
+      {/* Tab buttons */}
       <div className="flex items-center gap-4 max-md:gap-[16px] max-md:[&_button]:flex-1 max-md:[&_button]:text-center">
-        <button
+        <motion.button
           onClick={() => setActive('layouts')}
           className={`relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 ${
             active === 'layouts'
               ? 'bg-[#372B2B] text-white'
               : 'bg-dark/10 text-dark'
           }`}
+          whileHover={{ scale: 1.02, transition: { duration: 0.18, ease } }}
+          whileTap={{ scale: 0.97, transition: { duration: 0.18, ease } }}
         >
           <Corner pos="tl" />
           <Corner pos="tr" />
           <Corner pos="bl" />
           <Corner pos="br" />
           <span className="relative z-1">Планировки</span>
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={() => setActive('facades')}
           className={`relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 ${
             active === 'facades'
               ? 'bg-[#372B2B] text-white'
               : 'bg-dark/10 text-dark'
           }`}
+          whileHover={{ scale: 1.02, transition: { duration: 0.18, ease } }}
+          whileTap={{ scale: 0.97, transition: { duration: 0.18, ease } }}
         >
           <Corner pos="tl" />
           <Corner pos="tr" />
           <Corner pos="bl" />
           <Corner pos="br" />
           <span className="relative z-1">Фасады</span>
-        </button>
+        </motion.button>
       </div>
 
       {/* Desktop images */}
       {desktopImages && desktopImages.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 mt-[34px] max-md:hidden">
-          {desktopImages.map((src, i) => (
-            <div key={`${active}-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
-              <img
-                src={src}
-                alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
-                className="w-full h-auto"
-              />
-            </div>
-          ))}
+        <div
+          key={`desktop-${active}`}
+          className="grid grid-cols-2 gap-2 mt-[34px] max-md:hidden"
+          onClick={(e) => {
+            const src = (e.target as HTMLImageElement).src
+            if (src) setLightboxSrc(src)
+          }}
+        >
+          <ImageGrid images={desktopImages} label={label} />
         </div>
       )}
 
       {/* Mobile images */}
-      {mobileImages && mobileImages.length > 0 ? (
-        <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
-          {mobileImages.map((src, i) => (
-            <div key={`${active}-mobile-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
-              <img
-                src={src}
-                alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
-                className="w-full h-auto"
-              />
-            </div>
-          ))}
+      {(mobileImages && mobileImages.length > 0) ? (
+        <div
+          key={`mobile-${active}`}
+          className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]"
+          onClick={(e) => {
+            const src = (e.target as HTMLImageElement).src
+            if (src) setLightboxSrc(src)
+          }}
+        >
+          <ImageGrid images={mobileImages} label={label} />
         </div>
       ) : desktopImages && desktopImages.length > 0 && (
-        <div className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]">
-          {desktopImages.map((src, i) => (
-            <div key={`${active}-fallback-${i}`} className="w-full cursor-pointer" onClick={() => setLightboxSrc(src)}>
-              <img
-                src={src}
-                alt={`${active === 'layouts' ? 'Планировка' : 'Фасад'} ${i + 1}`}
-                className="w-full h-auto"
-              />
-            </div>
-          ))}
+        <div
+          key={`mobile-fallback-${active}`}
+          className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]"
+          onClick={(e) => {
+            const src = (e.target as HTMLImageElement).src
+            if (src) setLightboxSrc(src)
+          }}
+        >
+          <ImageGrid images={desktopImages} label={label} />
         </div>
       )}
 
@@ -156,6 +191,6 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
           />
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

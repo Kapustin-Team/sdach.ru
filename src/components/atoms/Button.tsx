@@ -1,6 +1,7 @@
 'use client'
 
 import { type ReactNode, type ComponentPropsWithoutRef } from 'react'
+import { motion } from 'framer-motion'
 
 type Variant = 'primary' | 'white' | 'secondary'
 
@@ -70,8 +71,26 @@ export default function Button({
     </>
   )
 
+  const tap = { scale: 0.97 }
+  const hover = { scale: 1.02 }
+  const transition = { duration: 0.18, ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number] }
+
   if (href) {
-    return <a href={href} className={cls} {...props}>{inner}</a>
+    return (
+      <motion.a href={href} className={cls} whileHover={hover} whileTap={tap} transition={transition} {...props}>
+        {inner}
+      </motion.a>
+    )
   }
-  return <button className={cls} {...(props as ComponentPropsWithoutRef<'button'>)}>{inner}</button>
+  return (
+    <motion.button
+      className={cls}
+      whileHover={hover}
+      whileTap={tap}
+      transition={transition}
+      {...(props as ComponentPropsWithoutRef<'button'>)}
+    >
+      {inner}
+    </motion.button>
+  )
 }
