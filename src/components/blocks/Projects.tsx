@@ -1,5 +1,5 @@
 import AnimatedTitle from '@/components/atoms/AnimatedTitle'
-import ProjectCard from '@/components/molecules/ProjectCard'
+import ProjectList from '@/components/molecules/ProjectList'
 import type { ProjectCardProps } from '@/components/molecules/ProjectCard'
 import { getContent } from '@/utils/requests'
 import { strapiImage } from '@/utils/strapi-image'
@@ -50,11 +50,7 @@ export default async function Projects({ excludeSlug }: ProjectsProps = {}) {
       <div className="px-[120px] max-md:px-6">
         <AnimatedTitle label="Проекты домов" heading="Выбери где жить" />
       </div>
-      <div className="flex flex-col gap-5 mt-10 max-md:mt-[28px] max-md:gap-[30px]">
-        {items.map((project) => (
-          <ProjectCard key={project.slug} {...project} />
-        ))}
-      </div>
+      <ProjectList items={items} />
     </section>
   )
 }
