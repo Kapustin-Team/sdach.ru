@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
 interface LightboxProps {
-  images: { src: string; alt: string }[]
+  images: { src: string; alt: string; fullSrc?: string }[]
   layout?: 'project-hero'
 }
 
@@ -136,7 +136,7 @@ export default function Lightbox({ images, layout }: LightboxProps) {
 
           {/* Active image */}
           <img
-            src={images[activeIndex].src}
+            src={images[activeIndex].fullSrc || images[activeIndex].src}
             alt={images[activeIndex].alt}
             className="object-contain select-none"
             style={{ maxWidth: '90vw', maxHeight: '80vh' }}
