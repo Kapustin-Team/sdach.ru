@@ -39,16 +39,15 @@ function ImageGrid({ images, label }: { images: string[]; label: string }) {
       {images.map((src, i) => (
         <motion.div
           key={`${src}-${i}`}
-          className="w-full cursor-pointer overflow-hidden"
+          className="w-full cursor-pointer overflow-hidden group"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: i * 0.1, ease }}
-          whileHover={{ scale: 1.02, transition: { duration: 0.5, ease } }}
         >
           <img
             src={src}
             alt={`${label} ${i + 1}`}
-            className="w-full h-auto"
+            className="w-full h-auto transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.02]"
           />
         </motion.div>
       ))}

@@ -36,13 +36,12 @@ export default function ProjectCard({ title, tags, price, image, slug }: Project
     >
       <motion.a
         href={`/projects/${slug}`}
-        className="w-[570px] h-[340px] shrink-0 overflow-hidden max-md:w-full max-md:h-[340px] max-md:px-2 cursor-pointer block"
-        whileHover={{ scale: 1.03, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
+        className="w-[570px] h-[340px] shrink-0 overflow-hidden max-md:w-full max-md:h-[340px] max-md:px-2 cursor-pointer block group"
       >
         <img
           src={image}
           alt={title}
-          className="block w-full h-full object-cover"
+          className="block w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.05]"
         />
       </motion.a>
 

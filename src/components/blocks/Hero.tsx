@@ -75,12 +75,9 @@ export default function Hero({
       </ul>
 
       {heroImage ? (
-        <motion.div
-          className="overflow-hidden max-md:px-2 max-md:mt-[34px]"
-          whileHover={{ scale: 1.02, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
-        >
-          <img src={heroImage} alt={title} className="block w-full h-[380px] object-cover max-md:h-auto" />
-        </motion.div>
+        <div className="overflow-hidden max-md:px-2 max-md:mt-[34px] group">
+          <img src={heroImage} alt={title} className="block w-full h-[380px] object-cover max-md:h-auto transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.02]" />
+        </div>
       ) : (
         <div className="flex gap-4 overflow-hidden max-md:flex-col max-md:gap-2 max-md:px-2 max-md:mt-[34px]">
           {[
@@ -90,13 +87,12 @@ export default function Hero({
           ].map((img, i) => (
             <motion.div
               key={img.src}
-              className={img.cls}
+              className={`${img.cls} group`}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.65 + i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-              whileHover={{ scale: 1.03, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
             >
-              <img src={img.src} alt={img.alt} className="block w-full h-full object-cover max-md:h-auto" />
+              <img src={img.src} alt={img.alt} className="block w-full h-full object-cover max-md:h-auto transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.03]" />
             </motion.div>
           ))}
         </div>
