@@ -20,7 +20,7 @@ interface PageProps {
 
 async function getProject(slug: string) {
   const data = await getContent('projects', {
-    params: `filters[slug][$eq]=${slug}&populate=*`,
+    params: `filters[slug][$eq]=${slug}&populate[image]=*&populate[gallery]=*&populate[specs]=*&populate[layouts]=*&populate[layouts_mobile]=*&populate[facades]=*&populate[facades_mobile]=*&populate[seo]=*`,
   })
   const item = Array.isArray(data) ? data[0] : data
   return item || null
