@@ -11,12 +11,17 @@ interface Spec {
   value: string
 }
 
+interface GalleryItem {
+  url: string
+  fullUrl?: string
+}
+
 interface ProjectHeroProps {
   title: string
   description?: string
   price: string
   image: string
-  gallery?: { url: string }[]
+  gallery?: GalleryItem[]
   specs?: Spec[]
 }
 
@@ -45,9 +50,15 @@ export default function ProjectHero({
   specs,
 }: ProjectHeroProps) {
   const galleryImages = gallery && gallery.length > 0
-    ? gallery.map((img) => strapiImage(img.url))
+    ? gallery.map((img) => img.url)
     : placeholderGallery
   const allImages = [image, ...galleryImages]
+
+  // Full-size images for lightbox
+  const fullImages = gallery && gallery.length > 0
+    ? gallery.map((img) => img.fullUrl || img.url)
+    : placeholderGallery
+  const allFullImages = [image, ...fullImages]
 
   const titleLines = title.split('\n').filter(Boolean)
 
@@ -125,6 +136,7 @@ export default function ProjectHero({
         <Lightbox
           images={allImages.map((src, i) => ({
             src,
+            fullSrc: i === 0 ? image : allFullImages[i],
             alt: i === 0 ? title : `${title} — фото ${i}`,
           }))}
           layout="project-hero"

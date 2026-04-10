@@ -10,6 +10,8 @@ interface ProjectGalleryFilterProps {
   layoutsMobile?: string[]
   facades?: string[]
   facadesMobile?: string[]
+  layoutFull?: string[]
+  facadeFull?: string[]
 }
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
@@ -33,7 +35,7 @@ function Corner({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
   )
 }
 
-function ImageGrid({ images, label }: { images: string[]; label: string }) {
+function ImageGrid({ images, label }: { images: string[]; label: string; imageIndex?: number[] }) {
   return (
     <>
       {images.map((src, i) => (
@@ -46,6 +48,7 @@ function ImageGrid({ images, label }: { images: string[]; label: string }) {
         >
           <img
             src={src}
+            data-idx={i}
             alt={`${label} ${i + 1}`}
             className="w-full h-auto transition-transform duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.02]"
           />
@@ -55,11 +58,12 @@ function ImageGrid({ images, label }: { images: string[]; label: string }) {
   )
 }
 
-export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile }: ProjectGalleryFilterProps) {
+export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile, layoutFull, facadeFull }: ProjectGalleryFilterProps) {
   const [active, setActive] = useState<Tab>('layouts')
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const [lightboxFullSrc, setLightboxFullSrc] = useState<string | null>(null)
 
-  const closeLightbox = useCallback(() => setLightboxSrc(null), [])
+  const closeLightbox = useCallback(() => { setLightboxSrc(null); setLightboxFullSrc(null) }, [])
 
   useEffect(() => {
     if (!lightboxSrc) return
@@ -76,6 +80,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
 
   const desktopImages = active === 'layouts' ? layouts : facades
   const mobileImages = active === 'layouts' ? layoutsMobile : facadesMobile
+  const fullImages = active === 'layouts' ? (layoutFull || layouts) : (facadeFull || facades)
   const hasLayouts = layouts && layouts.length > 0
   const hasFacades = facades && facades.length > 0
 
@@ -133,8 +138,13 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
           key={`desktop-${active}`}
           className="grid grid-cols-2 gap-2 mt-[34px] max-md:hidden"
           onClick={(e) => {
-            const src = (e.target as HTMLImageElement).src
-            if (src) setLightboxSrc(src)
+            const target = e.target as HTMLImageElement
+            const idx = target.getAttribute('data-idx')
+            if (idx !== null) {
+              const i = parseInt(idx, 10)
+              setLightboxSrc(target.src)
+              setLightboxFullSrc(fullImages?.[i] || target.src)
+            }
           }}
         >
           <ImageGrid images={desktopImages} label={label} />
@@ -147,8 +157,13 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
           key={`mobile-${active}`}
           className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]"
           onClick={(e) => {
-            const src = (e.target as HTMLImageElement).src
-            if (src) setLightboxSrc(src)
+            const target = e.target as HTMLImageElement
+            const idx = target.getAttribute('data-idx')
+            if (idx !== null) {
+              const i = parseInt(idx, 10)
+              setLightboxSrc(target.src)
+              setLightboxFullSrc(fullImages?.[i] || target.src)
+            }
           }}
         >
           <ImageGrid images={mobileImages} label={label} />
@@ -158,8 +173,13 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
           key={`mobile-fallback-${active}`}
           className="hidden max-md:grid grid-cols-1 gap-2 mt-[34px]"
           onClick={(e) => {
-            const src = (e.target as HTMLImageElement).src
-            if (src) setLightboxSrc(src)
+            const target = e.target as HTMLImageElement
+            const idx = target.getAttribute('data-idx')
+            if (idx !== null) {
+              const i = parseInt(idx, 10)
+              setLightboxSrc(target.src)
+              setLightboxFullSrc(fullImages?.[i] || target.src)
+            }
           }}
         >
           <ImageGrid images={desktopImages} label={label} />
@@ -183,7 +203,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
             &#215;
           </button>
           <img
-            src={lightboxSrc}
+            src={lightboxFullSrc || lightboxSrc}
             alt=""
             className="max-w-[90vw] max-h-[90vh] object-contain"
             onClick={(e) => e.stopPropagation()}

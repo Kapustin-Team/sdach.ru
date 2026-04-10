@@ -11,6 +11,13 @@ import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
 
+function formatUrl(url?: string, format?: string): string | undefined {
+  if (!url) return undefined
+  if (format && !url.includes('/uploads/')) return strapiImage(url)
+  // Insert format prefix before filename: /uploads/filename.jpg → /uploads/format_filename.jpg
+  return url.replace(/\/uploads\//, `/uploads/${format}_`)
+}
+
 export const dynamicParams = true
 export const revalidate = 60
 
@@ -53,17 +60,22 @@ export default async function ProjectPage({ params }: PageProps) {
         title={project.title}
         description={project.description}
         price={project.price}
-        image={strapiImage(project.image?.url) || '/hero-1-4df8d5.png'}
-        gallery={project.gallery}
+        image={project.image?.formats?.large?.url ? strapiImage(project.image.formats.large.url) : strapiImage(project.image?.url) || '/hero-1-4df8d5.png'}
+        gallery={project.gallery?.map((img: any) => ({
+          url: img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url),
+          fullUrl: img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url),
+        }))}
         specs={project.specs}
       />
 
       {/* Планировки / Фасады */}
       <ProjectGalleryFilter
-        layouts={project.layouts?.map((img: { url: string }) => strapiImage(img.url))}
-        layoutsMobile={project.layouts_mobile?.map((img: { url: string }) => strapiImage(img.url))}
-        facades={project.facades?.map((img: { url: string }) => strapiImage(img.url))}
-        facadesMobile={project.facades_mobile?.map((img: { url: string }) => strapiImage(img.url))}
+        layouts={project.layouts?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
+        layoutsMobile={project.layouts_mobile?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
+        facades={project.facades?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
+        facadesMobile={project.facades_mobile?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
+        layoutFull={project.layouts?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
+        facadeFull={project.facades?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
       />
 
       {project.content && <Manager content={project.content} />}
