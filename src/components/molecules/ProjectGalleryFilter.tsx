@@ -85,7 +85,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
   const hasLayouts = layouts && layouts.length > 0
   const hasFacades = facades && facades.length > 0
 
-  if (!hasLayouts && !hasFacades) return null
+  if (!hasLayouts && !hasFacades && !specificationUrl) return null
 
   const label = active === 'layouts' ? 'Планировка' : 'Фасад'
 
@@ -120,7 +120,7 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
             href={specificationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 bg-dark/10 text-dark no-underline"
+            className="relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 bg-dark/10 text-dark no-underline hover:bg-[#372B2B] hover:text-white inline-block"
             whileHover={{ scale: 1.02, transition: { duration: 0.18, ease } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.18, ease } }}
           >

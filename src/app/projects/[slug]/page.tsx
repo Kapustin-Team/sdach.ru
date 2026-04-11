@@ -68,7 +68,7 @@ export default async function ProjectPage({ params }: PageProps) {
         specs={project.specs}
       />
 
-      {/* Планировки / Фасады */}
+      {/* Планировки / Фасады / Спецификация */}
       <ProjectGalleryFilter
         layouts={project.layouts?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
         layoutsMobile={project.layouts_mobile?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
