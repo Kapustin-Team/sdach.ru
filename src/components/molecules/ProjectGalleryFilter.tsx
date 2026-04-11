@@ -12,6 +12,7 @@ interface ProjectGalleryFilterProps {
   facadesMobile?: string[]
   layoutFull?: string[]
   facadeFull?: string[]
+  specificationUrl?: string
 }
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number]
@@ -58,7 +59,7 @@ function ImageGrid({ images, label }: { images: string[]; label: string; imageIn
   )
 }
 
-export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile, layoutFull, facadeFull }: ProjectGalleryFilterProps) {
+export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, facadesMobile, layoutFull, facadeFull, specificationUrl }: ProjectGalleryFilterProps) {
   const [active, setActive] = useState<Tab>('layouts')
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [lightboxFullSrc, setLightboxFullSrc] = useState<string | null>(null)
@@ -114,22 +115,22 @@ export default function ProjectGalleryFilter({ layouts, layoutsMobile, facades, 
           <Corner pos="br" />
           <span className="relative z-1">Планировки</span>
         </motion.button>
-        <motion.button
-          onClick={() => setActive('facades')}
-          className={`relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 ${
-            active === 'facades'
-              ? 'bg-[#372B2B] text-white'
-              : 'bg-dark/10 text-dark'
-          }`}
-          whileHover={{ scale: 1.02, transition: { duration: 0.18, ease } }}
-          whileTap={{ scale: 0.97, transition: { duration: 0.18, ease } }}
-        >
-          <Corner pos="tl" />
-          <Corner pos="tr" />
-          <Corner pos="bl" />
-          <Corner pos="br" />
-          <span className="relative z-1">Фасады</span>
-        </motion.button>
+        {specificationUrl && (
+          <motion.a
+            href={specificationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative px-4 py-[11px] font-sans font-light text-lg cursor-pointer transition-colors duration-300 bg-dark/10 text-dark no-underline"
+            whileHover={{ scale: 1.02, transition: { duration: 0.18, ease } }}
+            whileTap={{ scale: 0.97, transition: { duration: 0.18, ease } }}
+          >
+            <Corner pos="tl" />
+            <Corner pos="tr" />
+            <Corner pos="bl" />
+            <Corner pos="br" />
+            <span className="relative z-1">Спецификация</span>
+          </motion.a>
+        )}
       </div>
 
       {/* Desktop images */}

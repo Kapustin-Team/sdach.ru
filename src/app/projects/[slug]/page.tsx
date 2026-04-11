@@ -27,7 +27,7 @@ interface PageProps {
 
 async function getProject(slug: string) {
   const data = await getContent('projects', {
-    params: `filters[slug][$eq]=${slug}&populate[image]=*&populate[gallery]=*&populate[specs]=*&populate[layouts]=*&populate[layouts_mobile]=*&populate[facades]=*&populate[facades_mobile]=*&populate[seo]=*`,
+    params: `filters[slug][$eq]=${slug}&populate[image]=*&populate[gallery]=*&populate[specs]=*&populate[layouts]=*&populate[layouts_mobile]=*&populate[facades]=*&populate[facades_mobile]=*&populate[specification]=*&populate[seo]=*`,
   })
   const item = Array.isArray(data) ? data[0] : data
   return item || null
@@ -76,6 +76,7 @@ export default async function ProjectPage({ params }: PageProps) {
         facadesMobile={project.facades_mobile?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
         layoutFull={project.layouts?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
         facadeFull={project.facades?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
+        specificationUrl={project.specification?.url ? strapiImage(project.specification.url) : undefined}
       />
 
       {project.content && <Manager content={project.content} />}
