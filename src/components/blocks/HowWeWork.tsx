@@ -85,9 +85,9 @@ export default function HowWeWork({
                     return (
                       <div
                         key={stepTitle}
-                        className="grid grid-cols-[96px_minmax(0,1fr)] gap-6 border-t border-black/10 py-5 first:border-t-0 first:pt-0 last:pb-0 max-md:grid-cols-[72px_minmax(0,1fr)] max-md:gap-4"
+                        className="grid grid-cols-[88px_minmax(0,1fr)] gap-6 border-t border-black/10 py-5 first:border-t-0 first:pt-0 last:pb-0 max-md:grid-cols-[64px_minmax(0,1fr)] max-md:gap-4"
                       >
-                        <span className="font-sans text-[40px] leading-none tracking-[-0.03em] text-dark max-md:text-[30px]">
+                        <span className="font-sans text-[24px] leading-none tracking-[-0.02em] text-dark/45 max-md:text-[20px]">
                           {String(index).padStart(2, '0')}
                         </span>
                         <p className="font-sans text-[28px] leading-[1.08] tracking-[-0.02em] text-dark max-md:text-[22px]">
