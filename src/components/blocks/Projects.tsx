@@ -34,7 +34,7 @@ export default async function Projects({ excludeSlug }: ProjectsProps = {}) {
   try {
     const excludeFilter = excludeSlug ? `&filters[slug][$ne]=${excludeSlug}` : ''
     const data = await getContent('projects', {
-      params: `populate=image&sort=createdAt:desc${excludeFilter}`,
+      params: `populate=image&sort=createdAt:desc&pagination[pageSize]=100${excludeFilter}`,
     })
     if (Array.isArray(data) && data.length > 0) {
       items = data.map(mapProject)
