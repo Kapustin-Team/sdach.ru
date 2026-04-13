@@ -72,41 +72,36 @@ export default function Mortgage({
         </AnimatedSection>
 
         <div className="border-t border-black/10">
-          {programs.map((program, index) => (
-            <AnimatedSection key={program.title} delay={index * 0.08} className="border-b border-black/10 py-6 max-md:py-5">
-              <div className="grid grid-cols-[minmax(0,280px)_minmax(0,1fr)] gap-8 max-md:grid-cols-1 max-md:gap-4">
-                <div>
-                  <h3 className="font-sans text-[32px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[26px]">
-                    {program.title}
-                  </h3>
-                  {program.description && (
-                    <p className="mt-3 font-sans text-base leading-[1.35] text-dark/60 max-md:text-[15px]">
-                      {program.description}
-                    </p>
-                  )}
-                </div>
+          {programs.map((program, index) => {
+            const tags = [program.rate, program.downPayment, program.amount, program.term]
+            return (
+              <AnimatedSection key={program.title} delay={index * 0.08} className="border-b border-black/10 py-6 max-md:py-5">
+                <div className="flex flex-col gap-5">
+                  <div>
+                    <h3 className="font-sans text-[32px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[26px]">
+                      {program.title}
+                    </h3>
+                    {program.description && (
+                      <p className="mt-3 font-sans text-base leading-[1.35] text-dark/60 max-md:text-[15px]">
+                        {program.description}
+                      </p>
+                    )}
+                  </div>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-5 max-md:grid-cols-1 max-md:gap-y-4">
-                  <div>
-                    <p className="font-sans text-sm uppercase tracking-[0.08em] text-dark/45">Ставка</p>
-                    <p className="mt-2 font-sans text-xl leading-[1.2] text-dark">{program.rate}</p>
-                  </div>
-                  <div>
-                    <p className="font-sans text-sm uppercase tracking-[0.08em] text-dark/45">Первый взнос</p>
-                    <p className="mt-2 font-sans text-xl leading-[1.2] text-dark">{program.downPayment}</p>
-                  </div>
-                  <div>
-                    <p className="font-sans text-sm uppercase tracking-[0.08em] text-dark/45">Сумма</p>
-                    <p className="mt-2 font-sans text-xl leading-[1.2] text-dark">{program.amount}</p>
-                  </div>
-                  <div>
-                    <p className="font-sans text-sm uppercase tracking-[0.08em] text-dark/45">Срок</p>
-                    <p className="mt-2 font-sans text-xl leading-[1.2] text-dark">{program.term}</p>
+                  <div className="flex flex-wrap gap-3">
+                    {tags.map((tag) => (
+                      <span
+                        key={`${program.title}-${tag}`}
+                        className="font-sans font-medium text-sm leading-[1.14] uppercase px-3 pt-2 pb-1.5 bg-dark/10 text-dark"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </AnimatedSection>
-          ))}
+              </AnimatedSection>
+            )
+          })}
         </div>
       </div>
     </section>
