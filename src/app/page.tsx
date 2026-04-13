@@ -11,6 +11,7 @@ import Hero from '@/components/blocks/Hero'
 import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
+import HowWeWork from '@/components/blocks/HowWeWork'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
 
@@ -48,6 +49,7 @@ export default async function HomePage() {
       <About />
       <Indicators />
       <Projects />
+      <HowWeWork />
       <Advantages />
       <Consultation />
       <Footer />
