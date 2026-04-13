@@ -70,10 +70,7 @@ export default function HowWeWork({
             <AnimatedSection delay={groupIndex * 0.08}>
               <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-8 max-md:grid-cols-1 max-md:gap-6">
                 <div>
-                  <p className="font-sans text-sm uppercase tracking-[0.08em] text-dark/45">
-                    Группа {groupIndex + 1}
-                  </p>
-                  <h3 className="mt-3 font-sans text-[36px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[28px]">
+                  <h3 className="font-sans text-[36px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[28px]">
                     {group.title}
                   </h3>
                 </div>
@@ -90,7 +87,7 @@ export default function HowWeWork({
                         <span className="font-sans text-[24px] leading-none tracking-[-0.02em] text-dark/45 max-md:text-[20px]">
                           {String(index).padStart(2, '0')}
                         </span>
-                        <p className="font-sans text-[28px] leading-[1.08] tracking-[-0.02em] text-dark max-md:text-[22px]">
+                        <p className="font-sans text-[22px] leading-[1.25] tracking-[-0.01em] text-dark/70 max-md:text-[18px]">
                           {stepTitle}
                         </p>
                       </div>
