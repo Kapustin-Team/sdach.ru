@@ -63,7 +63,7 @@ export default function Mortgage({
 }: MortgageProps) {
   return (
     <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
-      <div className="grid grid-cols-[minmax(0,420px)_minmax(0,1fr)] gap-10 max-md:grid-cols-1">
+      <div className="grid grid-cols-[minmax(0,420px)_minmax(0,1fr)] gap-16 max-md:grid-cols-1 max-md:gap-10">
         <AnimatedSection className="flex flex-col gap-8 max-md:gap-6">
           <AnimatedTitle label={label} heading={title} subtitle={subtitle} />
           <div className="max-md:[&_a]:w-full max-md:[&_button]:w-full">
@@ -71,11 +71,11 @@ export default function Mortgage({
           </div>
         </AnimatedSection>
 
-        <div className="border-t border-black/10">
+        <div>
           {programs.map((program, index) => {
             const tags = [program.rate, program.downPayment, program.amount, program.term]
             return (
-              <AnimatedSection key={program.title} delay={index * 0.08} className="border-b border-black/10 py-6 max-md:py-5">
+              <AnimatedSection key={program.title} delay={index * 0.08} className="py-6 max-md:py-5">
                 <div className="flex flex-col gap-5">
                   <div>
                     <h3 className="font-sans text-[32px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[26px]">
