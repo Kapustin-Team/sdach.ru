@@ -58,7 +58,7 @@ export default function Reconstruction({
               </h3>
               <ul className="mt-8 flex flex-col gap-4 list-none p-0 m-0">
                 {group.items.map((item) => (
-                  <li key={item} className="border-t border-black/10 pt-4 font-sans text-xl leading-[1.25] text-dark max-md:text-[18px]">
+                  <li key={item} className="font-sans text-xl leading-[1.25] text-dark max-md:text-[18px]">
                     {item}
                   </li>
                 ))}
