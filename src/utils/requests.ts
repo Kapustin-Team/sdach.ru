@@ -1,5 +1,7 @@
 import { API_URL, API_PREFIX, API_KEY, revalidateTime } from './config'
 
+const REQUEST_TIMEOUT_MS = 8000
+
 interface RequestSettings {
   params?: string
   revalidateParams?: NextFetchRequestConfig
@@ -19,6 +21,7 @@ export async function getContent(path: string, settings?: RequestSettings) {
           Authorization: `Bearer ${API_KEY}`,
         },
         next: revalidateParams || { revalidate: revalidateTime },
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       }
     )
 
@@ -39,6 +42,7 @@ export async function getContentGraph(query: string) {
         'Content-type': 'application/json',
       },
       body: JSON.stringify({ query }),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     })
 
     const data = await request.json()
