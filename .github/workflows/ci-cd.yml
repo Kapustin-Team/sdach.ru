@@ -79,5 +79,12 @@ jobs:
 
     - name: Deploy to Coolify
       run: |
-        curl --fail -X GET "${{ secrets.COOLIFY_URL }}/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}&force=false" \
-          -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+        set +e
+        response=$(curl --max-time 20 -sS -X GET "${{ secrets.COOLIFY_URL }}/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}&force=false" \
+          -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}")
+        code=$?
+        echo "$response"
+        if [ $code -ne 0 ] && [ $code -ne 28 ]; then
+          echo "Coolify deploy trigger failed with curl exit code $code" >&2
+          exit $code
+        fi
