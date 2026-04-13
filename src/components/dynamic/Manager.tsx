@@ -3,6 +3,8 @@ import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
 import HowWeWork from '@/components/blocks/HowWeWork'
+import Mortgage from '@/components/blocks/Mortgage'
+import Reconstruction from '@/components/blocks/Reconstruction'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
 import Footer from '@/components/blocks/Footer'
@@ -15,6 +17,8 @@ const components: Record<string, React.ComponentType<any>> = {
   'blocks.indicators': Indicators,
   'blocks.projects': Projects,
   'blocks.how-we-work': HowWeWork,
+  'blocks.mortgage': Mortgage,
+  'blocks.reconstruction': Reconstruction,
   'blocks.advantages': Advantages,
   'blocks.consultation': Consultation,
   'blocks.footer': Footer,

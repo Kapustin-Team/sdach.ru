@@ -12,6 +12,8 @@ import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
 import HowWeWork from '@/components/blocks/HowWeWork'
+import Mortgage from '@/components/blocks/Mortgage'
+import Reconstruction from '@/components/blocks/Reconstruction'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
 
@@ -50,6 +52,8 @@ export default async function HomePage() {
       <Indicators />
       <Projects />
       <HowWeWork />
+      <Mortgage />
+      <Reconstruction />
       <Advantages />
       <Consultation />
       <Footer />
