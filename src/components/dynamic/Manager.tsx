@@ -2,6 +2,7 @@ import Hero from '@/components/blocks/Hero'
 import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
+import HowWeWork from '@/components/blocks/HowWeWork'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
 import Footer from '@/components/blocks/Footer'
@@ -13,6 +14,7 @@ const components: Record<string, React.ComponentType<any>> = {
   'blocks.about': About,
   'blocks.indicators': Indicators,
   'blocks.projects': Projects,
+  'blocks.how-we-work': HowWeWork,
   'blocks.advantages': Advantages,
   'blocks.consultation': Consultation,
   'blocks.footer': Footer,

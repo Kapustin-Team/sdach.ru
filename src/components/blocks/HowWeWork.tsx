@@ -3,43 +3,65 @@
 import AnimatedTitle from '@/components/atoms/AnimatedTitle'
 import AnimatedSection from '@/components/atoms/AnimatedSection'
 
-const groups = [
+interface ProcessStep {
+  title: string
+  description?: string
+}
+
+interface ProcessGroup {
+  title: string
+  steps: ProcessStep[] | string[]
+}
+
+interface HowWeWorkProps {
+  label?: string
+  title?: string
+  subtitle?: string
+  groups?: ProcessGroup[]
+}
+
+const defaultGroups: ProcessGroup[] = [
   {
     title: 'Подготовка',
     steps: [
-      'Консультация и подбор проекта',
-      'Расчёт полной стоимости',
-      'Проведение геологических изысканий',
-      'Разработка проектной документации',
+      { title: 'Консультация и подбор проекта' },
+      { title: 'Расчёт полной стоимости' },
+      { title: 'Проведение геологических изысканий' },
+      { title: 'Разработка проектной документации' },
     ],
   },
   {
     title: 'Строительство',
     steps: [
-      'Подготовительные работы на участке',
-      'Заливка и устройство фундамента',
-      'Строительство дома (каждый этап сдаётся заказчику отдельно)',
-      'Инженерные коммуникации и отделка',
+      { title: 'Подготовительные работы на участке' },
+      { title: 'Заливка и устройство фундамента' },
+      { title: 'Строительство дома (каждый этап сдаётся заказчику отдельно)' },
+      { title: 'Инженерные коммуникации и отделка' },
     ],
   },
   {
     title: 'Завершение',
     steps: [
-      'Сдача объекта заказчику',
-      'Гарантийное обслуживание',
+      { title: 'Сдача объекта заказчику' },
+      { title: 'Гарантийное обслуживание' },
     ],
   },
 ]
 
-export default function HowWeWork() {
+export default function HowWeWork({
+  label = 'Этапы работы',
+  title = 'Как мы работаем',
+  subtitle = 'От первого обращения до сдачи дома и гарантийного обслуживания сопровождаем проект на каждом этапе.',
+  groups = defaultGroups,
+}: HowWeWorkProps) {
   let index = 0
 
   return (
     <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
       <AnimatedTitle
-        label="Этапы работы"
-        heading="Как мы работаем"
-        subtitle="От первого обращения до сдачи дома и гарантийного обслуживания сопровождаем проект на каждом этапе."
+        label={label}
+        heading={title}
+        subtitle={subtitle}
       />
 
       <div className="mt-[50px] border-t border-black/10 max-md:mt-8">
@@ -57,18 +79,19 @@ export default function HowWeWork() {
                 </div>
 
                 <div className="flex flex-col">
-                  {group.steps.map((step, stepIndex) => {
+                  {group.steps.map((step) => {
                     index += 1
+                    const stepTitle = typeof step === 'string' ? step : step.title
                     return (
                       <div
-                        key={step}
+                        key={stepTitle}
                         className="grid grid-cols-[96px_minmax(0,1fr)] gap-6 border-t border-black/10 py-5 first:border-t-0 first:pt-0 last:pb-0 max-md:grid-cols-[72px_minmax(0,1fr)] max-md:gap-4"
                       >
                         <span className="font-sans text-[40px] leading-none tracking-[-0.03em] text-dark max-md:text-[30px]">
                           {String(index).padStart(2, '0')}
                         </span>
                         <p className="font-sans text-[28px] leading-[1.08] tracking-[-0.02em] text-dark max-md:text-[22px]">
-                          {step}
+                          {stepTitle}
                         </p>
                       </div>
                     )
