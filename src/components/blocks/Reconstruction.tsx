@@ -45,7 +45,7 @@ export default function Reconstruction({
     <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
       <AnimatedTitle label={label} heading={title} subtitle={subtitle} />
 
-      <div className="mt-[50px] border-t border-black/10 max-md:mt-8">
+      <div className="mt-[50px] max-md:mt-8">
         <div className="grid grid-cols-3 gap-0 max-lg:grid-cols-1">
           {groups.map((group, index) => (
             <AnimatedSection
