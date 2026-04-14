@@ -10,7 +10,7 @@ interface ProcessStep {
 
 interface ProcessGroup {
   title: string
-  steps: ProcessStep[] | string[]
+  steps?: ProcessStep[] | string[]
 }
 
 interface HowWeWorkProps {
@@ -48,6 +48,19 @@ const defaultGroups: ProcessGroup[] = [
   },
 ]
 
+function getSafeGroups(groups?: ProcessGroup[]): ProcessGroup[] {
+  if (!Array.isArray(groups) || groups.length === 0) return defaultGroups
+
+  return groups.map((group, idx) => {
+    const fallback = defaultGroups.find((item) => item.title === group.title) || defaultGroups[idx]
+    const steps = Array.isArray(group.steps) && group.steps.length > 0 ? group.steps : fallback?.steps || []
+    return {
+      ...group,
+      steps,
+    }
+  })
+}
+
 export default function HowWeWork({
   label = 'Этапы работы',
   title = 'Как мы работаем',
@@ -55,6 +68,7 @@ export default function HowWeWork({
   groups = defaultGroups,
 }: HowWeWorkProps) {
   let index = 0
+  const safeGroups = getSafeGroups(groups)
 
   return (
     <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
@@ -65,7 +79,7 @@ export default function HowWeWork({
       />
 
       <div className="mt-[50px] border-t border-black/10 max-md:mt-8">
-        {groups.map((group, groupIndex) => (
+        {safeGroups.map((group, groupIndex) => (
           <div key={group.title} className="border-b border-black/10 py-8 max-md:py-6">
             <AnimatedSection delay={groupIndex * 0.08}>
               <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-8 max-md:grid-cols-1 max-md:gap-6">
