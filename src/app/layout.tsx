@@ -3,6 +3,7 @@ import '@fontsource/onest/400.css'
 import '@fontsource/onest/500.css'
 import '@fontsource/onest/600.css'
 import './globals.css'
+import CookieBanner from '@/components/blocks/CookieBanner'
 
 export const metadata = {
   title: {
@@ -49,7 +50,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   )
 }
