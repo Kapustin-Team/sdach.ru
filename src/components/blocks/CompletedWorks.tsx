@@ -141,9 +141,9 @@ export default function CompletedWorks({
                 aria-label={`Открыть фото ${image.index + 1}`}
               >
                 <img
-                  src={image.fullSrc}
+                  src={image.src}
                   alt={image.alt}
-                  className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] ${position === 0 ? 'h-[360px] max-md:h-[280px]' : position === 1 ? 'h-[360px] max-md:h-[280px]' : 'h-[360px] max-md:h-[280px]'}`}
+                  className="h-[360px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
                 />
               </button>
             ))}
