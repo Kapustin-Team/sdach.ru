@@ -21,7 +21,7 @@ const schema = z.object({
     }),
 })
 
-type FormErrors = Partial<Record<'name' | 'phone', string>>
+type FormErrors = Partial<Record<'name' | 'phone' | 'consent', string>>
 
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, '').slice(0, 11)
@@ -49,7 +49,7 @@ export default function Consultation({
   title = 'Получите бесплатную\nконсультацию\nпо вашему участку',
   subtitle = 'Оставьте контакты — инженер перезвонит, предложит 2–3 подходящих проекта и сориентирует по срокам и стоимости строительства.',
 }: ConsultationProps) {
-  const [form, setForm] = useState({ name: '', phone: '', hasPlot: true })
+  const [form, setForm] = useState({ name: '', phone: '', hasPlot: true, consent: false })
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'ok' | 'err'>('idle')
 
@@ -58,12 +58,20 @@ export default function Consultation({
     setErrors({})
 
     const result = schema.safeParse({ name: form.name, phone: form.phone })
+    const fieldErrors: FormErrors = {}
+
     if (!result.success) {
-      const fieldErrors: FormErrors = {}
       for (const issue of result.error.issues) {
         const field = issue.path[0] as keyof FormErrors
         if (!fieldErrors[field]) fieldErrors[field] = issue.message
       }
+    }
+
+    if (!form.consent) {
+      fieldErrors.consent = 'Нужно согласие на обработку персональных данных'
+    }
+
+    if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors)
       return
     }
@@ -181,6 +189,24 @@ export default function Consultation({
         </div>
 
         <div className="flex flex-col gap-3">
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.consent}
+              onChange={(e) => {
+                setForm({ ...form, consent: e.target.checked })
+                if (errors.consent) setErrors({ ...errors, consent: undefined })
+              }}
+              className="mt-1 h-4 w-4 shrink-0 accent-dark"
+            />
+            <span className="text-xs leading-[1.5] text-dark/60">
+              Нажимая «Отправить» вы даете согласие на обработку ваших персональных данных{' '}
+              <a href="/personal-data" className="text-dark underline">
+                с ссылкой на согласие
+              </a>
+            </span>
+          </label>
+          {errors.consent && <p className="text-xs text-red-500 text-center">{errors.consent}</p>}
           <Button disabled={status === 'loading'}>
             {status === 'loading' ? 'Отправка...' : 'Посмотреть проект'}
           </Button>
@@ -191,7 +217,7 @@ export default function Consultation({
             <p className="text-sm text-red-500 text-center">Ошибка, попробуйте позже</p>
           )}
           <p className="text-xs text-dark/40 text-center">
-            Отправляя данные, вы соглашаетесь с{' '}
+            Также вы подтверждаете согласие с{' '}
             <a href="/privacy" className="text-dark underline">политикой конфиденциальности</a>
           </p>
         </div>
