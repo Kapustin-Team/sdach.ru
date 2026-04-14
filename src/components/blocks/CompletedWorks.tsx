@@ -86,8 +86,14 @@ export default function CompletedWorks({
     }
   }, [lightboxIndex, images.length])
 
-  const activeImage = images[activeIndex]
-  const thumbnails = useMemo(() => images.slice(0), [images])
+  const visibleImages = useMemo(() => {
+    if (!images.length) return []
+
+    return [0, 1, 2].map((offset) => {
+      const index = (activeIndex + offset) % images.length
+      return { ...images[index], index }
+    })
+  }, [activeIndex, images])
 
   const prev = () => setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
   const next = () => setActiveIndex((prev) => (prev + 1) % images.length)
@@ -102,26 +108,13 @@ export default function CompletedWorks({
         subtitle={subtitle}
       />
 
-      <div className="mt-[50px] grid grid-cols-[minmax(0,1fr)_220px] gap-8 max-lg:grid-cols-1 max-md:mt-8">
+      <div className="mt-[50px] max-md:mt-8">
         <div className="relative">
-          <button
-            type="button"
-            className="group block w-full cursor-zoom-in overflow-hidden bg-black/5"
-            onClick={() => setLightboxIndex(activeIndex)}
-            aria-label="Открыть фото"
-          >
-            <img
-              src={activeImage.fullSrc}
-              alt={activeImage.alt}
-              className="h-[620px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[420px]"
-            />
-          </button>
-
           {images.length > 1 && (
-            <div className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-5">
+            <div className="mb-6 flex items-center justify-end gap-3 max-md:mb-4">
               <button
                 type="button"
-                className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white transition hover:bg-black/55"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-dark/15 text-[24px] text-dark transition hover:border-dark hover:bg-dark hover:text-white"
                 onClick={prev}
                 aria-label="Предыдущее фото"
               >
@@ -129,7 +122,7 @@ export default function CompletedWorks({
               </button>
               <button
                 type="button"
-                className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white transition hover:bg-black/55"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-dark/15 text-[24px] text-dark transition hover:border-dark hover:bg-dark hover:text-white"
                 onClick={next}
                 aria-label="Следующее фото"
               >
@@ -137,20 +130,24 @@ export default function CompletedWorks({
               </button>
             </div>
           )}
-        </div>
 
-        <div className="flex max-h-[620px] flex-col gap-3 overflow-auto pr-1 max-lg:grid max-lg:max-h-none max-lg:grid-cols-4 max-lg:pr-0 max-md:grid-cols-3 max-sm:grid-cols-2">
-          {thumbnails.map((image, index) => (
-            <button
-              key={image.fullSrc}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={`overflow-hidden border transition ${index === activeIndex ? 'border-dark' : 'border-black/10 opacity-70 hover:opacity-100'}`}
-              aria-label={`Показать фото ${index + 1}`}
-            >
-              <img src={image.src} alt={image.alt} className="h-[116px] w-full object-cover max-lg:h-[120px]" />
-            </button>
-          ))}
+          <div className="grid grid-cols-[1.05fr_1.15fr_0.8fr] gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+            {visibleImages.map((image, position) => (
+              <button
+                key={`${image.fullSrc}-${position}`}
+                type="button"
+                onClick={() => setLightboxIndex(image.index)}
+                className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
+                aria-label={`Открыть фото ${image.index + 1}`}
+              >
+                <img
+                  src={image.fullSrc}
+                  alt={image.alt}
+                  className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] ${position === 0 ? 'h-[360px] max-md:h-[280px]' : position === 1 ? 'h-[360px] max-md:h-[280px]' : 'h-[360px] max-md:h-[280px]'}`}
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
