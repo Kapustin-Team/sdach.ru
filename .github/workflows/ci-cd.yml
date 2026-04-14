@@ -78,13 +78,15 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Deploy to Coolify
+      env:
+        COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
+        COOLIFY_APP_UUID: ${{ secrets.COOLIFY_APP_UUID }}
+        COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
       run: |
-        set +e
-        response=$(curl --max-time 20 -sS -X GET "${{ secrets.COOLIFY_URL }}/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}&force=false" \
-          -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}")
-        code=$?
+        set -euo pipefail
+
+        deploy_url="${COOLIFY_URL}/deploy?uuid=${COOLIFY_APP_UUID}&force=true"
+        response=$(curl --max-time 60 --retry 3 --retry-all-errors --retry-delay 5 -fsSL -X GET "$deploy_url" \
+          -H "Authorization: Bearer ${COOLIFY_TOKEN}")
+
         echo "$response"
-        if [ $code -ne 0 ] && [ $code -ne 28 ]; then
-          echo "Coolify deploy trigger failed with curl exit code $code" >&2
-          exit $code
-        fi
