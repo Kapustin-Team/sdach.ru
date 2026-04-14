@@ -39,22 +39,26 @@ export default function Footer() {
         </div>
 
         {/* Nav links */}
-        <div className="flex flex-wrap items-center gap-[34px] max-md:flex-col max-md:items-start max-md:gap-3">
-          <a href="/#projects" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
-            Проекты домов
-          </a>
-          <a href="/#about" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
-            О компании
-          </a>
-          <a href="#" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
-            Ипотека
-          </a>
-          <a href="/privacy" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
-            Политика конфиденциальности
-          </a>
-          <a href="/personal-data" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
-            Согласие на обработку персональных данных
-          </a>
+        <div className="flex flex-col gap-3 max-md:gap-3">
+          <div className="flex flex-wrap items-center gap-[34px] max-md:flex-col max-md:items-start max-md:gap-3">
+            <a href="/#projects" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
+              Проекты домов
+            </a>
+            <a href="/#about" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
+              О компании
+            </a>
+            <a href="#" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
+              Ипотека
+            </a>
+          </div>
+          <div className="flex flex-wrap items-center gap-[34px] max-md:flex-col max-md:items-start max-md:gap-3">
+            <a href="/privacy" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
+              Политика конфиденциальности
+            </a>
+            <a href="/personal-data" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
+              Согласие на обработку персональных данных
+            </a>
+          </div>
         </div>
       </div>
 
