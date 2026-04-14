@@ -11,6 +11,7 @@ import Hero from '@/components/blocks/Hero'
 import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
+import CompletedWorks from '@/components/blocks/CompletedWorks'
 import HowWeWork from '@/components/blocks/HowWeWork'
 import Mortgage from '@/components/blocks/Mortgage'
 import Reconstruction from '@/components/blocks/Reconstruction'
@@ -51,6 +52,7 @@ export default async function HomePage() {
       <About />
       <Indicators />
       <Projects />
+      <CompletedWorks />
       <HowWeWork />
       <Mortgage />
       <Reconstruction />

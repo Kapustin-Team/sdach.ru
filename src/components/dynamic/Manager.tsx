@@ -2,6 +2,7 @@ import Hero from '@/components/blocks/Hero'
 import About from '@/components/blocks/About'
 import Indicators from '@/components/blocks/Indicators'
 import Projects from '@/components/blocks/Projects'
+import CompletedWorks from '@/components/blocks/CompletedWorks'
 import HowWeWork from '@/components/blocks/HowWeWork'
 import Mortgage from '@/components/blocks/Mortgage'
 import Reconstruction from '@/components/blocks/Reconstruction'
@@ -16,6 +17,7 @@ const components: Record<string, React.ComponentType<any>> = {
   'blocks.about': About,
   'blocks.indicators': Indicators,
   'blocks.projects': Projects,
+  'blocks.completed-works': CompletedWorks,
   'blocks.how-we-work': HowWeWork,
   'blocks.mortgage': Mortgage,
   'blocks.reconstruction': Reconstruction,
@@ -37,13 +39,24 @@ interface ManagerProps {
 export default function Manager({ content }: ManagerProps) {
   if (!content || !Array.isArray(content)) return null
 
-  return (
-    <>
-      {content.map((block) => {
-        const Component = components[block.__component]
-        if (!Component) return null
-        return <Component key={`${block.__component}-${block.id}`} {...block} />
-      })}
-    </>
-  )
+  const rendered: React.ReactNode[] = []
+  let completedWorksInserted = false
+
+  content.forEach((block) => {
+    const Component = components[block.__component]
+    if (Component) {
+      rendered.push(<Component key={`${block.__component}-${block.id}`} {...block} />)
+    }
+
+    if (!completedWorksInserted && block.__component === 'blocks.projects') {
+      rendered.push(<CompletedWorks key="completed-works-static" />)
+      completedWorksInserted = true
+    }
+  })
+
+  if (!completedWorksInserted) {
+    rendered.push(<CompletedWorks key="completed-works-static-fallback" />)
+  }
+
+  return <>{rendered}</>
 }
