@@ -39,24 +39,13 @@ interface ManagerProps {
 export default function Manager({ content }: ManagerProps) {
   if (!content || !Array.isArray(content)) return null
 
-  const rendered: React.ReactNode[] = []
-  let completedWorksInserted = false
-
-  content.forEach((block) => {
-    const Component = components[block.__component]
-    if (Component) {
-      rendered.push(<Component key={`${block.__component}-${block.id}`} {...block} />)
-    }
-
-    if (!completedWorksInserted && block.__component === 'blocks.projects') {
-      rendered.push(<CompletedWorks key="completed-works-static" />)
-      completedWorksInserted = true
-    }
-  })
-
-  if (!completedWorksInserted) {
-    rendered.push(<CompletedWorks key="completed-works-static-fallback" />)
-  }
-
-  return <>{rendered}</>
+  return (
+    <>
+      {content.map((block) => {
+        const Component = components[block.__component]
+        if (!Component) return null
+        return <Component key={`${block.__component}-${block.id}`} {...block} />
+      })}
+    </>
+  )
 }

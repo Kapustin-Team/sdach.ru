@@ -17,10 +17,21 @@ type GalleryImage = {
   alt: string
 }
 
-const PUBLIC_KEY = 'https://disk.yandex.ru/d/RlyqxH7aOx2qHw'
-const API_URL = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(PUBLIC_KEY)}&limit=200`
+const DEFAULT_PUBLIC_KEY = 'https://disk.yandex.ru/d/RlyqxH7aOx2qHw'
 
-export default function CompletedWorks() {
+interface CompletedWorksProps {
+  label?: string
+  title?: string
+  subtitle?: string
+  publicKey?: string
+}
+
+export default function CompletedWorks({
+  label = 'Галерея',
+  title = 'Готовые работы',
+  subtitle = 'Показываем реальные объекты и детали выполненных работ. Листайте фотографии и открывайте каждую в полном размере.',
+  publicKey = DEFAULT_PUBLIC_KEY,
+}: CompletedWorksProps) {
   const [images, setImages] = useState<GalleryImage[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
@@ -30,7 +41,8 @@ export default function CompletedWorks() {
 
     const load = async () => {
       try {
-        const response = await fetch(API_URL)
+        const apiUrl = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(publicKey)}&limit=200`
+        const response = await fetch(apiUrl)
         const data = await response.json()
         const items: DiskItem[] = data?._embedded?.items || []
 
@@ -54,7 +66,7 @@ export default function CompletedWorks() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [publicKey])
 
   useEffect(() => {
     if (lightboxIndex === null) return
@@ -85,9 +97,9 @@ export default function CompletedWorks() {
   return (
     <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
       <AnimatedTitle
-        label="Галерея"
-        heading="Готовые работы"
-        subtitle="Показываем реальные объекты и детали выполненных работ. Листайте фотографии и открывайте каждую в полном размере."
+        label={label}
+        heading={title}
+        subtitle={subtitle}
       />
 
       <div className="mt-[50px] grid grid-cols-[minmax(0,1fr)_220px] gap-8 max-lg:grid-cols-1 max-md:mt-8">
