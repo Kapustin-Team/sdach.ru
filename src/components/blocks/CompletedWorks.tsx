@@ -2,13 +2,17 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import AnimatedTitle from '@/components/atoms/AnimatedTitle'
+import { strapiImage } from '@/utils/strapi-image'
 
-type DiskItem = {
-  name: string
-  file?: string
-  preview?: string
-  mime_type?: string
-  created?: string
+type MediaImage = {
+  id?: number
+  name?: string
+  url?: string
+  formats?: {
+    small?: { url?: string }
+    medium?: { url?: string }
+    large?: { url?: string }
+  }
 }
 
 type GalleryImage = {
@@ -17,56 +21,31 @@ type GalleryImage = {
   alt: string
 }
 
-const DEFAULT_PUBLIC_KEY = 'https://disk.yandex.ru/d/RlyqxH7aOx2qHw'
-
 interface CompletedWorksProps {
   label?: string
   title?: string
   subtitle?: string
-  publicKey?: string
+  images?: MediaImage[]
 }
 
 export default function CompletedWorks({
   label = 'Галерея',
   title = 'Готовые работы',
   subtitle = 'Показываем реальные объекты и детали выполненных работ. Листайте фотографии и открывайте каждую в полном размере.',
-  publicKey = DEFAULT_PUBLIC_KEY,
+  images: imagesProp = [],
 }: CompletedWorksProps) {
-  const [images, setImages] = useState<GalleryImage[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  useEffect(() => {
-    let cancelled = false
-
-    const load = async () => {
-      try {
-        const apiUrl = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(publicKey)}&limit=200`
-        const response = await fetch(apiUrl)
-        const data = await response.json()
-        const items: DiskItem[] = data?._embedded?.items || []
-
-        const mapped = items
-          .filter((item) => item.mime_type?.startsWith('image/') && item.file && item.preview)
-          .sort((a, b) => a.name.localeCompare(b.name, 'ru', { numeric: true, sensitivity: 'base' }))
-          .map((item) => ({
-            src: item.preview!,
-            fullSrc: item.file!,
-            alt: `Готовая работа ${item.name}`,
-          }))
-
-        if (!cancelled) setImages(mapped)
-      } catch {
-        if (!cancelled) setImages([])
-      }
-    }
-
-    load()
-
-    return () => {
-      cancelled = true
-    }
-  }, [publicKey])
+  const images = useMemo<GalleryImage[]>(() => {
+    return (imagesProp || [])
+      .filter((item) => item?.url)
+      .map((item) => ({
+        src: strapiImage(item.formats?.medium?.url || item.formats?.small?.url || item.url),
+        fullSrc: strapiImage(item.formats?.large?.url || item.url),
+        alt: `Готовая работа ${item.name || ''}`.trim(),
+      }))
+  }, [imagesProp])
 
   useEffect(() => {
     if (lightboxIndex === null) return
