@@ -90,7 +90,7 @@ export default function CompletedWorks({
       />
 
       <div className="mt-[50px] max-md:mt-8">
-        <div className="grid grid-cols-[1.2fr_1.1fr_0.78fr] items-end gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+        <div className="grid grid-cols-[1.2fr_1.1fr_0.78fr] items-start gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
           {visibleImages[0] && (
             <button
               type="button"
@@ -121,7 +121,7 @@ export default function CompletedWorks({
             </button>
           )}
 
-          <div className="flex h-full flex-col justify-end gap-4 max-lg:col-span-2 max-lg:flex-row max-lg:items-end max-md:col-span-1 max-md:flex-col">
+          <div className="flex h-[420px] flex-col justify-between gap-4 max-lg:col-span-2 max-lg:h-auto max-lg:flex-row max-lg:items-end max-md:col-span-1 max-md:flex-col">
             {visibleImages[2] && (
               <button
                 type="button"
