@@ -200,9 +200,9 @@ export default function Consultation({
               className="mt-1 h-4 w-4 shrink-0 accent-dark"
             />
             <span className="text-xs leading-[1.5] text-dark/60">
-              Нажимая «Отправить» вы даете согласие на обработку ваших персональных данных{' '}
+              Нажимая «Отправить», вы даете{' '}
               <a href="/personal-data" className="text-dark underline">
-                с ссылкой на согласие
+                согласие на обработку ваших персональных данных
               </a>
             </span>
           </label>
