@@ -188,7 +188,10 @@ export default function Consultation({
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
+          <Button disabled={status === 'loading'}>
+            {status === 'loading' ? 'Отправка...' : 'Посмотреть проект'}
+          </Button>
           <label className="flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
@@ -206,20 +209,13 @@ export default function Consultation({
               </a>
             </span>
           </label>
-          {errors.consent && <p className="text-xs text-red-500 text-center">{errors.consent}</p>}
-          <Button disabled={status === 'loading'}>
-            {status === 'loading' ? 'Отправка...' : 'Посмотреть проект'}
-          </Button>
+          {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
           {status === 'ok' && (
             <p className="text-sm text-green-600 text-center">Заявка отправлена!</p>
           )}
           {status === 'err' && (
             <p className="text-sm text-red-500 text-center">Ошибка, попробуйте позже</p>
           )}
-          <p className="text-xs text-dark/40 text-center">
-            Также вы подтверждаете согласие с{' '}
-            <a href="/privacy" className="text-dark underline">политикой конфиденциальности</a>
-          </p>
         </div>
       </form>
       </AnimatedSection>
