@@ -90,44 +90,73 @@ export default function CompletedWorks({
       />
 
       <div className="mt-[50px] max-md:mt-8">
-        <div className="relative">
-          {images.length > 1 && (
-            <div className="mb-6 flex items-center justify-end gap-3 max-md:mb-4">
-              <button
-                type="button"
-                className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
-                onClick={prev}
-                aria-label="Предыдущее фото"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
-                onClick={next}
-                aria-label="Следующее фото"
-              >
-                ›
-              </button>
-            </div>
+        <div className="grid grid-cols-[1.2fr_1.1fr_0.78fr] items-end gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+          {visibleImages[0] && (
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(visibleImages[0].index)}
+              className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
+              aria-label={`Открыть фото ${visibleImages[0].index + 1}`}
+            >
+              <img
+                src={visibleImages[0].src}
+                alt={visibleImages[0].alt}
+                className="h-[420px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[300px]"
+              />
+            </button>
           )}
 
-          <div className="grid grid-cols-[1.05fr_1.15fr_0.8fr] gap-4 max-lg:grid-cols-2 max-md:grid-cols-1">
-            {visibleImages.map((image, position) => (
+          {visibleImages[1] && (
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(visibleImages[1].index)}
+              className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
+              aria-label={`Открыть фото ${visibleImages[1].index + 1}`}
+            >
+              <img
+                src={visibleImages[1].src}
+                alt={visibleImages[1].alt}
+                className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
+              />
+            </button>
+          )}
+
+          <div className="flex h-full flex-col justify-end gap-4 max-lg:col-span-2 max-lg:flex-row max-lg:items-end max-md:col-span-1 max-md:flex-col">
+            {visibleImages[2] && (
               <button
-                key={`${image.fullSrc}-${position}`}
                 type="button"
-                onClick={() => setLightboxIndex(image.index)}
-                className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
-                aria-label={`Открыть фото ${image.index + 1}`}
+                onClick={() => setLightboxIndex(visibleImages[2].index)}
+                className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left max-lg:flex-1"
+                aria-label={`Открыть фото ${visibleImages[2].index + 1}`}
               >
                 <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="h-[360px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
+                  src={visibleImages[2].src}
+                  alt={visibleImages[2].alt}
+                  className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
                 />
               </button>
-            ))}
+            )}
+
+            {images.length > 1 && (
+              <div className="flex items-center justify-end gap-3 max-lg:min-w-[128px] max-md:justify-start">
+                <button
+                  type="button"
+                  className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
+                  onClick={prev}
+                  aria-label="Предыдущее фото"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
+                  onClick={next}
+                  aria-label="Следующее фото"
+                >
+                  ›
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
