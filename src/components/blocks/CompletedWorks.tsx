@@ -76,6 +76,8 @@ export default function CompletedWorks({
 
   const prev = () => setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
   const next = () => setActiveIndex((prev) => (prev + 1) % images.length)
+  const prevLightbox = () => setLightboxIndex((prev) => prev === null ? 0 : (prev - 1 + images.length) % images.length)
+  const nextLightbox = () => setLightboxIndex((prev) => prev === null ? 0 : (prev + 1) % images.length)
 
   if (!images.length) return null
 
@@ -93,7 +95,7 @@ export default function CompletedWorks({
             <div className="mb-6 flex items-center justify-end gap-3 max-md:mb-4">
               <button
                 type="button"
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-dark/15 text-[24px] text-dark transition hover:border-dark hover:bg-dark hover:text-white"
+                className="flex h-12 min-w-[56px] items-center justify-center rounded-[14px] border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
                 onClick={prev}
                 aria-label="Предыдущее фото"
               >
@@ -101,7 +103,7 @@ export default function CompletedWorks({
               </button>
               <button
                 type="button"
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-dark/15 text-[24px] text-dark transition hover:border-dark hover:bg-dark hover:text-white"
+                className="flex h-12 min-w-[56px] items-center justify-center rounded-[14px] border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
                 onClick={next}
                 aria-label="Следующее фото"
               >
@@ -132,12 +134,12 @@ export default function CompletedWorks({
 
       {lightboxIndex !== null && images[lightboxIndex] && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6 max-md:p-3"
+          className="fixed inset-0 z-50 bg-black/90 px-6 py-5 max-md:px-3 max-md:py-3"
           onClick={() => setLightboxIndex(null)}
         >
           <button
             type="button"
-            className="absolute right-6 top-6 text-[40px] leading-none text-white/80 transition hover:text-white"
+            className="absolute right-6 top-6 z-20 text-[40px] leading-none text-white/80 transition hover:text-white"
             onClick={(event) => {
               event.stopPropagation()
               setLightboxIndex(null)
@@ -147,39 +149,58 @@ export default function CompletedWorks({
             ×
           </button>
 
-          {images.length > 1 && (
-            <>
-              <button
-                type="button"
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-[64px] leading-none text-white/70 transition hover:text-white max-md:left-2"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setLightboxIndex((prev) => prev === null ? 0 : (prev - 1 + images.length) % images.length)
-                }}
-                aria-label="Предыдущее фото"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[64px] leading-none text-white/70 transition hover:text-white max-md:right-2"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  setLightboxIndex((prev) => prev === null ? 0 : (prev + 1) % images.length)
-                }}
-                aria-label="Следующее фото"
-              >
-                ›
-              </button>
-            </>
-          )}
+          <div className="flex h-full flex-col items-center justify-center gap-5" onClick={(event) => event.stopPropagation()}>
+            <div className="relative flex w-full max-w-[1280px] items-center justify-center">
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    className="absolute left-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center rounded-[14px] border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:left-2"
+                    onClick={prevLightbox}
+                    aria-label="Предыдущее фото"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    className="absolute right-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center rounded-[14px] border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:right-2"
+                    onClick={nextLightbox}
+                    aria-label="Следующее фото"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
 
-          <img
-            src={images[lightboxIndex].fullSrc}
-            alt={images[lightboxIndex].alt}
-            className="max-h-[88vh] max-w-[90vw] object-contain"
-            onClick={(event) => event.stopPropagation()}
-          />
+              <img
+                src={images[lightboxIndex].fullSrc}
+                alt={images[lightboxIndex].alt}
+                className="max-h-[74vh] max-w-[90vw] object-contain"
+              />
+            </div>
+
+            {images.length > 1 && (
+              <div className="w-full max-w-[760px] overflow-x-auto rounded-[18px] border border-white/15 bg-white/5 p-3 backdrop-blur-sm max-md:max-w-full">
+                <div className="flex min-w-max gap-2">
+                  {images.map((image, index) => (
+                    <button
+                      key={`${image.fullSrc}-thumb-${index}`}
+                      type="button"
+                      onClick={() => setLightboxIndex(index)}
+                      className={`overflow-hidden rounded-[10px] border transition ${index === lightboxIndex ? 'border-white' : 'border-white/10 opacity-60 hover:opacity-100'}`}
+                      aria-label={`Открыть фото ${index + 1}`}
+                    >
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="h-16 w-24 object-cover max-md:h-14 max-md:w-20"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </section>
