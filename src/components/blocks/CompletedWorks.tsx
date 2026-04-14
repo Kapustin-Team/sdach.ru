@@ -95,7 +95,7 @@ export default function CompletedWorks({
             <div className="mb-6 flex items-center justify-end gap-3 max-md:mb-4">
               <button
                 type="button"
-                className="flex h-12 min-w-[56px] items-center justify-center rounded-[14px] border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
+                className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
                 onClick={prev}
                 aria-label="Предыдущее фото"
               >
@@ -103,7 +103,7 @@ export default function CompletedWorks({
               </button>
               <button
                 type="button"
-                className="flex h-12 min-w-[56px] items-center justify-center rounded-[14px] border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
+                className="flex h-12 min-w-[56px] items-center justify-center border border-dark bg-transparent px-4 text-[24px] text-dark transition hover:bg-dark hover:text-bg"
                 onClick={next}
                 aria-label="Следующее фото"
               >
@@ -155,7 +155,7 @@ export default function CompletedWorks({
                 <>
                   <button
                     type="button"
-                    className="absolute left-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center rounded-[14px] border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:left-2"
+                    className="absolute left-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:left-2"
                     onClick={prevLightbox}
                     aria-label="Предыдущее фото"
                   >
@@ -163,7 +163,7 @@ export default function CompletedWorks({
                   </button>
                   <button
                     type="button"
-                    className="absolute right-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center rounded-[14px] border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:right-2"
+                    className="absolute right-4 top-1/2 z-10 flex h-14 min-w-[56px] -translate-y-1/2 items-center justify-center border border-white/30 bg-black/20 px-4 text-[32px] text-white transition hover:bg-white hover:text-dark max-md:right-2"
                     onClick={nextLightbox}
                     aria-label="Следующее фото"
                   >
@@ -180,20 +180,20 @@ export default function CompletedWorks({
             </div>
 
             {images.length > 1 && (
-              <div className="w-full max-w-[760px] overflow-x-auto rounded-[18px] border border-white/15 bg-white/5 p-3 backdrop-blur-sm max-md:max-w-full">
-                <div className="flex min-w-max gap-2">
+              <div className="w-full max-w-[760px] overflow-x-auto border border-white/15 bg-black/35 px-3 py-2 max-md:max-w-full">
+                <div className="flex min-w-max gap-2 pb-1">
                   {images.map((image, index) => (
                     <button
                       key={`${image.fullSrc}-thumb-${index}`}
                       type="button"
                       onClick={() => setLightboxIndex(index)}
-                      className={`overflow-hidden rounded-[10px] border transition ${index === lightboxIndex ? 'border-white' : 'border-white/10 opacity-60 hover:opacity-100'}`}
+                      className={`overflow-hidden border transition ${index === lightboxIndex ? 'border-white opacity-100' : 'border-white/15 opacity-60 hover:opacity-100'}`}
                       aria-label={`Открыть фото ${index + 1}`}
                     >
                       <img
                         src={image.src}
                         alt={image.alt}
-                        className="h-16 w-24 object-cover max-md:h-14 max-md:w-20"
+                        className="h-14 w-20 object-cover md:h-16 md:w-24"
                       />
                     </button>
                   ))}
