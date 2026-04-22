@@ -98,7 +98,7 @@ export default function Mortgage({
           </div>
         </AnimatedSection>
 
-        <div>
+        <div className="flex flex-col gap-12 max-md:gap-10">
           {programs.map((program, index) => {
             const items = [
               { label: program.rateLabel || defaultBadgeLabels.rateLabel, value: program.rate },
@@ -109,8 +109,8 @@ export default function Mortgage({
             const isExpanded = expandedProgram === program.title
 
             return (
-              <AnimatedSection key={program.title} delay={index * 0.08} className="py-6 max-md:py-5">
-                <div className="flex flex-col gap-4 border-b border-dark/10 pb-6">
+              <AnimatedSection key={program.title} delay={index * 0.08}>
+                <div className="flex flex-col gap-5">
                   <div>
                     <h3 className="font-sans text-[32px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[26px]">
                       {program.title}
@@ -122,25 +122,25 @@ export default function Mortgage({
                     )}
                   </div>
 
-                  <dl className="grid grid-cols-2 gap-x-8 gap-y-4 max-sm:grid-cols-1">
+                  <div className="flex flex-wrap gap-3">
                     {items.map((item) => (
-                      <div key={`${program.title}-${item.label}`} className="flex flex-col gap-1">
-                        <dt className="font-sans text-[11px] uppercase tracking-[0.08em] text-dark/45">
+                      <div key={`${program.title}-${item.label}`} className="flex flex-col gap-2">
+                        <span className="font-sans text-[11px] uppercase tracking-[0.08em] text-dark/45">
                           {item.label}
-                        </dt>
-                        <dd className="m-0 font-sans text-[18px] leading-[1.25] text-dark max-md:text-[16px]">
+                        </span>
+                        <span className="inline-flex w-fit bg-[#EFEBE4] px-3 py-2 font-sans text-sm uppercase leading-none text-dark">
                           {item.value}
-                        </dd>
+                        </span>
                       </div>
                     ))}
-                  </dl>
+                  </div>
 
                   {program.details && (
-                    <div className="flex flex-col items-start gap-3">
+                    <div className="flex flex-col items-start gap-4">
                       <button
                         type="button"
                         onClick={() => setExpandedProgram(isExpanded ? null : program.title)}
-                        className="font-sans text-sm uppercase tracking-[0.08em] text-dark underline underline-offset-4"
+                        className="inline-flex items-center justify-center border border-dark bg-dark px-5 py-3 font-sans text-sm text-white transition-colors hover:bg-transparent hover:text-dark"
                       >
                         {isExpanded ? 'Скрыть подробности' : 'Подробнее'}
                       </button>
