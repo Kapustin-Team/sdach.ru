@@ -6,8 +6,7 @@ import Button from '@/components/atoms/Button'
 
 interface MortgageProgram {
   title: string
-  details: string
-  highlights: string[]
+  details?: string
 }
 
 interface MortgageProps {
@@ -23,69 +22,24 @@ const defaultPrograms: MortgageProgram[] = [
   {
     title: 'Семейная ипотека',
     details:
-      'Программа подходит семьям, в которых есть ребёнок до 6 лет, ребёнок с инвалидностью до 18 лет, а также семьям с двумя и более детьми до 18 лет. Процентная ставка составляет 6% годовых. Первоначальный взнос составляет от 20,1%. Максимальная сумма кредита составляет до 12 млн рублей для Москвы, Московской области, Санкт-Петербурга и Ленинградской области и до 6 млн рублей для других регионов. Срок кредита составляет до 30 лет.',
-    highlights: ['6%', 'от 20,1%', 'до 12 млн рублей', 'до 6 млн рублей', 'до 30 лет'],
+      'Программа подходит семьям, в которых есть ребёнок до 6 лет, ребёнок с инвалидностью до 18 лет, а также семьям с двумя и более детьми до 18 лет. Процентная ставка составляет <strong>6%</strong> годовых. Первоначальный взнос составляет <strong>от 20,1%</strong>. Максимальная сумма кредита составляет <strong>до 12 млн рублей</strong> для Москвы, Московской области, Санкт-Петербурга и Ленинградской области и <strong>до 6 млн рублей</strong> для других регионов. Срок кредита составляет <strong>до 30 лет</strong>.',
   },
   {
     title: 'IT-ипотека',
     details:
-      'Программа доступна гражданам России, которые работают в компании из сферы информационных технологий. Возраст заёмщика составляет от 18 до 50 лет включительно. Компания должна находиться за пределами Москвы и Санкт-Петербурга. Процентная ставка составляет 6% годовых. Первоначальный взнос составляет от 20,1%. Максимальная сумма кредита составляет до 9 млн рублей. Срок кредита составляет до 30 лет.',
-    highlights: ['от 18 до 50 лет', '6%', 'от 20,1%', 'до 9 млн рублей', 'до 30 лет'],
+      'Программа доступна гражданам России, которые работают в компании из сферы информационных технологий. Возраст заёмщика составляет от 18 до 50 лет включительно. Компания должна находиться за пределами Москвы и Санкт-Петербурга. Процентная ставка составляет <strong>6%</strong> годовых. Первоначальный взнос составляет <strong>от 20,1%</strong>. Максимальная сумма кредита составляет <strong>до 9 млн рублей</strong>. Срок кредита составляет <strong>до 30 лет</strong>.',
   },
   {
     title: 'Сельская ипотека',
     details:
-      'Программа подходит для строительства жилого дома на приграничных и сельских территориях России. Не распространяется на Москву, Московскую область и Санкт-Петербург. Процентная ставка составляет от 0,1% до 3% годовых. Первоначальный взнос составляет от 20%. Максимальная сумма кредита составляет до 6 млн рублей. Срок кредита составляет до 25 лет.',
-    highlights: ['от 0,1% до 3%', 'от 20%', 'до 6 млн рублей', 'до 25 лет'],
+      'Программа подходит для строительства жилого дома на приграничных и сельских территориях России. Не распространяется на Москву, Московскую область и Санкт-Петербург. Процентная ставка составляет <strong>от 0,1% до 3%</strong> годовых. Первоначальный взнос составляет <strong>от 20%</strong>. Максимальная сумма кредита составляет <strong>до 6 млн рублей</strong>. Срок кредита составляет <strong>до 25 лет</strong>.',
   },
   {
     title: 'Стандартная ипотека',
     details:
-      'Программа подходит тем, кто не подпадает под условия льготных ипотечных программ. В этом случае можно оформить ипотеку на рыночных условиях. Процентная ставка составляет от 17,4% годовых. Первоначальный взнос составляет от 20,1%. Максимальная сумма кредита составляет до 100 млн рублей. Срок кредита составляет до 30 лет.',
-    highlights: ['от 17,4%', 'от 20,1%', 'до 100 млн рублей', 'до 30 лет'],
+      'Программа подходит тем, кто не подпадает под условия льготных ипотечных программ. В этом случае можно оформить ипотеку на рыночных условиях. Процентная ставка составляет <strong>от 17,4%</strong> годовых. Первоначальный взнос составляет <strong>от 20,1%</strong>. Максимальная сумма кредита составляет <strong>до 100 млн рублей</strong>. Срок кредита составляет <strong>до 30 лет</strong>.',
   },
 ]
-
-function renderHighlightedText(text: string, highlights: string[]) {
-  const sortedHighlights = [...highlights].sort((a, b) => b.length - a.length)
-  const parts: Array<{ text: string; strong: boolean }> = []
-  let remaining = text
-
-  while (remaining.length > 0) {
-    let nextMatchIndex = -1
-    let nextMatch = ''
-
-    for (const highlight of sortedHighlights) {
-      const index = remaining.indexOf(highlight)
-      if (index !== -1 && (nextMatchIndex === -1 || index < nextMatchIndex)) {
-        nextMatchIndex = index
-        nextMatch = highlight
-      }
-    }
-
-    if (nextMatchIndex === -1) {
-      parts.push({ text: remaining, strong: false })
-      break
-    }
-
-    if (nextMatchIndex > 0) {
-      parts.push({ text: remaining.slice(0, nextMatchIndex), strong: false })
-    }
-
-    parts.push({ text: nextMatch, strong: true })
-    remaining = remaining.slice(nextMatchIndex + nextMatch.length)
-  }
-
-  return parts.map((part, index) =>
-    part.strong ? (
-      <strong key={`${part.text}-${index}`} className="font-semibold text-dark">
-        {part.text}
-      </strong>
-    ) : (
-      <span key={`${part.text}-${index}`}>{part.text}</span>
-    )
-  )
-}
 
 export default function Mortgage({
   label = 'Ипотека',
@@ -112,9 +66,12 @@ export default function Mortgage({
                 <h3 className="font-sans text-[32px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[26px]">
                   {program.title}
                 </h3>
-                <p className="max-w-[780px] font-sans text-[15px] leading-[1.7] text-dark/70 max-md:text-[14px]">
-                  {renderHighlightedText(program.details, program.highlights)}
-                </p>
+                {program.details && (
+                  <p
+                    className="max-w-[780px] font-sans text-[15px] leading-[1.7] text-dark/70 max-md:text-[14px] [&_strong]:font-semibold [&_strong]:text-dark"
+                    dangerouslySetInnerHTML={{ __html: program.details }}
+                  />
+                )}
               </div>
             </AnimatedSection>
           ))}
