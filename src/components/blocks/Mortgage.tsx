@@ -137,13 +137,13 @@ export default function Mortgage({
 
                   {program.details && (
                     <div className="flex flex-col items-start gap-4">
-                      <button
-                        type="button"
+                      <Button
+                        variant="secondary"
+                        className="text-base"
                         onClick={() => setExpandedProgram(isExpanded ? null : program.title)}
-                        className="inline-flex items-center justify-center border border-dark/20 bg-[#F5F2EC] px-5 py-3 font-sans text-sm text-dark transition-colors hover:bg-[#ECE6DD]"
                       >
                         {isExpanded ? 'Скрыть подробности' : 'Подробнее'}
-                      </button>
+                      </Button>
 
                       {isExpanded && (
                         <p className="max-w-[780px] font-sans text-[15px] leading-[1.6] text-dark/70 max-md:text-[14px]">
