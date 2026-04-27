@@ -7,6 +7,8 @@ import Projects from '@/components/blocks/Projects'
 import Advantages from '@/components/blocks/Advantages'
 import Consultation from '@/components/blocks/Consultation'
 import ProjectGalleryFilter from '@/components/molecules/ProjectGalleryFilter'
+import ProjectSpecificationSection from '@/components/molecules/ProjectSpecificationSection'
+import { getProjectSpecification } from '@/data/projectSpecifications'
 import { getContent } from '@/utils/requests'
 import { generateSEO } from '@/utils/generate-seo'
 import { strapiImage } from '@/utils/strapi-image'
@@ -50,6 +52,10 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params
   const project = await getProject(slug)
+  const projectSpecification = getProjectSpecification(slug)
+  const specificationDownloadUrl = projectSpecification
+    ? `/specifications/${slug}-komplektatsiya.pdf`
+    : project?.specification?.url ? strapiImage(project.specification.url) : undefined
 
   if (!project) redirect('/')
 
@@ -79,8 +85,15 @@ export default async function ProjectPage({ params }: PageProps) {
         facadesMobile={project.facades_mobile?.map((img: any) => img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url))}
         layoutFull={project.layouts?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
         facadeFull={project.facades?.map((img: any) => img.formats?.large?.url ? strapiImage(img.formats.large.url) : strapiImage(img.url))}
-        specificationUrl={project.specification?.url ? strapiImage(project.specification.url) : undefined}
+        specificationUrl={specificationDownloadUrl}
       />
+
+      {projectSpecification && (
+        <ProjectSpecificationSection
+          specification={projectSpecification}
+          downloadUrl={specificationDownloadUrl}
+        />
+      )}
 
       {project.content && <Manager content={project.content} />}
 
