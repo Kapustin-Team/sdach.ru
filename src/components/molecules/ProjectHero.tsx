@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { motion } from 'framer-motion'
 import Button from '@/components/atoms/Button'
 import Lightbox from '@/components/molecules/Lightbox'
@@ -33,52 +33,45 @@ function formatRub(n: number) {
   return `${n.toLocaleString('ru-RU')} ₽`
 }
 
-interface PriceTooltipProps {
+interface PriceBreakdownProps {
+  price: string
   warm: number
   forFinishing: number
   withFinishing: number
 }
 
-function PriceTooltip({ warm, forFinishing, withFinishing }: PriceTooltipProps) {
+function PriceBreakdown({ price, warm, forFinishing, withFinishing }: PriceBreakdownProps) {
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const breakdownId = useId()
 
   useEffect(() => {
     if (!open) return
-    const onDocClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
     }
-    document.addEventListener('mousedown', onDocClick)
     document.addEventListener('keydown', onEsc)
-    return () => {
-      document.removeEventListener('mousedown', onDocClick)
-      document.removeEventListener('keydown', onEsc)
-    }
+    return () => document.removeEventListener('keydown', onEsc)
   }, [open])
 
   return (
-    <div
-      ref={ref}
-      className="relative inline-flex"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <button
-        type="button"
-        aria-label="Расшифровка цены"
-        aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center justify-center w-6 h-6 rounded-full border border-dark/30 text-dark/60 text-sm leading-none hover:border-dark hover:text-dark transition-colors"
-      >
-        ?
-      </button>
+    <>
+      <div className="inline-flex items-center gap-3 font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
+        <span>{price}</span>
+        <button
+          type="button"
+          aria-label="Расшифровка цены"
+          aria-expanded={open}
+          aria-controls={breakdownId}
+          onClick={() => setOpen((v) => !v)}
+          className="flex items-center justify-center w-6 h-6 rounded-full border border-dark/30 text-dark/60 text-sm leading-none hover:border-dark hover:text-dark transition-colors"
+        >
+          ?
+        </button>
+      </div>
       {open && (
         <div
-          role="tooltip"
-          className="absolute left-0 top-full mt-2 z-20 w-[280px] max-w-[calc(100vw-48px)] rounded-lg border border-dark/10 bg-bg p-4 shadow-lg"
+          id={breakdownId}
+          className="w-full rounded-lg border border-dark/10 bg-dark/[0.03] p-4"
         >
           <ul className="flex flex-col gap-2">
             <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
@@ -96,7 +89,7 @@ function PriceTooltip({ warm, forFinishing, withFinishing }: PriceTooltipProps) 
           </ul>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
@@ -193,17 +186,17 @@ export default function ProjectHero({
 
       {/* Price + Buttons */}
       <div className="flex justify-between items-center gap-[119px] px-[120px] pt-[80px] pb-6 max-md:px-6 max-md:pt-10 max-md:flex-col max-md:items-start max-md:gap-6">
-        <motion.div className="flex flex-col gap-2" {...fadeUp(0.45)}>
-          <span className="inline-flex items-center gap-3 font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
-            {price}
-            {hasBreakdown && (
-              <PriceTooltip
-                warm={priceWarmCircuit as number}
-                forFinishing={priceForFinishing as number}
-                withFinishing={priceWithFinishing as number}
-              />
-            )}
-          </span>
+        <motion.div className="flex flex-col gap-3 w-full max-w-[560px]" {...fadeUp(0.45)}>
+          {hasBreakdown ? (
+            <PriceBreakdown
+              price={price}
+              warm={priceWarmCircuit as number}
+              forFinishing={priceForFinishing as number}
+              withFinishing={priceWithFinishing as number}
+            />
+          ) : (
+            <span className="font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">{price}</span>
+          )}
         </motion.div>
         <motion.div
           className="flex items-center gap-[20px] max-md:flex-col max-md:w-full max-md:[&_a]:w-full"
