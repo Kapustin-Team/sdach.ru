@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Button from '@/components/atoms/Button'
 import Lightbox from '@/components/molecules/Lightbox'
@@ -20,9 +21,83 @@ interface ProjectHeroProps {
   title: string
   description?: string
   price: string
+  priceWarmCircuit?: number | null
+  priceForFinishing?: number | null
+  priceWithFinishing?: number | null
   image: string
   gallery?: GalleryItem[]
   specs?: Spec[]
+}
+
+function formatRub(n: number) {
+  return `${n.toLocaleString('ru-RU')} ₽`
+}
+
+interface PriceTooltipProps {
+  warm: number
+  forFinishing: number
+  withFinishing: number
+}
+
+function PriceTooltip({ warm, forFinishing, withFinishing }: PriceTooltipProps) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onDocClick)
+    document.addEventListener('keydown', onEsc)
+    return () => {
+      document.removeEventListener('mousedown', onDocClick)
+      document.removeEventListener('keydown', onEsc)
+    }
+  }, [open])
+
+  return (
+    <div
+      ref={ref}
+      className="relative inline-flex"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-label="Расшифровка цены"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center justify-center w-6 h-6 rounded-full border border-dark/30 text-dark/60 text-sm leading-none hover:border-dark hover:text-dark transition-colors"
+      >
+        ?
+      </button>
+      {open && (
+        <div
+          role="tooltip"
+          className="absolute left-0 top-full mt-2 z-20 w-[280px] rounded-lg border border-dark/10 bg-bg p-4 shadow-lg max-md:left-auto max-md:right-0"
+        >
+          <ul className="flex flex-col gap-2">
+            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+              <span className="text-dark/60">Тёплый контур</span>
+              <span className="font-medium whitespace-nowrap">{formatRub(warm)}</span>
+            </li>
+            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+              <span className="text-dark/60">Под отделку</span>
+              <span className="font-medium whitespace-nowrap">{formatRub(forFinishing)}</span>
+            </li>
+            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+              <span className="text-dark/60">С отделкой</span>
+              <span className="font-medium whitespace-nowrap">{formatRub(withFinishing)}</span>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  )
 }
 
 const placeholderGallery = [
@@ -45,10 +120,17 @@ export default function ProjectHero({
   title,
   description,
   price,
+  priceWarmCircuit,
+  priceForFinishing,
+  priceWithFinishing,
   image,
   gallery,
   specs,
 }: ProjectHeroProps) {
+  const hasBreakdown =
+    typeof priceWarmCircuit === 'number' &&
+    typeof priceForFinishing === 'number' &&
+    typeof priceWithFinishing === 'number'
   const galleryImages = gallery && gallery.length > 0
     ? gallery.map((img) => img.url)
     : placeholderGallery
@@ -112,8 +194,15 @@ export default function ProjectHero({
       {/* Price + Buttons */}
       <div className="flex justify-between items-center gap-[119px] px-[120px] pt-[80px] pb-6 max-md:px-6 max-md:pt-10 max-md:flex-col max-md:items-start max-md:gap-6">
         <motion.div className="flex flex-col gap-2" {...fadeUp(0.45)}>
-          <span className="font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
+          <span className="inline-flex items-center gap-3 font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
             {price}
+            {hasBreakdown && (
+              <PriceTooltip
+                warm={priceWarmCircuit as number}
+                forFinishing={priceForFinishing as number}
+                withFinishing={priceWithFinishing as number}
+              />
+            )}
           </span>
         </motion.div>
         <motion.div

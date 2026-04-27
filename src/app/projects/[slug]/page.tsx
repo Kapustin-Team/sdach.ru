@@ -60,6 +60,9 @@ export default async function ProjectPage({ params }: PageProps) {
         title={project.title}
         description={project.description}
         price={project.price}
+        priceWarmCircuit={project.priceWarmCircuit}
+        priceForFinishing={project.priceForFinishing}
+        priceWithFinishing={project.priceWithFinishing}
         image={project.image?.formats?.large?.url ? strapiImage(project.image.formats.large.url) : strapiImage(project.image?.url) || '/hero-1-4df8d5.webp'}
         gallery={project.gallery?.map((img: any) => ({
           url: img.formats?.medium?.url ? strapiImage(img.formats.medium.url) : strapiImage(img.url),
