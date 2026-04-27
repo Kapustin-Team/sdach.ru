@@ -10,16 +10,27 @@ interface StrapiProject {
   slug: string
   price: string
   tags: string[]
-  image?: { url?: string }
+  image?: {
+    url?: string
+    formats?: {
+      small?: { url?: string }
+      medium?: { url?: string }
+      large?: { url?: string }
+    }
+  }
 }
 
 function mapProject(p: StrapiProject): ProjectCardProps {
+  const cardUrl =
+    p.image?.formats?.medium?.url ||
+    p.image?.formats?.small?.url ||
+    p.image?.url
   return {
     title: p.title,
     slug: p.slug,
     price: p.price,
     tags: p.tags || [],
-    image: strapiImage(p.image?.url) || '/hero-1-4df8d5.webp',
+    image: strapiImage(cardUrl) || '/hero-1-4df8d5.webp',
   }
 }
 
