@@ -78,7 +78,7 @@ function PriceTooltip({ warm, forFinishing, withFinishing }: PriceTooltipProps) 
       {open && (
         <div
           role="tooltip"
-          className="absolute left-0 top-full mt-2 z-20 w-[280px] rounded-lg border border-dark/10 bg-bg p-4 shadow-lg max-md:left-auto max-md:right-0"
+          className="absolute left-0 top-full mt-2 z-20 w-[280px] max-w-[calc(100vw-48px)] rounded-lg border border-dark/10 bg-bg p-4 shadow-lg"
         >
           <ul className="flex flex-col gap-2">
             <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
