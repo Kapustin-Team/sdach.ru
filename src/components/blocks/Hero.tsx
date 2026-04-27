@@ -7,7 +7,14 @@ import { strapiImage } from '@/utils/strapi-image'
 interface HeroProps {
   title?: string
   subtitle?: string
-  image?: { url?: string }
+  image?: {
+    url?: string
+    formats?: {
+      small?: { url?: string }
+      medium?: { url?: string }
+      large?: { url?: string }
+    }
+  }
 }
 
 const defaultSubtitles = [
@@ -25,7 +32,11 @@ export default function Hero({
   const lines = subtitle
     ? subtitle.split('\n').filter(Boolean)
     : defaultSubtitles
-  const heroImage = image?.url ? strapiImage(image.url) : null
+  const heroSrc =
+    image?.formats?.large?.url ||
+    image?.formats?.medium?.url ||
+    image?.url
+  const heroImage = heroSrc ? strapiImage(heroSrc) : null
 
   return (
     <section className="flex flex-col">
