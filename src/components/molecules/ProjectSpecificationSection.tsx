@@ -21,17 +21,38 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
 
   return (
     <section className="px-[120px] py-[110px] max-md:px-6 max-md:py-16" id="specification-details">
-      <div className="flex flex-col gap-10 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-10 max-md:p-5">
-        <div className="flex items-end justify-between gap-8 max-md:flex-col max-md:items-start">
-          <div className="flex max-w-[760px] flex-col gap-5">
-            <span className="font-sans text-sm uppercase tracking-[0.14em] text-dark/45">Комплектация</span>
-            <h2 className="font-sans text-[56px] font-normal leading-[0.95] tracking-[-0.03em] text-dark max-md:text-4xl">
-              Что входит в проект
-            </h2>
-            <p className="font-sans text-lg leading-[1.35] text-dark/65 max-md:text-base">
-              Состав работ сгруппирован по разделам. Цены остаются в основном блоке проекта, здесь — только включённые позиции.
-            </p>
-          </div>
+      <div className="flex flex-col gap-8 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-10 max-md:p-5">
+        <span className="font-sans text-sm uppercase tracking-[0.14em] text-dark/45">Комплектация</span>
+
+        <div className="flex items-start justify-between gap-4 border-b border-dark/10 pb-2 max-lg:flex-col">
+          {hasTabs && (
+            <div
+              className="flex max-w-full gap-2 overflow-x-auto max-md:-mx-5 max-md:w-[calc(100%+40px)] max-md:px-5"
+              role="tablist"
+              aria-label="Комплектации проекта"
+            >
+              {specification.packages.map((pkg) => {
+                const selected = pkg.id === activePackage.id
+                return (
+                  <button
+                    key={pkg.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    aria-controls={`spec-package-${slugifyId(pkg.id)}`}
+                    onClick={() => setActivePackageId(pkg.id)}
+                    className={`shrink-0 border px-5 py-3 font-sans text-base transition-colors ${
+                      selected
+                        ? 'border-dark bg-dark text-white'
+                        : 'border-dark/10 bg-transparent text-dark/65 hover:border-dark/40 hover:text-dark'
+                    }`}
+                  >
+                    {pkg.title}
+                  </button>
+                )
+              })}
+            </div>
+          )}
 
           {downloadUrl && (
             <a
@@ -44,35 +65,6 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
             </a>
           )}
         </div>
-
-        {hasTabs && (
-          <div
-            className="flex gap-2 overflow-x-auto border-b border-dark/10 pb-2 max-md:-mx-5 max-md:px-5"
-            role="tablist"
-            aria-label="Комплектации проекта"
-          >
-            {specification.packages.map((pkg) => {
-              const selected = pkg.id === activePackage.id
-              return (
-                <button
-                  key={pkg.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  aria-controls={`spec-package-${slugifyId(pkg.id)}`}
-                  onClick={() => setActivePackageId(pkg.id)}
-                  className={`shrink-0 border px-5 py-3 font-sans text-base transition-colors ${
-                    selected
-                      ? 'border-dark bg-dark text-white'
-                      : 'border-dark/10 bg-transparent text-dark/65 hover:border-dark/40 hover:text-dark'
-                  }`}
-                >
-                  {pkg.title}
-                </button>
-              )
-            })}
-          </div>
-        )}
 
         <div
           id={`spec-package-${slugifyId(activePackage.id)}`}
