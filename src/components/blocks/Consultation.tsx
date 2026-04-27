@@ -104,7 +104,7 @@ export default function Consultation({
       {/* BG with image + gradient */}
       <div className="absolute inset-0 max-md:relative max-md:h-[300px]">
         <img
-          src="/consultation-bg.png"
+          src="/consultation-bg.webp"
           alt=""
           className="absolute inset-0 w-full h-[565px] object-cover max-md:h-full"
         />

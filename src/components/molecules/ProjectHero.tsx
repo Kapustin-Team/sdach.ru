@@ -26,10 +26,10 @@ interface ProjectHeroProps {
 }
 
 const placeholderGallery = [
-  '/hero-1-4df8d5.png',
-  '/hero-2-29c330.png',
-  '/hero-3-6cfe9d.png',
-  '/hero-1-4df8d5.png',
+  '/hero-1-4df8d5.webp',
+  '/hero-2-29c330.webp',
+  '/hero-3-6cfe9d.webp',
+  '/hero-1-4df8d5.webp',
 ]
 
 const ease = [0.25, 0.1, 0.25, 1] as [number, number, number, number]

@@ -19,7 +19,7 @@ function mapProject(p: StrapiProject): ProjectCardProps {
     slug: p.slug,
     price: p.price,
     tags: p.tags || [],
-    image: strapiImage(p.image?.url) || '/hero-1-4df8d5.png',
+    image: strapiImage(p.image?.url) || '/hero-1-4df8d5.webp',
   }
 }
 
