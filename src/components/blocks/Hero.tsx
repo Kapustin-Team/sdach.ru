@@ -81,9 +81,9 @@ export default function Hero({
       ) : (
         <div className="flex gap-4 overflow-hidden max-md:flex-col max-md:gap-2 max-md:px-2 max-md:mt-[34px]">
           {[
-            { src: '/hero-1-4df8d5.png', alt: 'Современный дом', cls: 'shrink-0 w-[520px] h-[380px] overflow-hidden max-md:!w-full max-md:!h-auto' },
-            { src: '/hero-2-29c330.png', alt: 'Интерьер дома',   cls: 'shrink-0 w-[570px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto' },
-            { src: '/hero-3-6cfe9d.png', alt: 'Проект дома',     cls: 'shrink-0 w-[620px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto' },
+            { src: '/hero-1-4df8d5.webp', alt: 'Современный дом', cls: 'shrink-0 w-[520px] h-[380px] overflow-hidden max-md:!w-full max-md:!h-auto' },
+            { src: '/hero-2-29c330.webp', alt: 'Интерьер дома',   cls: 'shrink-0 w-[570px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto' },
+            { src: '/hero-3-6cfe9d.webp', alt: 'Проект дома',     cls: 'shrink-0 w-[620px] h-[321px] overflow-hidden max-md:!w-full max-md:!h-auto' },
           ].map((img, i) => (
             <motion.div
               key={img.src}
