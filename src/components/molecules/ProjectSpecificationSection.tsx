@@ -127,8 +127,8 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
   if (!hasPackages) return null
 
   return (
-    <section className="px-[120px] py-6 max-xl:px-10 max-md:px-4 max-md:py-4" id="specification-details">
-      <div className="flex flex-col gap-4">
+    <section className="px-[120px] pt-[34px] pb-6 max-xl:px-10 max-md:px-4 max-md:pt-7 max-md:pb-4" id="specification-details">
+      <div className="flex flex-col gap-[34px] max-md:gap-6">
         <div className="flex items-center justify-between gap-3 max-md:flex-col max-md:items-start">
           <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg max-md:text-base">
             Комплектация
