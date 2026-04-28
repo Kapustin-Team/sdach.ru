@@ -78,13 +78,13 @@ export default function HowWeWork({
         subtitle={subtitle}
       />
 
-      <div className="mt-[50px] border-t border-black/10 max-md:mt-8">
+      <div className="mt-10 border-t border-black/10 max-md:mt-8">
         {safeGroups.map((group, groupIndex) => (
-          <div key={group.title} className="border-b border-black/10 py-8 max-md:py-6">
+          <div key={group.title} className="border-b border-black/10 py-7 max-md:py-6">
             <AnimatedSection delay={groupIndex * 0.08}>
-              <div className="grid grid-cols-[260px_minmax(0,1fr)] gap-8 max-md:grid-cols-1 max-md:gap-6">
+              <div className="grid grid-cols-[220px_minmax(0,1fr)] gap-10 max-lg:grid-cols-[200px_minmax(0,1fr)] max-lg:gap-8 max-md:grid-cols-1 max-md:gap-5">
                 <div>
-                  <h3 className="font-sans text-[36px] leading-[1.05] tracking-[-0.02em] text-dark max-md:text-[28px]">
+                  <h3 className="font-sans text-[30px] leading-[1.08] tracking-[-0.02em] text-dark/80 max-md:text-[26px]">
                     {group.title}
                   </h3>
                 </div>
@@ -96,12 +96,12 @@ export default function HowWeWork({
                     return (
                       <div
                         key={stepTitle}
-                        className="grid grid-cols-[88px_minmax(0,1fr)] gap-6 border-t border-black/10 py-5 first:border-t-0 first:pt-0 last:pb-0 max-md:grid-cols-[64px_minmax(0,1fr)] max-md:gap-4"
+                        className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-t border-black/10 py-[18px] first:border-t-0 first:pt-0 last:pb-0 max-md:grid-cols-[48px_minmax(0,1fr)] max-md:gap-4"
                       >
-                        <span className="font-sans text-[24px] leading-none tracking-[-0.02em] text-dark/45 max-md:text-[20px]">
+                        <span className="font-sans text-[20px] leading-[1.15] tracking-[-0.02em] text-dark/40 max-md:text-[18px]">
                           {String(index).padStart(2, '0')}
                         </span>
-                        <p className="font-sans text-[22px] leading-[1.25] tracking-[-0.01em] text-dark/70 max-md:text-[18px]">
+                        <p className="max-w-[760px] font-sans text-[22px] leading-[1.25] tracking-[-0.01em] text-dark/75 max-md:text-[18px]">
                           {stepTitle}
                         </p>
                       </div>
