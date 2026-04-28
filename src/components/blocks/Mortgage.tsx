@@ -3,7 +3,6 @@
 import AnimatedTitle from '@/components/atoms/AnimatedTitle'
 import AnimatedSection from '@/components/atoms/AnimatedSection'
 import Button from '@/components/atoms/Button'
-import { motion } from 'framer-motion'
 
 interface MortgageProgram {
   title: string
@@ -61,8 +60,8 @@ export default function Mortgage({
   programs = defaultPrograms,
 }: MortgageProps) {
   return (
-    <section className="px-[120px] py-[50px] max-md:px-6 max-md:py-10">
-      <div className="grid grid-cols-[minmax(0,420px)_minmax(0,1fr)] gap-16 max-md:grid-cols-1 max-md:gap-10">
+    <section className="px-[120px] py-[70px] max-md:px-6 max-md:py-10">
+      <div className="grid grid-cols-[minmax(0,430px)_minmax(0,1fr)] gap-[120px] max-lg:gap-20 max-md:grid-cols-1 max-md:gap-10">
         <AnimatedSection className="sticky top-[130px] flex h-fit flex-col gap-8 max-md:static max-md:gap-6">
           <AnimatedTitle label={label} heading={title} subtitle={subtitle} />
           <div className="max-md:[&_a]:w-full max-md:[&_button]:w-full">
@@ -70,17 +69,13 @@ export default function Mortgage({
           </div>
         </AnimatedSection>
 
-        <div className="flex flex-col md:-mt-[18vh] md:pt-[18vh]">
+        <div className="flex flex-col pt-4 max-md:pt-0">
           {programs.map((program, index) => (
-            <motion.article
+            <article
               key={program.title}
-              className="flex min-h-[72vh] items-center border-b border-dark/10 py-14 last:min-h-[52vh] last:border-b-0 max-md:min-h-0 max-md:py-8"
-              initial={{ opacity: 0, y: 70, clipPath: 'inset(18% 0 0 0)' }}
-              whileInView={{ opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)' }}
-              viewport={{ once: false, amount: 0.55, margin: '-12% 0px -18% 0px' }}
-              transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              className="border-b border-dark/10 py-10 first:pt-0 last:border-b-0 last:pb-0 max-md:py-8"
             >
-              <div className="flex flex-col gap-4">
+              <div className="flex max-w-[780px] flex-col gap-4">
                 <span className="font-sans text-sm leading-none text-dark/40">
                   {String(index + 1).padStart(2, '0')}
                 </span>
@@ -89,12 +84,12 @@ export default function Mortgage({
                 </h3>
                 {program.details && (
                   <p
-                    className="max-w-[780px] font-sans text-[15px] leading-[1.7] text-dark/70 max-md:text-[14px] [&_strong]:font-semibold [&_strong]:text-dark"
+                    className="font-sans text-[15px] leading-[1.7] text-dark/70 max-md:text-[14px] [&_strong]:font-semibold [&_strong]:text-dark"
                     dangerouslySetInnerHTML={renderRichText(program.details)}
                   />
                 )}
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>
