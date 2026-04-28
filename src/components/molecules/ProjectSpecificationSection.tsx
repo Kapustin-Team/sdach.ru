@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Button from '@/components/atoms/Button'
 import type { ProjectSpecification } from '@/data/projectSpecifications'
 
@@ -135,10 +135,10 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
           </Button>
         </div>
 
-        <div className="overflow-x-auto max-md:-mx-4 max-md:px-4">
+        <div className="overflow-x-auto max-md:-mx-4 max-md:overflow-visible">
           <div
-            className="grid min-w-[820px] gap-3 max-md:min-w-[760px]"
-            style={{ gridTemplateColumns: `repeat(${specification.packages.length}, minmax(0, 1fr))` }}
+            className="grid gap-3 max-md:grid-cols-1 md:min-w-[820px] md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))]"
+            style={{ '--package-count': specification.packages.length } as CSSProperties}
           >
             {specification.packages.map((pkg, packageIndex) => (
               <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
