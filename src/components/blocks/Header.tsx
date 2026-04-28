@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="relative z-50 flex items-center justify-between px-[120px] py-[34px] leading-none bg-white max-md:px-6 max-md:h-[77px]">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-[120px] py-[34px] leading-none bg-bg max-md:px-6 max-md:h-[77px]">
         <a href="/" className="flex items-center no-underline" aria-label="На главную">
           <span className="font-sans font-bold text-xl leading-[1.04] uppercase text-dark">
             студия дач
@@ -83,7 +83,7 @@ export default function Header() {
       {menuOpen && (
         <div className="fixed inset-0 z-40 flex flex-col md:hidden">
           {/* Menu panel */}
-          <div className="h-[450px] bg-white flex flex-col px-6 shrink-0">
+          <div className="h-[450px] bg-bg flex flex-col px-6 shrink-0">
             {/* Header row matching main header */}
             <div className="flex items-center justify-between h-[77px]">
               <a href="/" className="flex items-center no-underline" aria-label="На главную">
