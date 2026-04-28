@@ -74,7 +74,7 @@ function PriceBreakdown({ price, warm, forFinishing, withFinishing }: PriceBreak
     <div className="relative flex flex-col gap-3">
       <div className="inline-flex items-center gap-3 font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
         <span>{price}</span>
-        <span className="group relative inline-flex max-md:hidden">
+        <span className="group relative inline-flex">
           <button
             type="button"
             aria-label="Расшифровка цены"
@@ -87,12 +87,17 @@ function PriceBreakdown({ price, warm, forFinishing, withFinishing }: PriceBreak
           </button>
           <div
             id={breakdownId}
-            className="pointer-events-none absolute bottom-full left-full z-20 ml-2 mb-2 hidden w-[300px] rounded-lg border border-dark/10 bg-[#f6f1e9] p-4 shadow-xl group-hover:block group-focus-within:block"
+            className="pointer-events-none absolute bottom-full left-full z-20 ml-2 mb-2 hidden w-[300px] rounded-lg border border-dark/10 bg-[#f6f1e9] p-4 shadow-xl group-hover:block group-focus-within:block max-md:hidden"
           >
             {content}
           </div>
         </span>
       </div>
+      {open && (
+        <div className="hidden w-full rounded-lg border border-dark/10 bg-dark/[0.03] p-4 max-md:block">
+          {content}
+        </div>
+      )}
     </div>
   )
 }
