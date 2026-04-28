@@ -26,18 +26,13 @@ export default function Footer() {
               >
                 +7 495 023 06 73
               </a>
-              <div className="flex flex-col items-end gap-3 max-md:items-start">
-                <div className="flex items-center gap-[20px]">
-                  <a href="https://t.me/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
-                    <img src="/icons/link-tg.svg" alt="Telegram" width={54} height={54} />
-                  </a>
-                  <a href="https://max.ru/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
-                    <img src="/icons/link-max.svg" alt="Max" width={54} height={54} />
-                  </a>
-                </div>
-                <p className="font-sans text-sm leading-[1.2] text-dark/45 max-md:text-[12px]">
-                  ИП ЖЕМЧУГОВА О. В. ИНН 330648487141 | Студия Дач © 2026
-                </p>
+              <div className="flex items-center gap-[20px]">
+                <a href="https://t.me/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+                  <img src="/icons/link-tg.svg" alt="Telegram" width={54} height={54} />
+                </a>
+                <a href="https://max.ru/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+                  <img src="/icons/link-max.svg" alt="Max" width={54} height={54} />
+                </a>
               </div>
             </div>
           </div>
@@ -63,6 +58,9 @@ export default function Footer() {
             <a href="/personal-data" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
               Согласие на обработку персональных данных
             </a>
+            <p className="font-sans text-sm leading-[1.2] text-dark/45 max-md:text-[12px]">
+              ИП ЖЕМЧУГОВА О. В. ИНН 330648487141 | Студия Дач © 2026
+            </p>
           </div>
         </div>
       </div>
