@@ -58,7 +58,7 @@ export default function Footer() {
             <a href="/personal-data" className="font-sans font-normal text-lg leading-[1.1] text-dark hover:opacity-70 transition-opacity max-md:text-[12px]">
               Согласие на обработку персональных данных
             </a>
-            <p className="font-sans text-sm leading-[1.2] text-dark/45 max-md:text-[12px]">
+            <p className="ml-auto text-right font-sans text-sm leading-[1.2] text-dark/45 max-md:ml-0 max-md:text-left max-md:text-[12px]">
               ИП ЖЕМЧУГОВА О. В. ИНН 330648487141 | Студия Дач © 2026
             </p>
           </div>
