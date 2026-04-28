@@ -27,10 +27,10 @@ export default function Footer() {
                 +7 495 023 06 73
               </a>
               <div className="flex items-center gap-[20px]">
-                <a href="https://t.me/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+                <a href="https://t.me/+79266122817" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                   <img src="/icons/link-tg.svg" alt="Telegram" width={54} height={54} />
                 </a>
-                <a href="https://max.ru/" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+                <a href="https://max.ru/chat/79266122817" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                   <img src="/icons/link-max.svg" alt="Max" width={54} height={54} />
                 </a>
               </div>
