@@ -15,8 +15,11 @@
 @layer base {
   html, body {
     max-width: 100vw;
-    overflow-x: hidden;
     background-color: var(--color-bg);
+  }
+
+  body {
+    overflow-x: clip;
   }
 
   a {
