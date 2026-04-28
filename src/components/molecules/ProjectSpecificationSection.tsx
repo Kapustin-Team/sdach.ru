@@ -135,7 +135,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
           </Button>
         </div>
 
-        <div className="overflow-x-auto max-md:-mx-4 max-md:overflow-visible">
+        <div className="overflow-x-auto max-md:overflow-visible">
           <div
             className="grid gap-3 max-md:grid-cols-1 md:min-w-[820px] md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))]"
             style={{ '--package-count': specification.packages.length } as CSSProperties}
