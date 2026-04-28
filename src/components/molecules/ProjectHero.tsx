@@ -53,43 +53,52 @@ function PriceBreakdown({ price, warm, forFinishing, withFinishing }: PriceBreak
     return () => document.removeEventListener('keydown', onEsc)
   }, [open])
 
+  const content = (
+    <ul className="flex flex-col gap-2">
+      <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+        <span className="text-dark/60">Тёплый контур</span>
+        <span className="font-medium whitespace-nowrap">{formatRub(warm)}</span>
+      </li>
+      <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+        <span className="text-dark/60">Под отделку</span>
+        <span className="font-medium whitespace-nowrap">{formatRub(forFinishing)}</span>
+      </li>
+      <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
+        <span className="text-dark/60">С отделкой</span>
+        <span className="font-medium whitespace-nowrap">{formatRub(withFinishing)}</span>
+      </li>
+    </ul>
+  )
+
   return (
-    <>
+    <div className="relative flex flex-col gap-3">
       <div className="inline-flex items-center gap-3 font-sans font-medium text-[32px] leading-[1.1] text-dark max-md:text-2xl">
         <span>{price}</span>
-        <button
-          type="button"
-          aria-label="Расшифровка цены"
-          aria-expanded={open}
-          aria-controls={breakdownId}
-          onClick={() => setOpen((v) => !v)}
-          className="flex items-center justify-center w-6 h-6 rounded-full border border-dark/30 text-dark/60 text-sm leading-none hover:border-dark hover:text-dark transition-colors"
-        >
-          ?
-        </button>
+        <span className="group relative inline-flex">
+          <button
+            type="button"
+            aria-label="Расшифровка цены"
+            aria-expanded={open}
+            aria-controls={breakdownId}
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-6 w-6 items-center justify-center rounded-full border border-dark/30 text-sm leading-none text-dark/60 transition-colors hover:border-dark hover:text-dark"
+          >
+            ?
+          </button>
+          <div
+            id={breakdownId}
+            className="pointer-events-none absolute bottom-full left-full z-20 ml-2 mb-2 hidden w-[300px] rounded-lg border border-dark/10 bg-[#f6f1e9] p-4 shadow-xl group-hover:block group-focus-within:block max-md:hidden"
+          >
+            {content}
+          </div>
+        </span>
       </div>
       {open && (
-        <div
-          id={breakdownId}
-          className="w-full rounded-lg border border-dark/10 bg-dark/[0.03] p-4"
-        >
-          <ul className="flex flex-col gap-2">
-            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
-              <span className="text-dark/60">Тёплый контур</span>
-              <span className="font-medium whitespace-nowrap">{formatRub(warm)}</span>
-            </li>
-            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
-              <span className="text-dark/60">Под отделку</span>
-              <span className="font-medium whitespace-nowrap">{formatRub(forFinishing)}</span>
-            </li>
-            <li className="flex justify-between gap-3 font-sans text-sm leading-[1.3] text-dark">
-              <span className="text-dark/60">С отделкой</span>
-              <span className="font-medium whitespace-nowrap">{formatRub(withFinishing)}</span>
-            </li>
-          </ul>
+        <div className="hidden w-full rounded-lg border border-dark/10 bg-dark/[0.03] p-4 max-md:block">
+          {content}
         </div>
       )}
-    </>
+    </div>
   )
 }
 
