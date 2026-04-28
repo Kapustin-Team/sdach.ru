@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import AnimatedTitle from '@/components/atoms/AnimatedTitle'
 import { strapiImage } from '@/utils/strapi-image'
 
@@ -21,6 +22,26 @@ type GalleryImage = {
   alt: string
 }
 
+const imageMaskVariants = {
+  enter: (direction: number) => ({
+    clipPath: direction > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)',
+    scale: 1.04,
+  }),
+  center: {
+    clipPath: 'inset(0 0 0 0)',
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    clipPath: direction > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)',
+    scale: 1.04,
+  }),
+}
+
+const imageMaskTransition = {
+  duration: 0.72,
+  ease: [0.76, 0, 0.24, 1] as const,
+}
+
 interface CompletedWorksProps {
   label?: string
   title?: string
@@ -35,6 +56,7 @@ export default function CompletedWorks({
   images: imagesProp = [],
 }: CompletedWorksProps) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [slideDirection, setSlideDirection] = useState(1)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const images = useMemo<GalleryImage[]>(() => {
@@ -74,8 +96,14 @@ export default function CompletedWorks({
     })
   }, [activeIndex, images])
 
-  const prev = () => setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
-  const next = () => setActiveIndex((prev) => (prev + 1) % images.length)
+  const prev = () => {
+    setSlideDirection(-1)
+    setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+  const next = () => {
+    setSlideDirection(1)
+    setActiveIndex((prev) => (prev + 1) % images.length)
+  }
   const prevLightbox = () => setLightboxIndex((prev) => prev === null ? 0 : (prev - 1 + images.length) % images.length)
   const nextLightbox = () => setLightboxIndex((prev) => prev === null ? 0 : (prev + 1) % images.length)
 
@@ -95,14 +123,23 @@ export default function CompletedWorks({
             <button
               type="button"
               onClick={() => setLightboxIndex(visibleImages[0].index)}
-              className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
+              className="group relative block h-[420px] cursor-zoom-in overflow-hidden bg-black/5 text-left max-md:h-[300px]"
               aria-label={`Открыть фото ${visibleImages[0].index + 1}`}
             >
-              <img
-                src={visibleImages[0].src}
-                alt={visibleImages[0].alt}
-                className="h-[420px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[300px]"
-              />
+              <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+                <motion.img
+                  key={`${visibleImages[0].src}-${visibleImages[0].index}-main`}
+                  src={visibleImages[0].src}
+                  alt={visibleImages[0].alt}
+                  custom={slideDirection}
+                  variants={imageMaskVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={imageMaskTransition}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </AnimatePresence>
             </button>
           )}
 
@@ -110,14 +147,23 @@ export default function CompletedWorks({
             <button
               type="button"
               onClick={() => setLightboxIndex(visibleImages[1].index)}
-              className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left"
+              className="group relative block h-[330px] cursor-zoom-in overflow-hidden bg-black/5 text-left max-md:h-[280px]"
               aria-label={`Открыть фото ${visibleImages[1].index + 1}`}
             >
-              <img
-                src={visibleImages[1].src}
-                alt={visibleImages[1].alt}
-                className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
-              />
+              <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+                <motion.img
+                  key={`${visibleImages[1].src}-${visibleImages[1].index}-secondary`}
+                  src={visibleImages[1].src}
+                  alt={visibleImages[1].alt}
+                  custom={slideDirection}
+                  variants={imageMaskVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ ...imageMaskTransition, delay: 0.05 }}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                />
+              </AnimatePresence>
             </button>
           )}
 
@@ -126,14 +172,23 @@ export default function CompletedWorks({
               <button
                 type="button"
                 onClick={() => setLightboxIndex(visibleImages[2].index)}
-                className="group block cursor-zoom-in overflow-hidden bg-black/5 text-left max-lg:flex-1"
+                className="group relative block h-[330px] cursor-zoom-in overflow-hidden bg-black/5 text-left max-lg:flex-1 max-md:h-[280px]"
                 aria-label={`Открыть фото ${visibleImages[2].index + 1}`}
               >
-                <img
-                  src={visibleImages[2].src}
-                  alt={visibleImages[2].alt}
-                  className="h-[330px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02] max-md:h-[280px]"
-                />
+                <AnimatePresence initial={false} custom={slideDirection} mode="popLayout">
+                  <motion.img
+                    key={`${visibleImages[2].src}-${visibleImages[2].index}-small`}
+                    src={visibleImages[2].src}
+                    alt={visibleImages[2].alt}
+                    custom={slideDirection}
+                    variants={imageMaskVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ ...imageMaskTransition, delay: 0.1 }}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </AnimatePresence>
               </button>
             )}
 
