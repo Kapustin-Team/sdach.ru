@@ -142,7 +142,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
           >
             {specification.packages.map((pkg, packageIndex) => (
               <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
-                <h3 className="mb-4 text-center font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
+                <h3 className="mb-4 text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
                   {pkg.title}
                 </h3>
 
