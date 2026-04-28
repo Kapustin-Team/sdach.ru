@@ -44,7 +44,7 @@ export default function AnimatedTitle({ label, heading, subtitle, theme = 'dark'
 
       {heading && (
         <motion.h2
-          className={`font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] m-0 max-w-[1088px] max-md:text-[36px] ${color}`}
+          className={`font-sans font-normal text-[64px] leading-[1em] tracking-[-0.02em] m-0 max-w-[1088px] whitespace-pre-line max-md:text-[36px] ${color}`}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
