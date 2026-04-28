@@ -118,7 +118,7 @@ function buildComparisonGroups(specification: ProjectSpecification): CompareGrou
   })
 }
 
-export default function ProjectSpecificationSection({ specification, downloadUrl }: ProjectSpecificationSectionProps) {
+export default function ProjectSpecificationSection({ specification }: ProjectSpecificationSectionProps) {
   const hasPackages = specification.packages.length > 0
   const hasComparison = specification.packages.length > 1
   const comparisonGroups = buildComparisonGroups(specification)
@@ -126,56 +126,72 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
   if (!hasPackages) return null
 
   return (
-    <section className="px-[120px] py-0 max-xl:px-10 max-md:px-4 max-md:py-0" id="specification-details">
-      <div className="flex flex-col gap-0 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-0 max-md:p-0">
-        <div className="flex items-center justify-between gap-1 border-b border-dark/10 pb-0 max-md:flex-col max-md:items-stretch">
-          <span className="font-sans text-[9px] uppercase tracking-[0.1em] text-dark/45">Комплектация</span>
-
-          {downloadUrl && (
-            <a
-              href={downloadUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex shrink-0 items-center justify-center border border-dark px-2 py-0.5 font-sans text-[10px] text-dark no-underline transition-colors hover:bg-dark hover:text-white max-md:w-full"
-            >
-              Скачать PDF
-            </a>
-          )}
+    <section className="px-[120px] py-6 max-xl:px-10 max-md:px-4 max-md:py-4" id="specification-details">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between gap-3 max-md:flex-col max-md:items-start">
+          <span className="inline-flex rounded-full border border-dark/10 bg-dark/[0.03] px-4 py-2 font-sans text-[11px] uppercase tracking-[0.14em] text-dark/55">
+            Комплектация
+          </span>
         </div>
 
         <div className="overflow-x-auto max-md:-mx-4 max-md:px-4">
           <div
-            className="grid min-w-[760px] gap-0 max-md:min-w-[720px]"
+            className="grid min-w-[820px] gap-3 max-md:min-w-[760px]"
             style={{ gridTemplateColumns: `repeat(${specification.packages.length}, minmax(0, 1fr))` }}
           >
-            {specification.packages.map((pkg) => (
-              <div key={pkg.id} className="sticky top-0 z-10 border border-dark/10 bg-[#f6f1e9] px-1 py-0.5">
-                <h3 className="font-sans text-[12px] font-medium leading-none text-dark max-md:text-xs">{pkg.title}</h3>
-              </div>
-            ))}
+            {specification.packages.map((pkg, packageIndex) => (
+              <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
+                <h3 className="mb-4 text-center font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
+                  {pkg.title}
+                </h3>
 
-            {comparisonGroups.map((group) => (
-              <div key={group.title} className="contents">
-                <div
-                  className="col-span-full mt-0 border-y border-dark/10 bg-dark/[0.04] px-1 py-0 font-sans text-[9px] font-medium uppercase leading-none tracking-[0.04em] text-dark/70"
-                  style={{ gridColumn: `1 / span ${specification.packages.length}` }}
-                >
-                  {group.title}
-                </div>
+                <div className="flex flex-col gap-3">
+                  {comparisonGroups.map((group) => (
+                    <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
+                      <div className="mb-0.5 inline-flex w-fit rounded-full bg-dark/[0.04] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
+                        {group.title}
+                      </div>
 
-                {group.rows.map((row) =>
-                  row.cells.map((cell) => (
-                    <div
-                      key={`${row.key}-${cell.packageId}`}
-                      className={`min-h-[16px] border border-dark/10 bg-bg px-1 py-0 font-sans text-[9px] leading-[1.05] text-dark/75 ${
-                        hasComparison && cell.changed ? 'bg-[#fff8df] text-dark' : ''
-                      }`}
-                    >
-                      {renderParts(cell.parts)}
+                      <div className="flex flex-col gap-1">
+                        {group.rows.map((row) => {
+                          const cell = row.cells[packageIndex]
+                          const isEmpty = !cell?.text
+                          const isChanged = hasComparison && cell?.changed
+
+                          return (
+                            <div
+                              key={`${row.key}-${pkg.id}`}
+                              className={`flex gap-2 text-[11px] leading-[1.25] ${
+                                isEmpty
+                                  ? 'text-dark/25'
+                                  : isChanged
+                                    ? 'text-dark'
+                                    : 'text-dark/55'
+                              }`}
+                            >
+                              <span
+                                className={`mt-[1px] flex size-[13px] shrink-0 items-center justify-center rounded-full border text-[8px] leading-none ${
+                                  isEmpty
+                                    ? 'border-dark/15 text-dark/25'
+                                    : isChanged
+                                      ? 'border-dark bg-dark text-bg'
+                                      : 'border-dark/25 text-dark/45'
+                                }`}
+                                aria-hidden="true"
+                              >
+                                {isEmpty ? '–' : '✓'}
+                              </span>
+                              <span className={isChanged ? '[&_strong]:rounded-[2px] [&_strong]:bg-[#fff2a8] [&_strong]:px-[2px]' : ''}>
+                                {renderParts(cell?.parts || [{ text: '—', changed: false }])}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
-                  ))
-                )}
-              </div>
+                  ))}
+                </div>
+              </article>
             ))}
           </div>
         </div>
