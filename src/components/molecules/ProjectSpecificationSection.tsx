@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import Button from '@/components/atoms/Button'
 import type { ProjectSpecification } from '@/data/projectSpecifications'
 
 interface ProjectSpecificationSectionProps {
@@ -75,7 +76,7 @@ function renderParts(parts: TextPart[]): ReactNode {
     if (!part.changed) return <span key={index}>{part.text}</span>
 
     return (
-      <strong key={index} className="font-semibold text-dark">
+      <strong key={index} className="border-b border-dark/25 font-medium text-dark">
         {part.text}
       </strong>
     )
@@ -129,9 +130,9 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
     <section className="px-[120px] py-6 max-xl:px-10 max-md:px-4 max-md:py-4" id="specification-details">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-3 max-md:flex-col max-md:items-start">
-          <span className="inline-flex rounded-full border border-dark/10 bg-dark/[0.03] px-4 py-2 font-sans text-[11px] uppercase tracking-[0.14em] text-dark/55">
+          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg max-md:text-base">
             Комплектация
-          </span>
+          </Button>
         </div>
 
         <div className="overflow-x-auto max-md:-mx-4 max-md:px-4">
@@ -148,7 +149,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
                 <div className="flex flex-col gap-3">
                   {comparisonGroups.map((group) => (
                     <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
-                      <div className="mb-0.5 inline-flex w-fit rounded-full bg-dark/[0.04] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
+                      <div className="mb-0.5 inline-flex w-fit border border-dark/10 bg-dark/[0.03] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
                         {group.title}
                       </div>
 
@@ -169,19 +170,16 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
                                     : 'text-dark/55'
                               }`}
                             >
-                              <span
-                                className={`mt-[1px] flex size-[13px] shrink-0 items-center justify-center rounded-full border text-[8px] leading-none ${
-                                  isEmpty
-                                    ? 'border-dark/15 text-dark/25'
-                                    : isChanged
-                                      ? 'border-dark bg-dark text-bg'
-                                      : 'border-dark/25 text-dark/45'
-                                }`}
-                                aria-hidden="true"
-                              >
-                                {isEmpty ? '–' : '✓'}
+                              <span className="mt-[5px] flex w-[13px] shrink-0 justify-center" aria-hidden="true">
+                                {isEmpty ? (
+                                  <span className="h-px w-[7px] bg-dark/20" />
+                                ) : isChanged ? (
+                                  <span className="h-[13px] w-[2px] bg-dark" />
+                                ) : (
+                                  <span className="mt-[3px] h-[5px] w-[5px] bg-dark/35" />
+                                )}
                               </span>
-                              <span className={isChanged ? '[&_strong]:rounded-[2px] [&_strong]:bg-[#fff2a8] [&_strong]:px-[2px]' : ''}>
+                              <span>
                                 {renderParts(cell?.parts || [{ text: '—', changed: false }])}
                               </span>
                             </div>
