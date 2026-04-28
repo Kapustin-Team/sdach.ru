@@ -87,7 +87,7 @@ function PriceBreakdown({ price, warm, forFinishing, withFinishing }: PriceBreak
           </button>
           <div
             id={breakdownId}
-            className="pointer-events-none absolute bottom-full left-full z-20 ml-2 mb-2 hidden w-[300px] rounded-lg border border-dark/10 bg-[#f6f1e9] p-4 shadow-xl group-hover:block group-focus-within:block max-md:hidden"
+            className="pointer-events-none absolute bottom-full left-full z-20 ml-2 mb-2 hidden w-[300px] rounded-lg border border-dark/10 bg-[#f6f1e9] p-4 shadow-xl md:group-hover:block md:group-focus-within:block"
           >
             {content}
           </div>
