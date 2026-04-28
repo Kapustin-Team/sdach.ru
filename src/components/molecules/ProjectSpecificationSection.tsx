@@ -76,7 +76,7 @@ function renderParts(parts: TextPart[]): ReactNode {
     if (!part.changed) return <span key={index}>{part.text}</span>
 
     return (
-      <strong key={index} className="border-b border-dark/25 font-medium text-dark">
+      <strong key={index} className="font-semibold text-dark">
         {part.text}
       </strong>
     )
@@ -147,47 +147,43 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
                 </h3>
 
                 <div className="flex flex-col gap-3">
-                  {comparisonGroups.map((group) => (
-                    <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
-                      <div className="mb-0.5 inline-flex w-fit border border-dark/10 bg-dark/[0.03] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
-                        {group.title}
-                      </div>
+                  {comparisonGroups.map((group) => {
+                    const packageHasGroupContent = group.rows.some((row) => row.cells[packageIndex]?.text)
 
-                      <div className="flex flex-col gap-1">
-                        {group.rows.map((row) => {
-                          const cell = row.cells[packageIndex]
-                          const isEmpty = !cell?.text
-                          const isChanged = hasComparison && cell?.changed
+                    if (!packageHasGroupContent) return null
 
-                          return (
-                            <div
-                              key={`${row.key}-${pkg.id}`}
-                              className={`flex gap-2 text-[11px] leading-[1.25] ${
-                                isEmpty
-                                  ? 'text-dark/25'
-                                  : isChanged
-                                    ? 'text-dark'
-                                    : 'text-dark/55'
-                              }`}
-                            >
-                              <span className="mt-[5px] flex w-[13px] shrink-0 justify-center" aria-hidden="true">
-                                {isEmpty ? (
-                                  <span className="h-px w-[7px] bg-dark/20" />
-                                ) : isChanged ? (
-                                  <span className="h-[13px] w-[2px] bg-dark" />
-                                ) : (
-                                  <span className="mt-[3px] h-[5px] w-[5px] bg-dark/35" />
-                                )}
-                              </span>
-                              <span>
-                                {renderParts(cell?.parts || [{ text: '—', changed: false }])}
-                              </span>
-                            </div>
-                          )
-                        })}
+                    return (
+                      <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
+                        <div className="mb-0.5 inline-flex w-fit border border-dark/10 bg-dark/[0.03] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
+                          {group.title}
+                        </div>
+
+                        <div className="flex flex-col gap-1">
+                          {group.rows.map((row) => {
+                            const cell = row.cells[packageIndex]
+                            const isChanged = hasComparison && cell?.changed
+
+                            if (!cell?.text) return null
+
+                            return (
+                              <div
+                                key={`${row.key}-${pkg.id}`}
+                                className={`grid grid-cols-[5px_minmax(0,1fr)] items-start gap-2 text-[11px] leading-[1.25] ${
+                                  isChanged ? 'text-dark' : 'text-dark/55'
+                                }`}
+                              >
+                                <span
+                                  className={`mt-[5px] h-[5px] w-[5px] shrink-0 ${isChanged ? 'bg-dark' : 'bg-dark/35'}`}
+                                  aria-hidden="true"
+                                />
+                                <span className="min-w-0">{renderParts(cell.parts)}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </article>
             ))}
