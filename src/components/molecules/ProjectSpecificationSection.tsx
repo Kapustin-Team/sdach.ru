@@ -126,10 +126,10 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
   if (!hasPackages) return null
 
   return (
-    <section className="px-[120px] py-8 max-xl:px-10 max-md:px-4 max-md:py-8" id="specification-details">
-      <div className="flex flex-col gap-2 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-3 max-md:p-3">
-        <div className="flex items-center justify-between gap-3 border-b border-dark/10 pb-2 max-md:flex-col max-md:items-stretch">
-          <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-dark/45">Комплектация</span>
+    <section className="px-[120px] py-2 max-xl:px-10 max-md:px-4 max-md:py-6" id="specification-details">
+      <div className="flex flex-col gap-1 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-2 max-md:p-2">
+        <div className="flex items-center justify-between gap-2 border-b border-dark/10 pb-1 max-md:flex-col max-md:items-stretch">
+          <span className="font-sans text-[9px] uppercase tracking-[0.1em] text-dark/45">Комплектация</span>
 
           {downloadUrl && (
             <a
