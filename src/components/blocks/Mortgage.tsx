@@ -61,7 +61,7 @@ export default function Mortgage({
 }: MortgageProps) {
   return (
     <section className="px-[120px] py-[70px] max-md:px-6 max-md:py-10">
-      <div className="grid grid-cols-[minmax(0,430px)_minmax(0,1fr)] gap-[120px] max-lg:gap-20 max-md:grid-cols-1 max-md:gap-10">
+      <div className="grid grid-cols-[minmax(0,640px)_minmax(0,1fr)] gap-20 max-xl:grid-cols-[minmax(0,560px)_minmax(0,1fr)] max-lg:grid-cols-[minmax(0,500px)_minmax(0,1fr)] max-lg:gap-16 max-md:grid-cols-1 max-md:gap-10">
         <AnimatedSection className="sticky top-[130px] flex h-fit flex-col gap-8 max-md:static max-md:gap-6">
           <AnimatedTitle label={label} heading={title} subtitle={subtitle} />
           <div className="max-md:[&_a]:w-full max-md:[&_button]:w-full">
