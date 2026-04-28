@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties, ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import Button from '@/components/atoms/Button'
 import type { ProjectSpecification } from '@/data/projectSpecifications'
 
@@ -120,6 +120,7 @@ function buildComparisonGroups(specification: ProjectSpecification): CompareGrou
 }
 
 export default function ProjectSpecificationSection({ specification }: ProjectSpecificationSectionProps) {
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
   const hasPackages = specification.packages.length > 0
   const hasComparison = specification.packages.length > 1
   const comparisonGroups = buildComparisonGroups(specification)
@@ -130,12 +131,31 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
     <section className="px-[120px] pt-[34px] pb-6 max-xl:px-10 max-md:px-4 max-md:pt-7 max-md:pb-4" id="specification-details">
       <div className="flex flex-col gap-[34px] max-md:gap-6">
         <div className="flex items-center justify-between gap-3 max-md:mx-2 max-md:w-[calc(100%-1rem)] max-md:flex-col max-md:items-start">
-          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg max-md:w-full max-md:text-base">
+          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg max-md:hidden">
             Комплектация
           </Button>
+
+          <div className="flex w-full items-center justify-between gap-3 md:hidden">
+            <h2 className="font-sans text-[22px] font-light leading-none text-dark">Комплектация</h2>
+            <button
+              type="button"
+              className="inline-flex shrink-0 items-center gap-2 border border-[#8A6A3F]/25 bg-[#8A6A3F]/10 px-3 py-2 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-[#8A6A3F] transition-colors duration-300 hover:bg-[#8A6A3F]/15"
+              aria-expanded={isMobileOpen}
+              aria-controls="project-specification-packages"
+              onClick={() => setIsMobileOpen((value) => !value)}
+            >
+              <span>{isMobileOpen ? 'Скрыть' : 'Показать'}</span>
+              <span className="text-[14px] leading-none" aria-hidden="true">
+                {isMobileOpen ? '−' : '+'}
+              </span>
+            </button>
+          </div>
         </div>
 
-        <div className="overflow-x-auto max-md:mx-2 max-md:overflow-visible">
+        <div
+          id="project-specification-packages"
+          className={`overflow-x-auto max-md:mx-2 max-md:overflow-visible ${isMobileOpen ? '' : 'max-md:hidden'}`}
+        >
           <div
             className="grid gap-3 max-md:grid-cols-1 md:min-w-[820px] md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))]"
             style={{ '--package-count': specification.packages.length } as CSSProperties}
