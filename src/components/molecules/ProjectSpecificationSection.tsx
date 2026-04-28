@@ -126,9 +126,9 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
   if (!hasPackages) return null
 
   return (
-    <section className="px-[120px] py-2 max-xl:px-10 max-md:px-4 max-md:py-6" id="specification-details">
-      <div className="flex flex-col gap-1 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-2 max-md:p-2">
-        <div className="flex items-center justify-between gap-2 border-b border-dark/10 pb-1 max-md:flex-col max-md:items-stretch">
+    <section className="px-[120px] py-0 max-xl:px-10 max-md:px-4 max-md:py-0" id="specification-details">
+      <div className="flex flex-col gap-0 rounded-[2px] border border-dark/10 bg-dark/[0.02] p-0 max-md:p-0">
+        <div className="flex items-center justify-between gap-1 border-b border-dark/10 pb-0 max-md:flex-col max-md:items-stretch">
           <span className="font-sans text-[9px] uppercase tracking-[0.1em] text-dark/45">Комплектация</span>
 
           {downloadUrl && (
@@ -136,7 +136,7 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
               href={downloadUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex shrink-0 items-center justify-center border border-dark px-3 py-1.5 font-sans text-xs text-dark no-underline transition-colors hover:bg-dark hover:text-white max-md:w-full"
+              className="inline-flex shrink-0 items-center justify-center border border-dark px-2 py-0.5 font-sans text-[10px] text-dark no-underline transition-colors hover:bg-dark hover:text-white max-md:w-full"
             >
               Скачать PDF
             </a>
@@ -145,19 +145,19 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
 
         <div className="overflow-x-auto max-md:-mx-4 max-md:px-4">
           <div
-            className="grid min-w-[760px] gap-1 max-md:min-w-[720px]"
+            className="grid min-w-[760px] gap-0 max-md:min-w-[720px]"
             style={{ gridTemplateColumns: `repeat(${specification.packages.length}, minmax(0, 1fr))` }}
           >
             {specification.packages.map((pkg) => (
-              <div key={pkg.id} className="sticky top-0 z-10 border border-dark/10 bg-[#f6f1e9] px-2.5 py-1.5">
-                <h3 className="font-sans text-[13px] font-medium leading-[1.05] text-dark max-md:text-xs">{pkg.title}</h3>
+              <div key={pkg.id} className="sticky top-0 z-10 border border-dark/10 bg-[#f6f1e9] px-1 py-0.5">
+                <h3 className="font-sans text-[12px] font-medium leading-none text-dark max-md:text-xs">{pkg.title}</h3>
               </div>
             ))}
 
             {comparisonGroups.map((group) => (
               <div key={group.title} className="contents">
                 <div
-                  className="col-span-full mt-0.5 border-y border-dark/10 bg-dark/[0.04] px-2.5 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.06em] text-dark/70"
+                  className="col-span-full mt-0 border-y border-dark/10 bg-dark/[0.04] px-1 py-0 font-sans text-[9px] font-medium uppercase leading-none tracking-[0.04em] text-dark/70"
                   style={{ gridColumn: `1 / span ${specification.packages.length}` }}
                 >
                   {group.title}
@@ -167,7 +167,7 @@ export default function ProjectSpecificationSection({ specification, downloadUrl
                   row.cells.map((cell) => (
                     <div
                       key={`${row.key}-${cell.packageId}`}
-                      className={`min-h-[20px] border border-dark/10 bg-bg px-2 py-1 font-sans text-[10px] leading-[1.12] text-dark/75 ${
+                      className={`min-h-[16px] border border-dark/10 bg-bg px-1 py-0 font-sans text-[9px] leading-[1.05] text-dark/75 ${
                         hasComparison && cell.changed ? 'bg-[#fff8df] text-dark' : ''
                       }`}
                     >
