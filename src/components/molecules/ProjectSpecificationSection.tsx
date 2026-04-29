@@ -48,7 +48,7 @@ function diffText(value: string, rowValues: string[]): TextPart[] {
   if (!value) return [{ text: '—', changed: false }]
 
   const normalizedValues = rowValues.map(normalizeForCompare)
-  const uniqueValues = new Set(normalizedValues.filter(Boolean))
+  const uniqueValues = new Set(normalizedValues)
 
   if (uniqueValues.size <= 1) {
     return [{ text: value, changed: false }]
@@ -120,7 +120,7 @@ function buildComparisonGroups(specification: ProjectSpecification): CompareGrou
         const rowValues = groupsByPackage.map((items) =>
           items.find((item) => normalizeForCompare(item) === rowKey) || ''
         )
-        const hasDifference = new Set(rowValues.map(normalizeForCompare).filter(Boolean)).size > 1
+        const hasDifference = new Set(rowValues.map(normalizeForCompare)).size > 1
 
         return {
           key: `${title}-${rowKey}`,
@@ -145,6 +145,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
   const hasPackages = specification.packages.length > 0
   const hasComparison = specification.packages.length > 1
   const comparisonGroups = buildComparisonGroups(specification)
+  const desktopPackageCount = specification.packages.length === 1 ? 3 : specification.packages.length
 
   const toggleMobilePackage = (packageId: string) => {
     setMobileOpenPackages((current) => ({
@@ -164,7 +165,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
         >
           <div
             className="grid gap-3 md:min-w-[820px] md:py-1 md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))] max-md:grid-cols-1"
-            style={{ '--package-count': specification.packages.length } as CSSProperties}
+            style={{ '--package-count': desktopPackageCount } as CSSProperties}
           >
             {specification.packages.map((pkg, packageIndex) => {
               const isPackageOpen = Boolean(mobileOpenPackages[pkg.id])
