@@ -34,25 +34,31 @@ function tokenize(value: string) {
   return value.match(/\S+|\s+/g) || []
 }
 
-function normalize(value: string) {
-  return value.replace(/\s+/g, ' ').trim().toLowerCase()
+function normalizeForCompare(value: string) {
+  return value
+    .replace(/ё/g, 'е')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/(\d+)\s+(мм|см|м²|м2|м)/g, '$1$2')
+    .replace(/[.,;:()\-—–/\s]/g, '')
 }
 
 function diffText(value: string, rowValues: string[]): TextPart[] {
   if (!value) return [{ text: '—', changed: false }]
 
-  const normalizedValues = rowValues.map(normalize)
-  const uniqueValues = new Set(normalizedValues)
+  const normalizedValues = rowValues.map(normalizeForCompare)
+  const uniqueValues = new Set(normalizedValues.filter(Boolean))
 
   if (uniqueValues.size <= 1) {
     return [{ text: value, changed: false }]
   }
 
   const tokens = tokenize(value)
-  const tokenValues = tokens.map(normalize)
+  const tokenValues = tokens.map(normalizeForCompare)
   const otherTokenLists = rowValues
-    .filter((rowValue) => normalize(rowValue) !== normalize(value))
-    .map((rowValue) => tokenize(rowValue).map(normalize))
+    .filter((rowValue) => normalizeForCompare(rowValue) !== normalizeForCompare(value))
+    .map((rowValue) => tokenize(rowValue).map(normalizeForCompare))
 
   if (otherTokenLists.length === 0) {
     return [{ text: value, changed: false }]
@@ -83,25 +89,41 @@ function renderParts(parts: TextPart[]): ReactNode {
 }
 
 function buildComparisonGroups(specification: ProjectSpecification): CompareGroup[] {
-  const groupTitles = Array.from(
-    new Set(specification.packages.flatMap((pkg) => pkg.groups.map((group) => group.title)))
-  )
+  const groupMap = new Map<string, { title: string; groupsByPackage: string[][] }>()
 
-  return groupTitles.map((title) => {
-    const groupsByPackage = specification.packages.map((pkg) =>
-      pkg.groups.find((group) => group.title === title)
-    )
-    const maxRows = Math.max(...groupsByPackage.map((group) => group?.items.length || 0))
+  specification.packages.forEach((pkg, packageIndex) => {
+    pkg.groups.forEach((group) => {
+      const groupKey = normalizeForCompare(group.title)
+      const current = groupMap.get(groupKey) || {
+        title: group.title,
+        groupsByPackage: specification.packages.map(() => []),
+      }
+
+      current.groupsByPackage[packageIndex].push(...group.items)
+      groupMap.set(groupKey, current)
+    })
+  })
+
+  return Array.from(groupMap.values()).map(({ title, groupsByPackage }) => {
+    const rowKeys: string[] = []
+
+    groupsByPackage.forEach((items) => {
+      items.forEach((item) => {
+        const itemKey = normalizeForCompare(item)
+        if (itemKey && !rowKeys.includes(itemKey)) rowKeys.push(itemKey)
+      })
+    })
 
     return {
       title,
-      rows: Array.from({ length: maxRows }, (_, rowIndex) => {
-        const rowValues = groupsByPackage.map((group) => group?.items[rowIndex] || '')
-        const normalizedValues = rowValues.map(normalize)
-        const hasDifference = new Set(normalizedValues).size > 1
+      rows: rowKeys.map((rowKey) => {
+        const rowValues = groupsByPackage.map((items) =>
+          items.find((item) => normalizeForCompare(item) === rowKey) || ''
+        )
+        const hasDifference = new Set(rowValues.map(normalizeForCompare).filter(Boolean)).size > 1
 
         return {
-          key: `${title}-${rowIndex}`,
+          key: `${title}-${rowKey}`,
           cells: specification.packages.map((pkg, packageIndex) => {
             const text = rowValues[packageIndex]
 
