@@ -120,93 +120,104 @@ function buildComparisonGroups(specification: ProjectSpecification): CompareGrou
 }
 
 export default function ProjectSpecificationSection({ specification }: ProjectSpecificationSectionProps) {
-  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [mobileOpenPackages, setMobileOpenPackages] = useState<Record<string, boolean>>({})
   const hasPackages = specification.packages.length > 0
   const hasComparison = specification.packages.length > 1
   const comparisonGroups = buildComparisonGroups(specification)
+
+  const toggleMobilePackage = (packageId: string) => {
+    setMobileOpenPackages((current) => ({
+      ...current,
+      [packageId]: !current[packageId],
+    }))
+  }
 
   if (!hasPackages) return null
 
   return (
     <section className="px-[120px] pt-[34px] pb-6 max-xl:px-10 max-md:px-4 max-md:pt-7 max-md:pb-4" id="specification-details">
       <div className="flex flex-col gap-[34px] max-md:gap-6">
-        <div className="flex items-center justify-between gap-3 max-md:mx-2 max-md:w-[calc(100%-1rem)] max-md:flex-col max-md:items-start">
-          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg max-md:hidden">
+        <div className="flex items-center justify-between gap-3 max-md:hidden">
+          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg">
             Комплектация
           </Button>
-
-          <div className="flex w-full items-center justify-between gap-3 md:hidden">
-            <h2 className="font-sans text-[22px] font-light leading-none text-dark">Комплектация</h2>
-            <button
-              type="button"
-              className="inline-flex shrink-0 items-center gap-2 border border-[#8A6A3F]/25 bg-[#8A6A3F]/10 px-3 py-2 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-[#8A6A3F] transition-colors duration-300 hover:bg-[#8A6A3F]/15"
-              aria-expanded={isMobileOpen}
-              aria-controls="project-specification-packages"
-              onClick={() => setIsMobileOpen((value) => !value)}
-            >
-              <span>{isMobileOpen ? 'Скрыть' : 'Показать'}</span>
-              <span className="text-[14px] leading-none" aria-hidden="true">
-                {isMobileOpen ? '−' : '+'}
-              </span>
-            </button>
-          </div>
         </div>
 
         <div
           id="project-specification-packages"
-          className={`overflow-x-auto max-md:mx-2 max-md:overflow-visible ${isMobileOpen ? '' : 'max-md:hidden'}`}
+          className="overflow-x-auto max-md:mx-2 max-md:overflow-visible"
         >
           <div
             className="grid gap-3 max-md:grid-cols-1 md:min-w-[820px] md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))]"
             style={{ '--package-count': specification.packages.length } as CSSProperties}
           >
-            {specification.packages.map((pkg, packageIndex) => (
-              <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
-                <h3 className="mb-4 text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
-                  {pkg.title}
-                </h3>
+            {specification.packages.map((pkg, packageIndex) => {
+              const isPackageOpen = Boolean(mobileOpenPackages[pkg.id])
+              const contentId = `project-specification-package-${pkg.id}`
 
-                <div className="flex flex-col gap-3">
-                  {comparisonGroups.map((group) => {
-                    const packageHasGroupContent = group.rows.some((row) => row.cells[packageIndex]?.text)
+              return (
+                <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <h3 className="text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
+                      {pkg.title}
+                    </h3>
 
-                    if (!packageHasGroupContent) return null
+                    <button
+                      type="button"
+                      className="inline-flex shrink-0 items-center gap-2 border border-[#8A6A3F]/25 bg-[#8A6A3F]/10 px-3 py-2 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-[#8A6A3F] transition-colors duration-300 hover:bg-[#8A6A3F]/15 md:hidden"
+                      aria-expanded={isPackageOpen}
+                      aria-controls={contentId}
+                      onClick={() => toggleMobilePackage(pkg.id)}
+                    >
+                      <span>{isPackageOpen ? 'Скрыть' : 'Показать'}</span>
+                      <span className="text-[14px] leading-none" aria-hidden="true">
+                        {isPackageOpen ? '−' : '+'}
+                      </span>
+                    </button>
+                  </div>
 
-                    return (
-                      <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
-                        <div className="mb-0.5 inline-flex w-fit border border-dark/10 bg-dark/[0.03] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
-                          {group.title}
+                  <div id={contentId} className={`flex flex-col gap-3 ${isPackageOpen ? '' : 'max-md:hidden'}`}>
+                    {comparisonGroups.map((group) => {
+                      const packageHasGroupContent = group.rows.some((row) => row.cells[packageIndex]?.text)
+
+                      if (!packageHasGroupContent) return null
+
+                      return (
+                        <div key={`${pkg.id}-${group.title}`} className="flex flex-col gap-1.5">
+                          <div className="mb-0.5 inline-flex w-fit border border-dark/10 bg-dark/[0.03] px-3 py-1 font-sans text-[10px] font-medium uppercase leading-none tracking-[0.08em] text-dark/45">
+                            {group.title}
+                          </div>
+
+                          <div className="flex flex-col gap-1">
+                            {group.rows.map((row) => {
+                              const cell = row.cells[packageIndex]
+                              const isChanged = hasComparison && cell?.changed
+
+                              if (!cell?.text) return null
+
+                              return (
+                                <div
+                                  key={`${row.key}-${pkg.id}`}
+                                  className={`grid grid-cols-[5px_minmax(0,1fr)] items-start gap-2 text-[11px] leading-[1.25] ${
+                                    isChanged ? 'text-dark' : 'text-dark/55'
+                                  }`}
+                                >
+                                  <span
+                                    className={`mt-[5px] h-[5px] w-[5px] shrink-0 ${isChanged ? 'bg-dark' : 'bg-dark/35'}`}
+                                    aria-hidden="true"
+                                  />
+                                  <span className="min-w-0">{renderParts(cell.parts)}</span>
+                                </div>
+                              )
+                            })}
+                          </div>
                         </div>
-
-                        <div className="flex flex-col gap-1">
-                          {group.rows.map((row) => {
-                            const cell = row.cells[packageIndex]
-                            const isChanged = hasComparison && cell?.changed
-
-                            if (!cell?.text) return null
-
-                            return (
-                              <div
-                                key={`${row.key}-${pkg.id}`}
-                                className={`grid grid-cols-[5px_minmax(0,1fr)] items-start gap-2 text-[11px] leading-[1.25] ${
-                                  isChanged ? 'text-dark' : 'text-dark/55'
-                                }`}
-                              >
-                                <span
-                                  className={`mt-[5px] h-[5px] w-[5px] shrink-0 ${isChanged ? 'bg-dark' : 'bg-dark/35'}`}
-                                  aria-hidden="true"
-                                />
-                                <span className="min-w-0">{renderParts(cell.parts)}</span>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </article>
-            ))}
+                      )
+                    })}
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
       </div>
