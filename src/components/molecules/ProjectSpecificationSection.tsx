@@ -149,7 +149,10 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
               const contentId = `project-specification-package-${pkg.id}`
 
               return (
-                <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans max-md:px-3 max-md:py-3">
+                <article
+                  key={pkg.id}
+                  className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans transition-[transform,border-color,box-shadow] duration-300 ease-out md:hover:-translate-y-1 md:hover:border-dark/25 md:hover:shadow-[0_18px_42px_rgba(31,25,18,0.08)] max-md:px-3 max-md:py-3"
+                >
                   <div className="mb-4 flex items-center justify-between gap-3 max-md:mb-0">
                     <h3 className="text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[17px]">
                       {pkg.title}
