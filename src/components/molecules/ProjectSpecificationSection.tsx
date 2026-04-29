@@ -141,7 +141,7 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
           className="overflow-x-auto max-md:mx-2 max-md:overflow-visible"
         >
           <div
-            className="grid gap-3 max-md:grid-cols-1 md:min-w-[820px] md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))]"
+            className="grid gap-3 md:min-w-[820px] md:py-1 md:[grid-template-columns:repeat(var(--package-count),minmax(0,1fr))] max-md:grid-cols-1"
             style={{ '--package-count': specification.packages.length } as CSSProperties}
           >
             {specification.packages.map((pkg, packageIndex) => {
