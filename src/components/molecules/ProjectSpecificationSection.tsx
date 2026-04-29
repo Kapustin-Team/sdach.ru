@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, type CSSProperties, type ReactNode } from 'react'
-import Button from '@/components/atoms/Button'
 import type { ProjectSpecification } from '@/data/projectSpecifications'
 
 interface ProjectSpecificationSectionProps {
@@ -137,12 +136,6 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
   return (
     <section className="px-[120px] pt-[34px] pb-6 max-xl:px-10 max-md:px-4 max-md:pt-7 max-md:pb-4" id="specification-details">
       <div className="flex flex-col gap-[34px] max-md:gap-6">
-        <div className="flex items-center justify-between gap-3 max-md:hidden">
-          <Button variant="secondary" disabled className="pointer-events-none cursor-default text-lg">
-            Комплектация
-          </Button>
-        </div>
-
         <div
           id="project-specification-packages"
           className="overflow-x-auto max-md:mx-2 max-md:overflow-visible"
@@ -156,9 +149,9 @@ export default function ProjectSpecificationSection({ specification }: ProjectSp
               const contentId = `project-specification-package-${pkg.id}`
 
               return (
-                <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans">
-                  <div className="mb-4 flex items-center justify-between gap-3">
-                    <h3 className="text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[18px]">
+                <article key={pkg.id} className="flex flex-col border border-dark/15 bg-bg px-4 py-4 font-sans max-md:px-3 max-md:py-3">
+                  <div className="mb-4 flex items-center justify-between gap-3 max-md:mb-0">
+                    <h3 className="text-left font-sans text-[20px] font-medium leading-none text-dark max-md:text-[17px]">
                       {pkg.title}
                     </h3>
 
